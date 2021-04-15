@@ -1,0 +1,43 @@
+I TAKO DALJE -> za sve ostale osobine se direktno prepisuje
+(na osnovu PartnerCharacteristics i User-a (potencijalni partner) se boduje sve i zakljucuje da li je pogodan ili nije)
+(sve nosi odredjen broj bodova i najveci broj bodova pobedjuje - salience se tako stavlja (kao njegov primer za 8))
+
+rule "Friendship"
+	salience 100
+	agenda-group "relationship-status"
+	when
+		$user: User( relationship==Relationship.FRIENDSHIP, $id: id );
+		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+	then
+		modify($partnerCharacteristics){setRelationshipStatus(Relationship.FRIENDSHIP);};
+end;
+
+rule "Long_term"
+	salience 100
+	agenda-group "relationship-status"
+	when
+		$user: User( relationship==Relationship.LONG_TERM, $id: id );
+		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+	then
+		modify($partnerCharacteristics){setRelationshipStatus(Relationship.LONG_TERM);};
+end;
+
+rule "Short_term"
+	salience 100
+	agenda-group "relationship-status"
+	when
+		$user: User( relationship==Relationship.SHORT_TERM, $id: id );
+		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+	then
+		modify($partnerCharacteristics){setRelationshipStatus(Relationship.SHORT_TERM);};
+end;
+
+rule "Marriage"
+	salience 100
+	agenda-group "relationship-status"
+	when
+		$user: User( relationship==Relationship.MARRIAGE, $id: id );
+		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+	then
+		modify($partnerCharacteristics){setRelationshipStatus(Relationship.MARRIAGE);};
+end;
