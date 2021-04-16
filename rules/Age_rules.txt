@@ -6,7 +6,7 @@ rule "Age_18_20"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_18_20); 
-										getSuitableAgeGroup().add(Age.Age_20_25); };
+						getSuitableAgeGroup().add(Age.Age_20_25); };
 end;
 
 rule "Age_20_25"
@@ -17,8 +17,8 @@ rule "Age_20_25"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_20_25);
-										getSuitableAgeGroup().add(Age.Age_18_20);
-										getSuitableAgeGroup().add(Age.Age_25_30); };
+						getSuitableAgeGroup().add(Age.Age_18_20);
+						getSuitableAgeGroup().add(Age.Age_25_30); };
 end;
 
 rule "Age_25_30"
@@ -29,8 +29,8 @@ rule "Age_25_30"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_25_30);
-										getSuitableAgeGroup().add(Age.Age_20_25);
-										getSuitableAgeGroup().add(Age.Age_30_40); };
+						getSuitableAgeGroup().add(Age.Age_20_25);
+						getSuitableAgeGroup().add(Age.Age_30_40); };
 end;
 
 rule "Age_30_40"
@@ -41,8 +41,8 @@ rule "Age_30_40"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_30_40);
-										getSuitableAgeGroup().add(Age.Age_25_30);
-										getSuitableAgeGroup().add(Age.Age_40_50); };
+						getSuitableAgeGroup().add(Age.Age_25_30);
+						getSuitableAgeGroup().add(Age.Age_40_50); };
 end;
 
 rule "Age_40_50"
@@ -53,8 +53,8 @@ rule "Age_40_50"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_40_50);
-										getSuitableAgeGroup().add(Age.Age_30_40);
-										getSuitableAgeGroup().add(Age.Age_50_65); };
+						getSuitableAgeGroup().add(Age.Age_30_40);
+						getSuitableAgeGroup().add(Age.Age_50_65); };
 end;
 
 rule "Age_50_65"
@@ -65,8 +65,8 @@ rule "Age_50_65"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_50_65);
-										getSuitableAgeGroup().add(Age.Age_40_50);
-										getSuitableAgeGroup().add(Age.Age_65); };
+						getSuitableAgeGroup().add(Age.Age_40_50);
+						getSuitableAgeGroup().add(Age.Age_65); };
 end;
 
 rule "Age_65+"
@@ -77,5 +77,5 @@ rule "Age_65+"
 		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
 	then
 		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_65);
-										getSuitableAgeGroup().add(Age.Age_50_65); };
+						getSuitableAgeGroup().add(Age.Age_50_65); };
 end;
