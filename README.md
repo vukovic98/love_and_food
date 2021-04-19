@@ -1,5 +1,4 @@
 # Love&Food
-![image](https://user-images.githubusercontent.com/45330563/115236782-10ec2600-a11c-11eb-8ddd-1986cbb86fcf.png)
 
 <img src="https://user-images.githubusercontent.com/45330563/115236782-10ec2600-a11c-11eb-8ddd-1986cbb86fcf.png" style="height:400px; width:50%">
 
