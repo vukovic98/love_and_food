@@ -14,7 +14,7 @@
 #### Angular Apps
     
 
-#### Injecting the data
+### Injecting the data
 
 ### Licence
     MIT License
