@@ -1,7 +1,21 @@
 # Love&Food
+![image](https://user-images.githubusercontent.com/45330563/115236782-10ec2600-a11c-11eb-8ddd-1986cbb86fcf.png)
 
-<img src="https://www.thewowstyle.com/wp-content/uploads/2015/01/live-love-eat2.jpg" style="height:400px; width:50%">
+<img src="https://user-images.githubusercontent.com/45330563/115236782-10ec2600-a11c-11eb-8ddd-1986cbb86fcf.png" style="height:400px; width:50%">
 
+### SBNZ projekat 2021, Tim 3:
+* Vladimir Vuković SW3/2017
+* Ksenija Prćić SW10/2017
+
+### Starting the app
+    
+#### SpringBoot Apps
+    
+
+#### Angular Apps
+    
+
+#### Injecting the data
 
 ### Licence
     MIT License
