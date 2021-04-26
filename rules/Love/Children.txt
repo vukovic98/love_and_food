@@ -1,0 +1,31 @@
+global java.lang.Long loggedInUserId;
+
+rule "Wants children"
+	sailence 100
+	agenda-group "children"
+	when
+		$user: User(id == loggedInUserId, children == Children.WANTS_CHILDREN);
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
+	then
+		modify($partnerRequirements){setChildren(Children.WANTS_CHILDREN);};
+end;
+
+rule "Has children"
+	sailence 100
+	agenda-group "children"
+	when
+		$user: User(id == loggedInUserId, children == Children.HAS_CHILDREN);
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
+	then
+		modify($partnerRequirements){setChildren(Children.HAS_CHILDREN);};
+end;
+
+rule "Doesnt want children"
+	sailence 100
+	agenda-group "children"
+	when
+		$user: User(id == loggedInUserId, children == Children.DOESNT_WANT_CHILDREN);
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
+	then
+		modify($partnerRequirements){setChildren(Children.DOESNT_WANT_CHILDREN);};
+end;

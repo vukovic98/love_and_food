@@ -6,7 +6,6 @@
 ##		private User initiator;
 ##		private User soulmate;
 ##	}
-
 rule "Smoking area"
 	salience 100
 	agenda-group "couple-requirements"
@@ -52,27 +51,3 @@ rule "Casual ambient"
 	then
 		modify($restaurantCharacteristics){ setAmbient( Ambient.CASUAL ); };
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,0 +1,24 @@
+global java.lang.Long loggedInUserId;
+
+declare FoundSoulmate
+end
+
+rule "Soulmate" 
+	agenda-group "soulmate"
+	lock-on-active
+	salience( $soulmateService.calculateMatching($partnerRequirements, $user) )
+    when
+		$partnerRequirements: PartnerRequirements( userId == loggedInUserId, 
+			foundSoulamte == false, $gender: prefferedGender, 
+			$suitableAge: suitableAge, $relationshipStatus: desiredRelationshipStatus,
+			$children: children);
+		$user: User( id != loggedInUserId, gender == $gender, 
+			age in $suitableAge, relationshipStatus == $relationshipStatus,
+			children == $children);
+		$matchingService: SoulmateService();
+		not FoundSoulmate()
+    then	
+    	soulmate = $user;
+	    modify($partnerRequirements) { setFoundSoulamte(true) }
+	    insert( new FoundSoulmate() );
+end
