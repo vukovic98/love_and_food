@@ -1,0 +1,252 @@
+rule "Affordable restaurant"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(priceRange == PriceRange.AFFORDABLE, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics){ setPriorPriceRange(PriceRange.AFFORDABLE); };
+end;
+
+rule "Affordable restaurant + Cheap"
+	salience 80
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest($id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id, priceRange == PriceRange.AFFORDABLE);
+	then
+		modify($restaurantCharacteristics) { setSecondPriceRange(PriceRange.CHEAP); };
+end;
+
+rule "Cheap restaurant"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(priceRange == PriceRange.CHEAP, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setPriorPriceRange(PriceRange.CHEAP); };
+end;
+
+rule "Expensive restaurant"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(priceRange == PriceRange.EXPENSIVE, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setPriorPriceRange(PriceRange.EXPENSIVE); };
+end;
+
+rule "Expensive restaurant + Affordable"
+	salience 80
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest($id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id, priceRange == PriceRange.EXPENSIVE);
+	then
+		modify($restaurantCharacteristics) { setSecondPriceRange(PriceRange.AFFORDABLE); };
+end;
+
+rule "Restaurant - garden"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(garden == Choose.YES, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setGarden(true); };
+end;
+
+rule "Restaurant - no garden"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(garden == Choose.NO, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setGarden(false); };
+end;
+
+rule "Native cuisine"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(cuisine == Cuisine.NATIVE, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setCuisine(Cuisine.NATIVE); };
+end;
+
+rule "Italian cuisine"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(cuisine == Cuisine.ITALIAN, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setCuisine(Cuisine.ITALIAN); };
+end;
+
+rule "Chineese cuisine"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(cuisine == Cuisine.CHINEESE, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setCuisine(Cuisine.CHINEESE); };
+end;
+
+rule "Fast food cuisine"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(cuisine == Cuisine.FAST_FOOD, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setCuisine(Cuisine.FAST_FOOD); };
+end;
+
+rule "Barbeque cuisine"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(cuisine == Cuisine.BARBEQUE, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setCuisine(Cuisine.BARBEQUE); };
+end;
+
+rule "Any cuisine"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(cuisine == Cuisine.ANY, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setCuisine(Cuisine.ANY); };
+end;
+
+rule "Folk music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.FOLK, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.FOLK); };
+end;
+
+rule "Tambourine music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.TAMBOURINE, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.TAMBOURINE); };
+end;
+
+rule "Pop music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.POP, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.POP); };
+end;
+
+rule "Rock music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.ROCK, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.ROCK); };
+end;
+
+rule "Jazz music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.JAZZ, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.JAZZ); };
+end;
+
+rule "Classic music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.CLASSIC, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.CLASSIC); };
+end;
+
+rule "No music"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(music == Music.NON, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) { setMusic(Cuisine.NON); };
+end;
+
+## U memoriji se nalaze instance klase Place, za svako naselje u Novom Sadu. Funkcija getDistance vraca true/false na osnovu recnika udaljenosti koji sadrzi kao privatan atribut.
+## Ukoliko funkcija dobije kao parametar null, vraca true
+
+rule "On foot restaurant"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(distance == Distance.ON_FOOT, $id: id, $place: place);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+		$places: List() from accumulate( 
+						Place( getDistance($place) == true, $place = name ),
+                        collectList( $place ) )
+	then
+		modify($restaurantCharacteristics) { setPlace($places); };
+end;
+
+rule "By car restaurant"
+	salience 100
+	agenda-group "user-preferences"
+	when
+		$req: UserRequest(distance == Distance.BY_CAR, $id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+		$places: List() from accumulate( 
+						Place( getDistance(null) == true, $place = name ),
+						collectList( $place ) )
+	then
+		modify($restaurantCharacteristics) { setPlace($places); };
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

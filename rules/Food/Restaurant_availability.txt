@@ -1,0 +1,19 @@
+rule "Restaurant availability"
+	salience 100
+	agenda-group "restaurant-availability"
+	when
+		$req: UserRequest($id: id, $time: time);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) {setTimeOfDate($time); };
+end;
+
+rule "Restaurant availability + 3"
+	salience 80
+	agenda-group "restaurant-availability"
+	when
+		$req: UserRequest($id: id, $time: time);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+	then
+		modify($restaurantCharacteristics) {setWorksUntil($time.plusHours(3)); };
+end;

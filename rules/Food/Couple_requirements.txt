@@ -1,0 +1,78 @@
+##	class Couples {
+##		private ArrayList<Couple> allCouples;
+##	}
+
+##	class Couple {
+##		private User initiator;
+##		private User soulmate;
+##	}
+
+rule "Smoking area"
+	salience 100
+	agenda-group "couple-requirements"
+	when
+		$couples: Couples()
+		$user: User( $id: id );
+		$couple: Couple(initiator == $user, $soulmate = soulmate) from $couples.allCouples
+		$restaurantCharacteristics: RestaurantRequirements(userId==$id);
+	then
+		modify($restaurantCharacteristics){ setSmoking( $user.smokes || $soulmate.smokes ); };
+end;
+
+rule "Serving alcohol"
+	salience 100
+	agenda-group "couple-requirements"
+	when
+		$couples: Couples()
+		$user: User( $id: id );
+		$couple: Couple(initiator == $user, $soulmate = soulmate) from $couples.allCouples
+		$restaurantCharacteristics: RestaurantRequirements(userId==$id);
+	then
+		modify($restaurantCharacteristics){ setAlcohol( $user.alcohol || $soulmate.alcohol ); };
+end;
+
+rule "Romantic ambient"
+	salience 100
+	agenda-group "couple-requirements"
+	when
+		$user: User( $id: id );
+		$partnerCharacteristics: PartnerCharacteristics(userId==$id, ( $status == Relationship.LONG_TERM || $status == Relationship.SHORT_TERM || $status == Relationship.MARRIAGE ));
+		$restaurantCharacteristics: RestaurantRequirements(userId==$id);
+	then
+		modify($restaurantCharacteristics){ setAmbient( Ambient.ROMANTIC ); };
+end;
+
+rule "Casual ambient"
+	salience 100
+	agenda-group "couple-requirements"
+	when
+		$user: User( $id: id );
+		$partnerCharacteristics: PartnerCharacteristics(userId==$id, ( $status == Relationship.FRIENDSHIP ));
+		$restaurantCharacteristics: RestaurantRequirements(userId==$id);
+	then
+		modify($restaurantCharacteristics){ setAmbient( Ambient.CASUAL ); };
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
