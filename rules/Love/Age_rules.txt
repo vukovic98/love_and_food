@@ -1,81 +1,83 @@
+global java.lang.Long loggedInUserId;
+
 rule "Age_18_20"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_18_20, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.AGE_18_20 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_18_20); 
-						getSuitableAgeGroup().add(Age.Age_20_25); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_18_20); 
+						getSuitableAgeGroup().add(Age.AGE_20_25); };
 end;
 
 rule "Age_20_25"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_20_25, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.AGE_20_25 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_20_25);
-						getSuitableAgeGroup().add(Age.Age_18_20);
-						getSuitableAgeGroup().add(Age.Age_25_30); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_20_25);
+						getSuitableAgeGroup().add(Age.AGE_18_20);
+						getSuitableAgeGroup().add(Age.AGE_25_30); };
 end;
 
 rule "Age_25_30"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_25_30, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.Age_25_30 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_25_30);
-						getSuitableAgeGroup().add(Age.Age_20_25);
-						getSuitableAgeGroup().add(Age.Age_30_40); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_25_30);
+						getSuitableAgeGroup().add(Age.AGE_20_25);
+						getSuitableAgeGroup().add(Age.AGE_30_40); };
 end;
 
 rule "Age_30_40"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_30_40, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.Age_30_40 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_30_40);
-						getSuitableAgeGroup().add(Age.Age_25_30);
-						getSuitableAgeGroup().add(Age.Age_40_50); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_30_40);
+						getSuitableAgeGroup().add(Age.AGE_25_30);
+						getSuitableAgeGroup().add(Age.AGE_40_50); };
 end;
 
 rule "Age_40_50"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_40_50, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.AGE_40_50 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_40_50);
-						getSuitableAgeGroup().add(Age.Age_30_40);
-						getSuitableAgeGroup().add(Age.Age_50_65); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_40_50);
+						getSuitableAgeGroup().add(Age.AGE_30_40);
+						getSuitableAgeGroup().add(Age.AGE_50_65); };
 end;
 
 rule "Age_50_65"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_50_65, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.Age_50_65 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_50_65);
-						getSuitableAgeGroup().add(Age.Age_40_50);
-						getSuitableAgeGroup().add(Age.Age_65); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_50_65);
+						getSuitableAgeGroup().add(Age.AGE_40_50);
+						getSuitableAgeGroup().add(Age.AGE_65); };
 end;
 
 rule "Age_65+"
 	salience 100
 	agenda-group "age-group"
 	when
-		$user: User( age==Age.Age_65, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, age==Age.AGE_65 );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setIdealAgeGroup(Age.Age_65);
-						getSuitableAgeGroup().add(Age.Age_50_65); };
+		modify($partnerRequirements){setIdealAgeGroup(Age.AGE_65);
+						getSuitableAgeGroup().add(Age.AGE_50_65); };
 end;

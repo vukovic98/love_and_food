@@ -226,27 +226,3 @@ rule "By car restaurant"
 	then
 		modify($restaurantCharacteristics) { setPlace($places); };
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,49 +1,55 @@
+global java.lang.Long loggedInUserId;
+
 rule "M + Straight"
 	salience 100
 	agenda-group "preferred-gender"
 	when
-		$user: User( gender==Gender.MALE && orientetion==Orientation.HETERO, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, gender==Gender.MALE, 
+			orientetion==Orientation.HETERO );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setPreferredGender(Gender.FEMALE);};
+		modify($partnerRequirements){setPreferredGender(Gender.FEMALE);};
 end;
 
 rule "M + Homosexual"
 	salience 100
 	agenda-group "preferred-gender"
 	when
-		$user: User( gender==Gender.MALE && orientetion==Orientation.HOMO, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, gender==Gender.MALE, 
+			orientetion==Orientation.HOMO );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setPreferredGender(Gender.MALE);};
+		modify($partnerRequirements){setPreferredGender(Gender.MALE);};
 end;
 
 rule "Bisexual"
 	salience 100
 	agenda-group "preferred-gender"
 	when
-		$user: User( orientetion==Orientation.BI && preferredGender==null, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, orientetion==Orientation.BI);
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setPreferredGender(Gender.BOTH);};
+		modify($partnerRequirements){setPreferredGender(Gender.BOTH);};
 end;
 
 rule "F + Straight"
 	salience 100
 	agenda-group "preferred-gender"
 	when
-		$user: User( gender==Gender.FEMALE && orientetion==Orientation.HETERO, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, gender==Gender.FEMALE, 
+			orientetion==Orientation.HETERO );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setPreferredGender(Gender.MALE);};
+		modify($partnerRequirements){setPreferredGender(Gender.MALE);};
 end;
 
 rule "F + Homosexual"
 	salience 100
 	agenda-group "preferred-gender"
 	when
-		$user: User( gender==Gender.FEMALE && orientetion==Orientation.HOMO, $id: id );
-		$partnerCharacteristics: PartnerCharacteristics(userId==$id);
+		$user: User( id==loggedInUserId, gender==Gender.FEMALE, 
+			orientetion==Orientation.HOMO );
+		$partnerRequirements: partnerRequirements(userId==loggedInUserId);
 	then
-		modify($partnerCharacteristics){setPreferredGender(Gender.FEMALE);};
+		modify($partnerRequirements){setPreferredGender(Gender.FEMALE);};
 end;

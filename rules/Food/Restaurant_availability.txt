@@ -8,12 +8,14 @@ rule "Restaurant availability"
 		modify($restaurantCharacteristics) {setTimeOfDate($time); };
 end;
 
-rule "Restaurant availability + 3"
+rule "Restaurant availability + 3h"
 	salience 80
 	agenda-group "restaurant-availability"
 	when
-		$req: UserRequest($id: id, $time: time);
-		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
+		$req: UserRequest($id: id);
+		$restaurantCharacteristics: RestaurantRequirements(userId == $id,
+			$timeOfDate: timeOfDate);
 	then
-		modify($restaurantCharacteristics) {setWorksUntil($time.plusHours(3)); };
+		modify($restaurantCharacteristics) 
+		{setWorksUntil($timeOfDate.plusHours(3)); };
 end;

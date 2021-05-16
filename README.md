@@ -6,15 +6,13 @@
 * Vladimir Vuković SW3/2017
 * Ksenija Prćić SW10/2017
 
-### Starting the app
+### Starting the apps
     
-#### SpringBoot Apps
-    
-
-#### Angular Apps
+#### SpringBoot App
     
 
-### Injecting the data
+#### Angular App
+    
 
 ### Licence
     MIT License
