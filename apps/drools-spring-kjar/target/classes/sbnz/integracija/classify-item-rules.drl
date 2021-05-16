@@ -1,0 +1,13 @@
+package com.ftn.uns.ac.rs.love_and_food;
+
+import com.ftn.uns.ac.rs.love_and_food.facts.Item;
+
+
+rule "Classify Item - Low Range"
+    when
+        $i: Item( cost <= 300, category == Category.NA )
+    then
+    	System.out.println("Low range rule");
+        $i.setCategory(Item.Category.LOW_RANGE);
+        update($i);
+end
