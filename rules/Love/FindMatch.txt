@@ -5,7 +5,6 @@ end
 
 rule "Soulmate" 
 	agenda-group "soulmate"
-	lock-on-active
 	salience( $soulmateService.calculateMatching($partnerRequirements, $user) )
     when
 		$partnerRequirements: PartnerRequirements( userId == loggedInUserId, 
