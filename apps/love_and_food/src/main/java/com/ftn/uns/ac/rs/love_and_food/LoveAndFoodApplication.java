@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Bean;
 public class LoveAndFoodApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LoveAndFoodApplication.class, args); 
+		SpringApplication.run(LoveAndFoodApplication.class, args);
 	}
 	
 	@Bean
 	public KieContainer kieContainer() {
 		KieServices ks = KieServices.Factory.get();
 		KieContainer kContainer = ks
-				.newKieContainer(ks.newReleaseId("sbnz.integracija", "drools-spring-kjar", "0.0.1-SNAPSHOT"));
+				.newKieContainer(ks.newReleaseId("com.ftn.uns.ac.rs", "drools-spring-kjar", "0.0.1-SNAPSHOT"));
 		KieScanner kScanner = ks.newKieScanner(kContainer);
 		kScanner.start(10_000);
 		return kContainer;
