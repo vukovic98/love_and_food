@@ -198,7 +198,7 @@ rule "No music"
 		modify($restaurantCharacteristics) { setMusic(Cuisine.NON); };
 end;
 
-## U memoriji se nalaze instance klase Place, za svako naselje u Novom Sadu. Funkcija getDistance vraca true/false na osnovu recnika udaljenosti koji sadrzi kao privatan atribut.
+## U memoriji se nalaze instance klase Location, za svako naselje u Novom Sadu. Funkcija getDistance vraca true/false na osnovu recnika udaljenosti koji sadrzi kao privatan atribut.
 ## Ukoliko funkcija dobije kao parametar null, vraca true
 
 rule "On foot restaurant"
@@ -208,7 +208,7 @@ rule "On foot restaurant"
 		$req: UserRequest(distance == Distance.ON_FOOT, $id: id, $place: place);
 		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
 		$places: List() from accumulate( 
-						Place( getDistance($place) == true, $place = name ),
+						Location( getDistance($place) == true, $place = name ),
                         collectList( $place ) )
 	then
 		modify($restaurantCharacteristics) { setPlace($places); };
@@ -221,7 +221,7 @@ rule "By car restaurant"
 		$req: UserRequest(distance == Distance.BY_CAR, $id: id);
 		$restaurantCharacteristics: RestaurantRequirements(userId == $id);
 		$places: List() from accumulate( 
-						Place( getDistance(null) == true, $place = name ),
+						Location( getDistance(null) == true, $place = name ),
 						collectList( $place ) )
 	then
 		modify($restaurantCharacteristics) { setPlace($places); };
