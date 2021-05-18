@@ -12,7 +12,6 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
 public class RegisteredUserDTO {
 	
-	private Long id;
 	private String name;
 	private String surname;
 	private String email;
@@ -33,13 +32,6 @@ public class RegisteredUserDTO {
 	private double income;
 	
 	public RegisteredUserDTO() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getName() {
 		return name;

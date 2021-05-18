@@ -1,0 +1,75 @@
+package sbnz.integracija;
+
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
+
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
+
+//Children
+rule "Partner Requirements set children"
+	when
+		$ru: RegisteredUser($children: children);
+		$pr: PartnerRequirements(userId==$ru.id, children == null);
+	then
+		System.out.println("Partner Requirements set children");
+		modify($pr){setChildren($children);};
+end;
+
+//Relationship
+rule "Partner Requirements set desired relationship status"
+	when
+		$ru: RegisteredUser( $desiredRelationship: desiredRelationship);
+		$pr: PartnerRequirements(userId==$ru.id, desiredRelationship == null);
+	then
+		System.out.println("Partner Requirements set children");
+		modify($pr){setDesiredRelationship($desiredRelationship);};
+end;
+
+//Preffered gender
+rule "M + Straight"
+	when
+		$ru: RegisteredUser(gender==Gender.MALE, sexualOrientation==SexualOrientation.HETEROSEXUAL );
+		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
+	then
+		System.out.println("M + Straight");
+		modify($pr){setPrefferedGender(Gender.FEMALE);};
+end;
+
+rule "M + Homosexual"
+	when
+		$ru: RegisteredUser(gender==Gender.MALE, sexualOrientation==SexualOrientation.HOMOSEXUAL );
+		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
+	then
+		System.out.println("M + Homosexual");
+		modify($pr){setPrefferedGender(Gender.MALE);};
+end;
+
+rule "Bisexual"
+	when
+		$ru: RegisteredUser(gender==Gender.MALE, sexualOrientation==SexualOrientation.BISEXUAL );
+		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
+	then
+		System.out.println("Bisexual");
+		modify($pr){setPrefferedGender(Gender.BOTH);};
+end;
+
+rule "F + Straight"
+	when
+		$ru: RegisteredUser(gender==Gender.FEMALE, sexualOrientation==SexualOrientation.HETEROSEXUAL );
+		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
+	then
+		System.out.println("F + Straight");
+		modify($pr){setPrefferedGender(Gender.MALE);};
+end;
+
+rule "F + Homosexual"
+	when
+		$ru: RegisteredUser(gender==Gender.FEMALE, sexualOrientation==SexualOrientation.HOMOSEXUAL );
+		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
+	then
+		System.out.println("F + Homosexual");
+		modify($pr){setPrefferedGender(Gender.FEMALE);};
+end;

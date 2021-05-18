@@ -2,12 +2,10 @@ package com.ftn.uns.ac.rs.love_and_food.model;
 
 import java.util.Date;
 
-import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
-import com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
@@ -20,32 +18,40 @@ public class RegisteredUser {
 	private String email;
 	private String password;
 	private Date dateOfBirth;
+	private double income;
 	
 	private Gender gender;
 	private SexualOrientation sexualOrientation;
-	private Income income;
 	private Education education;
 	private Religion religion;
 	private Children children;
 	private DesiredRelationship desiredRelationship;
 	private Location location;
-	private Age age;
 	
 	private boolean alchocol;
 	private boolean smoking;
 	
-	public RegisteredUser(String name, String surname, String email, String password, Date dateOfBirth, Gender gender,
-			SexualOrientation sexualOrientation) {
+	public RegisteredUser(String name, String surname, String email, String password, Date dateOfBirth, double income,
+			Gender gender, SexualOrientation sexualOrientation, Education education, Religion religion,
+			Children children, DesiredRelationship desiredRelationship, Location location, boolean alchocol,
+			boolean smoking) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
 		this.dateOfBirth = dateOfBirth;
+		this.income = income;
 		this.gender = gender;
 		this.sexualOrientation = sexualOrientation;
+		this.education = education;
+		this.religion = religion;
+		this.children = children;
+		this.desiredRelationship = desiredRelationship;
+		this.location = location;
+		this.alchocol = alchocol;
+		this.smoking = smoking;
 	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -87,12 +93,6 @@ public class RegisteredUser {
 	}
 	public void setGender(Gender gender) {
 		this.gender = gender;
-	}
-	public Income getIncome() {
-		return income;
-	}
-	public void setIncome(Income income) {
-		this.income = income;
 	}
 	public Education getEducation() {
 		return education;
@@ -136,16 +136,17 @@ public class RegisteredUser {
 	public void setSmoking(boolean smoking) {
 		this.smoking = smoking;
 	}
-	public Age getAge() {
-		return age;
-	}
-	public void setAge(Age age) {
-		this.age = age;
-	}
 	public SexualOrientation getSexualOrientation() {
 		return sexualOrientation;
 	}
 	public void setSexualOrientation(SexualOrientation sexualOrientation) {
 		this.sexualOrientation = sexualOrientation;
 	}
+	public double getIncome() {
+		return income;
+	}
+	public void setIncome(double income) {
+		this.income = income;
+	}
+
 }

@@ -1,4 +1,4 @@
-package sbnz.integracija;
+/*package sbnz.integracija;
 
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
@@ -9,6 +9,6 @@ rule "Registered user existance"
         $ru: RegisteredUser( )
     then
     	System.out.println("Registered user exists in memory");
-        $ru.setAge(Age.AGE_18_20);
+        //$ru.setAge(Age.AGE_18_20);
         update($ru);
-end
+end*/
