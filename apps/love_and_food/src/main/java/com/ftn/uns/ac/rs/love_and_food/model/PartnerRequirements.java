@@ -1,5 +1,6 @@
 package com.ftn.uns.ac.rs.love_and_food.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
@@ -19,7 +20,7 @@ public class PartnerRequirements {
 
 	public PartnerRequirements(long userId) {
 		this.userId = userId;
-		this.children = null;
+		this.suitableAge = new ArrayList<Age>();
 	}
 
 	public Gender getPrefferedGender() {

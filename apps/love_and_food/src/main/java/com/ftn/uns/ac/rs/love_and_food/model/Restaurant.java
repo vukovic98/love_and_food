@@ -31,7 +31,7 @@ public class Restaurant {
 	@Column(name = "restaurant_id")
 	private Long restaurant_id;
 
-	@Column(name = "name", nullable = false)
+	@JoinColumn(name = "name", nullable = false)
 	private String name;
 
 	@ManyToOne

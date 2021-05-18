@@ -2,6 +2,13 @@ package com.ftn.uns.ac.rs.love_and_food.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
@@ -10,25 +17,59 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
+@Entity
+@Table(name = "registered_user")
 public class RegisteredUser {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+	
+	@Column(name = "name", nullable = false)
 	private String name;
+	
+	@Column(name = "surname", nullable = false)
 	private String surname;
+	
+	@Column(name = "email", nullable = false)
 	private String email;
+	
+	@Column(name = "password", nullable = false)
 	private String password;
+	
+	@Column(name = "date_of_birth", nullable = false)
 	private Date dateOfBirth;
+	
+	@Column(name = "income", nullable = false)
 	private double income;
 	
+	@Column(name = "gender", nullable = false)
 	private Gender gender;
+	
+	@Column(name = "sexual_orientation", nullable = false)
 	private SexualOrientation sexualOrientation;
+	
+	@Column(name = "education", nullable = false)
 	private Education education;
+	
+	@Column(name = "religion", nullable = false)
 	private Religion religion;
+	
+	@Column(name = "children", nullable = false)
 	private Children children;
+	
+	@Column(name = "desired_relationship", nullable = false)
 	private DesiredRelationship desiredRelationship;
+	
+	@Column(name = "location", nullable = false)
 	private Location location;
 	
+	
+	@Column(name = "alchocol", nullable = false)
 	private boolean alchocol;
+	
+	@Column(name = "smoking", nullable = false)
 	private boolean smoking;
 	
 	public RegisteredUser(String name, String surname, String email, String password, Date dateOfBirth, double income,

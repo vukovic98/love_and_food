@@ -7,6 +7,9 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
+
+import com.ftn.uns.ac.rs.love_and_food.util.DateUtil;
 
 //Children
 rule "Partner Requirements set children"
@@ -24,8 +27,72 @@ rule "Partner Requirements set desired relationship status"
 		$ru: RegisteredUser( $desiredRelationship: desiredRelationship);
 		$pr: PartnerRequirements(userId==$ru.id, desiredRelationship == null);
 	then
-		System.out.println("Partner Requirements set children");
+		System.out.println("Partner Requirements set desired relationship status");
 		modify($pr){setDesiredRelationship($desiredRelationship);};
+end;
+
+//Age
+rule "Age_18_20"
+	when
+		$ru: RegisteredUser(18 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20);
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("Age_18_20");
+		modify($pr){setIdealAge(Age.AGE_18_20),getSuitableAge().add(Age.AGE_20_25);};
+end;
+
+rule "Age_20_25"
+	when
+		$ru: RegisteredUser(20 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 25);
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("Age_20_25");
+		modify($pr){setIdealAge(Age.AGE_20_25),getSuitableAge().add(Age.AGE_18_20), getSuitableAge().add(Age.AGE_25_30);};
+end;
+
+rule "Age_25_30"
+	when
+		$ru: RegisteredUser(25 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 30);
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("AGE_25_30");
+		modify($pr){setIdealAge(Age.AGE_25_30),getSuitableAge().add(Age.AGE_20_25), getSuitableAge().add(Age.AGE_30_40);};
+end;
+
+rule "Age_30_40"
+	when
+		$ru: RegisteredUser(30 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 40);
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("Age_30_40");
+		modify($pr){setIdealAge(Age.AGE_30_40),getSuitableAge().add(Age.AGE_25_30), getSuitableAge().add(Age.AGE_40_50);};
+end;
+
+rule "Age_40_50"
+	when
+		$ru: RegisteredUser(40 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 50);
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("AGE_40_50");
+		modify($pr){setIdealAge(Age.AGE_40_50),getSuitableAge().add(Age.AGE_30_40), getSuitableAge().add(Age.AGE_50_65);};
+end;
+	
+rule "Age_50_65"
+	when
+		$ru: RegisteredUser(50 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 65);
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("Age_50_65");
+		modify($pr){setIdealAge(Age.AGE_50_65),getSuitableAge().add(Age.AGE_40_50), getSuitableAge().add(Age.AGE_65_PLUS);};
+end;
+
+rule "Age_65+"
+	when
+		$ru: RegisteredUser(65 < DateUtil.getDiffYears(dateOfBirth));
+		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
+	then
+		System.out.println("Age_65+");
+		modify($pr){setIdealAge(Age.AGE_65_PLUS),getSuitableAge().add(Age.AGE_50_65);};
 end;
 
 //Preffered gender
