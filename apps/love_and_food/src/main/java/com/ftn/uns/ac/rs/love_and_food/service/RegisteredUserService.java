@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 
 @Service
 public class RegisteredUserService {
@@ -14,7 +14,7 @@ public class RegisteredUserService {
 	@Autowired
 	private KieContainer kieContainer;
 	
-	public PartnerRequirements findMatch(RegisteredUser registeredUser) {
+	public PartnerRequirements findMatch(User registeredUser) {
 		KieSession kieSession = kieContainer.newKieSession();
 		//radice baza
 		registeredUser.setId(1L);

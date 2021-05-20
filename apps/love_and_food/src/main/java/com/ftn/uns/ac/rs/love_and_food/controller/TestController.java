@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.uns.ac.rs.love_and_food.dto.RegisteredUserDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
@@ -30,14 +30,14 @@ public class TestController {
 	private TestService testService;
 
 	@PostMapping
-	public ResponseEntity<RegisteredUser> register(@RequestBody RegisteredUserDTO registeredUserDto) {
+	public ResponseEntity<User> register(@RequestBody UserDTO registeredUserDto) {
 
-		RegisteredUser freshUser = new RegisteredUser(registeredUserDto.getName(), registeredUserDto.getSurname(), registeredUserDto.getEmail(),
+		User freshUser = new User(registeredUserDto.getName(), registeredUserDto.getSurname(), registeredUserDto.getEmail(),
 				registeredUserDto.getPassword(), registeredUserDto.getDateOfBirth(),  registeredUserDto.getIncome(), registeredUserDto.getGender(),
 				registeredUserDto.getSexualOrientation(), registeredUserDto.getEducation(), registeredUserDto.getReligion(), registeredUserDto.getChildren(),
 				registeredUserDto.getDesiredRelationship(), registeredUserDto.getLocation(), registeredUserDto.isAlchocol(), registeredUserDto.isSmoking());
 		
-		RegisteredUser newUser = this.testService.findMatch(freshUser);
+		User newUser = this.testService.findMatch(freshUser);
 		
 		return new ResponseEntity<>(newUser, HttpStatus.OK);
 	}
