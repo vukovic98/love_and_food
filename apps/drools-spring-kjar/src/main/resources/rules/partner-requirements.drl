@@ -1,4 +1,4 @@
-package sbnz.integracija;
+package rules;
 
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
@@ -13,6 +13,7 @@ import com.ftn.uns.ac.rs.love_and_food.util.DateUtil;
 
 //Children
 rule "Partner Requirements set children"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser($children: children);
 		$pr: PartnerRequirements(userId==$ru.id, children == null);
@@ -23,6 +24,7 @@ end;
 
 //Relationship
 rule "Partner Requirements set desired relationship status"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser( $desiredRelationship: desiredRelationship);
 		$pr: PartnerRequirements(userId==$ru.id, desiredRelationship == null);
@@ -33,6 +35,7 @@ end;
 
 //Age
 rule "Age_18_20"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(18 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20);
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -42,6 +45,7 @@ rule "Age_18_20"
 end;
 
 rule "Age_20_25"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(20 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 25);
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -51,6 +55,7 @@ rule "Age_20_25"
 end;
 
 rule "Age_25_30"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(25 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 30);
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -60,6 +65,7 @@ rule "Age_25_30"
 end;
 
 rule "Age_30_40"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(30 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 40);
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -69,6 +75,7 @@ rule "Age_30_40"
 end;
 
 rule "Age_40_50"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(40 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 50);
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -78,6 +85,7 @@ rule "Age_40_50"
 end;
 	
 rule "Age_50_65"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(50 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 65);
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -87,6 +95,7 @@ rule "Age_50_65"
 end;
 
 rule "Age_65+"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(65 < DateUtil.getDiffYears(dateOfBirth));
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
@@ -97,6 +106,7 @@ end;
 
 //Preffered gender
 rule "M + Straight"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(gender==Gender.MALE, sexualOrientation==SexualOrientation.HETEROSEXUAL );
 		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
@@ -106,6 +116,7 @@ rule "M + Straight"
 end;
 
 rule "M + Homosexual"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(gender==Gender.MALE, sexualOrientation==SexualOrientation.HOMOSEXUAL );
 		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
@@ -115,6 +126,7 @@ rule "M + Homosexual"
 end;
 
 rule "Bisexual"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(gender==Gender.MALE, sexualOrientation==SexualOrientation.BISEXUAL );
 		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
@@ -124,6 +136,7 @@ rule "Bisexual"
 end;
 
 rule "F + Straight"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(gender==Gender.FEMALE, sexualOrientation==SexualOrientation.HETEROSEXUAL );
 		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);
@@ -133,6 +146,7 @@ rule "F + Straight"
 end;
 
 rule "F + Homosexual"
+	agenda-group "partner-requirements"
 	when
 		$ru: RegisteredUser(gender==Gender.FEMALE, sexualOrientation==SexualOrientation.HOMOSEXUAL );
 		$pr: PartnerRequirements(userId==$ru.id, prefferedGender == null);

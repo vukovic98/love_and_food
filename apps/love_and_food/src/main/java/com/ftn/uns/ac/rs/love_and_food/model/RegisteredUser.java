@@ -62,6 +62,9 @@ public class RegisteredUser extends User {
 
 	@Column(name = "smoking", nullable = false)
 	private boolean smoking;
+	
+	@Column(name = "personality", nullable = false)
+	private String personalityTraits;
 
 	public RegisteredUser() {
 		super();
@@ -85,6 +88,7 @@ public class RegisteredUser extends User {
 		this.location = location;
 		this.alchocol = alchocol;
 		this.smoking = smoking;
+		this.personalityTraits = "";
 	}
 
 	public String getName() {
@@ -189,6 +193,14 @@ public class RegisteredUser extends User {
 
 	public void setIncome(double income) {
 		this.income = income;
+	}
+	
+	public String getPersonalityTraits() {
+		return personalityTraits;
+	}
+
+	public void setPersonalityTraits(String personalityTraits) {
+		this.personalityTraits = personalityTraits;
 	}
 
 	@Override

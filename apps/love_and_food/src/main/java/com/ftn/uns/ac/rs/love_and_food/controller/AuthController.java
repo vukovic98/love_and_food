@@ -85,7 +85,7 @@ public class AuthController {
 				userDTO.getEducation(), userDTO.getReligion(), userDTO.getChildren(), userDTO.getDesiredRelationship(),
 				userDTO.getLocation(), userDTO.isAlchocol(), userDTO.isSmoking());
 		
-		RegisteredUser createdUser = this.authService.register(user);
+		RegisteredUser createdUser = this.authService.register(user, userDTO.getTestAnswers());
 		
 		return new ResponseEntity<>(createdUser, HttpStatus.OK);
 	}
