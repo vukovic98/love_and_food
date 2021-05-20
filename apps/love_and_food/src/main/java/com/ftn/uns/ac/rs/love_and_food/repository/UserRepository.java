@@ -1,11 +1,11 @@
 package com.ftn.uns.ac.rs.love_and_food.repository;
 
-import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 
 @Repository
-public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, Long>{
-	
-	RegisteredUser findOneByEmail(String email);
+public interface UserRepository extends JpaRepository<RegisteredUser, Long>{
+
 }

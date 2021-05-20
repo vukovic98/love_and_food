@@ -27,13 +27,13 @@ public class Grade {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
-	private RegisteredUser registeredUser;
+	private User registeredUser;
 
 	public Grade() {
 		super();
 	}
 
-	public Grade(Long grade_id, int value, Restaurant restaurant, RegisteredUser registeredUser) {
+	public Grade(Long grade_id, int value, Restaurant restaurant, User registeredUser) {
 		super();
 		this.grade_id = grade_id;
 		this.value = value;
@@ -65,11 +65,11 @@ public class Grade {
 		this.restaurant = restaurant;
 	}
 
-	public RegisteredUser getRegisteredUser() {
+	public User getRegisteredUser() {
 		return registeredUser;
 	}
 
-	public void setRegisteredUser(RegisteredUser registeredUser) {
+	public void setRegisteredUser(User registeredUser) {
 		this.registeredUser = registeredUser;
 	}
 

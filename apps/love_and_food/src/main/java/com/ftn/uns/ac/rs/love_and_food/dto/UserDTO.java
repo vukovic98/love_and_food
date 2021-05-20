@@ -10,7 +10,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
-public class RegisteredUserDTO {
+public class UserDTO {
 	
 	private String name;
 	private String surname;
@@ -31,7 +31,7 @@ public class RegisteredUserDTO {
 	
 	private double income;
 	
-	public RegisteredUserDTO() {
+	public UserDTO() {
 	}
 	public String getName() {
 		return name;
