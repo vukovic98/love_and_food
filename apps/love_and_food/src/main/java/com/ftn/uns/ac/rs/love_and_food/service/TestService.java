@@ -5,8 +5,7 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
-import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 
 @Service
 public class TestService {
@@ -14,7 +13,7 @@ public class TestService {
 	@Autowired
 	private KieContainer kieContainer;
 	
-	public User findMatch(User registeredUser) {
+	public RegisteredUser findMatch(RegisteredUser registeredUser) {
 		KieSession kieSession = kieContainer.newKieSession();
 		kieSession.insert(registeredUser);
 		kieSession.fireAllRules();

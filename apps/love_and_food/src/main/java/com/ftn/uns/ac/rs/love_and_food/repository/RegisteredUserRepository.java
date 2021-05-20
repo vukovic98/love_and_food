@@ -7,5 +7,5 @@ import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 @Repository
 public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, Long>{
 	
-	RegisteredUser findOneByEmail(String email);
+	RegisteredUser findByEmail(String email);
 }
