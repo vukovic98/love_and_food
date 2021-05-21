@@ -1,7 +1,11 @@
 package rules;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 
 global Long loggedInUserId;
@@ -15,6 +19,7 @@ declare PartnerCompatibility
 	smokingScore: double
 	alchocolScore: double
 	educationScore: double
+	ratingScore: double
 end
 
 declare FoundSoulmate
@@ -26,7 +31,9 @@ rule "Soulmate"
 	when
 		$u: RegisteredUser( id == loggedInUserId )
 		$mate: PartnerCompatibility( $mateId : mateId, 
-		$smoking : smokingScore, $alchocol : alchocolScore, $education: educationScore, $trait: traitsScore )
+			$smoking : smokingScore, $alchocol : alchocolScore, 
+			$education: educationScore, $trait: traitsScore,
+			$rating: ratingScore)
 		$soulmate: RegisteredUser( id == $mateId )
 		not FoundSoulmate( )
 	then
@@ -36,6 +43,7 @@ rule "Soulmate"
 		System.out.println("alchocol " + $alchocol);
 		System.out.println("education " + $education);
 		System.out.println("traits " + $trait);
+		System.out.println("ratings " + $rating);
 		drools.getKnowledgeRuntime().setGlobal("soulmate", $soulmate);
 		insert(new FoundSoulmate());
 end;
@@ -53,7 +61,7 @@ rule "Compatibility - filters"
 			children == $ur.children )
 	then
 		System.out.println("Compatibile mate with id: " + $mate.getId());
-		insert(new PartnerCompatibility($mate.getId(), -1, -1, 0, 0));
+		insert(new PartnerCompatibility($mate.getId(), -1, -1, 0, 0, 0));
 end;
 
 rule "Compatibility - traits"
@@ -73,6 +81,84 @@ rule "Compatibility - traits"
 		modify($compatibleMate){setTraitsScore($count);};
 end;
 
+rule "Compatibility - very bad rating"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $userTraits: personalityTraits )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!ratingScore)
+		$matchRatings: List(size > 0) from collect(
+			Match(soulmate.id == $mateId,
+			$matchDate: matchDate, $matchDate.isAfter(LocalDate.now().minusMonths(3)))
+		)
+		Number($count: intValue >= 5) from accumulate(
+			Match($match : this, rating == 1) from $matchRatings,
+			count($match)
+		)
+	then
+		System.out.println($matchRatings);
+		System.out.println("Added score for very bad ratings in the past 3 months for mate: " + $mateId);
+		modify($compatibleMate){setRatingScore($compatibleMate.getRatingScore() + 3 * (-$count));};
+end;
+
+rule "Compatibility - bad rating"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $userTraits: personalityTraits )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!ratingScore)
+		$matchRatings: List(size > 0) from collect(
+			Match(soulmate.id == $mateId,
+			$matchDate: matchDate, $matchDate.isAfter(LocalDate.now().minusMonths(3)))
+		)
+		Number($count: intValue >= 5) from accumulate(
+			Match($match : this, rating == 2) from $matchRatings,
+			count($match)
+		)
+	then
+		System.out.println($matchRatings);
+		System.out.println("Added score for bad ratings in the past 3 months for mate: " + $mateId);
+		modify($compatibleMate){setRatingScore($compatibleMate.getRatingScore() + 1 * (-$count));};
+end;
+
+rule "Compatibility - same education"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $education: education )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education == $education )
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
+	then
+		System.out.println("Added score for same education compatibility for mate: " + $mateId);
+		modify($compatibleMate){setEducationScore(3);};
+end;
+
+rule "Compatibility - one below education"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $education: education )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() - 1)
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
+	then
+		System.out.println("Added score for same education compatibility for mate: " + $mateId);
+		modify($compatibleMate){setEducationScore(1);};
+end;
+
+rule "Compatibility - one above education"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $education: education )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() + 1)
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
+	then
+		System.out.println("Added score for same education compatibility for mate: " + $mateId);
+		modify($compatibleMate){setEducationScore(2);};
+end;
+
 rule "Compatibility - smoking"
 	agenda-group "prepare-soulmate"
 	salience 1
@@ -87,7 +173,7 @@ end;
 
 rule "Compatibility - alchocol"
 	agenda-group "prepare-soulmate"
-	salience 1
+	salience 0
 	when
 		$u: RegisteredUser( id == loggedInUserId, $alchocol: alchocol )
 		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, alchocol == $alchocol )
@@ -95,43 +181,5 @@ rule "Compatibility - alchocol"
 	then
 		System.out.println("Added score for alchocol compatibility for mate: " + $mateId);
 		modify($compatibleMate){setAlchocolScore(2);};
-end;
-
-rule "Compatibility - same education"
-	agenda-group "prepare-soulmate"
-	salience 0
-	when
-		$u: RegisteredUser( id == loggedInUserId, $education: education )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education == $education )
-		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
-	then
-		System.out.println("Added score for same education compatibility for mate: " + $mateId);
-		modify($compatibleMate){setEducationScore(3);};
-		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("soulmate").setFocus();
-end;
-
-rule "Compatibility - one below education"
-	agenda-group "prepare-soulmate"
-	salience 0
-	when
-		$u: RegisteredUser( id == loggedInUserId, $education: education )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() - 1)
-		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
-	then
-		System.out.println("Added score for same education compatibility for mate: " + $mateId);
-		modify($compatibleMate){setEducationScore(1);};
-		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("soulmate").setFocus();
-end;
-
-rule "Compatibility - one above education"
-	agenda-group "prepare-soulmate"
-	salience 0
-	when
-		$u: RegisteredUser( id == loggedInUserId, $education: education )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() + 1)
-		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
-	then
-		System.out.println("Added score for same education compatibility for mate: " + $mateId);
-		modify($compatibleMate){setEducationScore(2);};
 		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("soulmate").setFocus();
 end;
