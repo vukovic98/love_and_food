@@ -41,7 +41,7 @@ rule "Age_18_20"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("Age_18_20");
-		modify($pr){setIdealAge(Age.AGE_18_20),getSuitableAge().add(Age.AGE_20_25);};
+		modify($pr){setIdealAge(Age.AGE_18_20),getSuitableAge().add(Age.AGE_20_25),getSuitableAge().add(Age.AGE_18_20);};
 end;
 
 rule "Age_20_25"
@@ -51,7 +51,7 @@ rule "Age_20_25"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("Age_20_25");
-		modify($pr){setIdealAge(Age.AGE_20_25),getSuitableAge().add(Age.AGE_18_20), getSuitableAge().add(Age.AGE_25_30);};
+		modify($pr){setIdealAge(Age.AGE_20_25),getSuitableAge().add(Age.AGE_18_20),getSuitableAge().add(Age.AGE_25_30),getSuitableAge().add(Age.AGE_20_25);};
 end;
 
 rule "Age_25_30"
@@ -61,7 +61,7 @@ rule "Age_25_30"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("AGE_25_30");
-		modify($pr){setIdealAge(Age.AGE_25_30),getSuitableAge().add(Age.AGE_20_25), getSuitableAge().add(Age.AGE_30_40);};
+		modify($pr){setIdealAge(Age.AGE_25_30),getSuitableAge().add(Age.AGE_20_25),getSuitableAge().add(Age.AGE_30_40),getSuitableAge().add(Age.AGE_25_30);};
 end;
 
 rule "Age_30_40"
@@ -71,7 +71,7 @@ rule "Age_30_40"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("Age_30_40");
-		modify($pr){setIdealAge(Age.AGE_30_40),getSuitableAge().add(Age.AGE_25_30), getSuitableAge().add(Age.AGE_40_50);};
+		modify($pr){setIdealAge(Age.AGE_30_40),getSuitableAge().add(Age.AGE_25_30),getSuitableAge().add(Age.AGE_40_50),getSuitableAge().add(Age.AGE_30_40);};
 end;
 
 rule "Age_40_50"
@@ -81,7 +81,7 @@ rule "Age_40_50"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("AGE_40_50");
-		modify($pr){setIdealAge(Age.AGE_40_50),getSuitableAge().add(Age.AGE_30_40), getSuitableAge().add(Age.AGE_50_65);};
+		modify($pr){setIdealAge(Age.AGE_40_50),getSuitableAge().add(Age.AGE_30_40),getSuitableAge().add(Age.AGE_50_65),getSuitableAge().add(Age.AGE_40_50);};
 end;
 	
 rule "Age_50_65"
@@ -91,7 +91,7 @@ rule "Age_50_65"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("Age_50_65");
-		modify($pr){setIdealAge(Age.AGE_50_65),getSuitableAge().add(Age.AGE_40_50), getSuitableAge().add(Age.AGE_65_PLUS);};
+		modify($pr){setIdealAge(Age.AGE_50_65),getSuitableAge().add(Age.AGE_40_50),getSuitableAge().add(Age.AGE_65_PLUS),getSuitableAge().add(Age.AGE_50_65);};
 end;
 
 rule "Age_65+"
@@ -101,7 +101,7 @@ rule "Age_65+"
 		$pr: PartnerRequirements(userId==$ru.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("Age_65+");
-		modify($pr){setIdealAge(Age.AGE_65_PLUS),getSuitableAge().add(Age.AGE_50_65);};
+		modify($pr){setIdealAge(Age.AGE_65_PLUS),getSuitableAge().add(Age.AGE_50_65),getSuitableAge().add(Age.AGE_65_PLUS);};
 end;
 
 //Preffered gender

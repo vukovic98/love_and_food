@@ -1,5 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.service;
 
+import java.util.List;
+
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class LoveService {
 	@Autowired
 	private RegisteredUserRepository registeredUserRepository;
 	
-	public void findMatch(String email) {
+	public PartnerRequirements findMatch(String email) {
 		// dobavljanje ulogovanog korisnika
 		RegisteredUser user = registeredUserRepository.findByEmail(email);
 		// kreiranje zahteva vezanog za tog korisnika
@@ -29,8 +31,16 @@ public class LoveService {
 		session.insert(partnerReq);
 		
 		session.getAgenda().getAgendaGroup("partner-requirements").setFocus();
-		int rulesFired = session.fireAllRules();
-		System.out.println(rulesFired);
+		session.fireAllRules();
+		
+		List<RegisteredUser> allUsersExceptLoggedIn = registeredUserRepository.findAllByIdNot(user.getId());
+		for (RegisteredUser registeredUser : allUsersExceptLoggedIn) {
+			session.insert(registeredUser);
+		}
+		session.setGlobal("loggedInUserId", user.getId());
+		session.getAgenda().getAgendaGroup("soulmate").setFocus();
+		session.fireAllRules();
+		return partnerReq;
 	}
 	
 }

@@ -65,7 +65,7 @@ public class RegisteredUser extends User {
 	
 	@Column(name = "personality", nullable = false)
 	private String personalityTraits;
-
+	
 	public RegisteredUser() {
 		super();
 	}
