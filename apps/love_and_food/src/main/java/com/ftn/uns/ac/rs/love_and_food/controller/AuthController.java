@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,9 +39,6 @@ public class AuthController {
 	private CustomUserDetailsService userDetailsService; 
 
 	@Autowired
-	private RegisteredUserService registeredUserService;
-
-	@Autowired
 	private AuthenticationManager authenticationManager;
 
 
@@ -51,8 +49,6 @@ public class AuthController {
 			HttpServletResponse response) {
 
 		try {
-			// RegisteredUser u =
-			// this.registeredUserService.findOneByEmail(authenticationRequest.getEmail());
 			boolean verified = true;
 
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -77,17 +73,17 @@ public class AuthController {
 
 	}
 	
-	@PostMapping( value = "/register")
-	public ResponseEntity<RegisteredUser> register(@RequestBody UserDTO userDTO) {
-
-		RegisteredUser user = new RegisteredUser(userDTO.getEmail(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(),
-				userDTO.getDateOfBirth(), userDTO.getIncome(), userDTO.getGender(), userDTO.getSexualOrientation(),
-				userDTO.getEducation(), userDTO.getReligion(), userDTO.getChildren(), userDTO.getDesiredRelationship(),
-				userDTO.getLocation(), userDTO.isAlchocol(), userDTO.isSmoking());
-		
-		RegisteredUser createdUser = this.authService.register(user);
-		
-		return new ResponseEntity<>(createdUser, HttpStatus.OK);
-	}
+//	@PostMapping( value = "/register")
+//	public ResponseEntity<RegisteredUser> register(@RequestBody UserDTO userDTO) {
+//
+//		RegisteredUser user = new RegisteredUser(userDTO.getEmail(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(),
+//				userDTO.getDateOfBirth(), userDTO.getIncome(), userDTO.getGender(), userDTO.getSexualOrientation(),
+//				userDTO.getEducation(), userDTO.getReligion(), userDTO.getChildren(), userDTO.getDesiredRelationship(),
+//				userDTO.getLocation(), userDTO.isAlchocol(), userDTO.isSmoking());
+//		
+//		RegisteredUser createdUser = this.authService.register(user);
+//		
+//		return new ResponseEntity<>(createdUser, HttpStatus.OK);
+//	}
 
 }

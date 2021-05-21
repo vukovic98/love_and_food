@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,37 +21,32 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@Embeddable
 @Table(name = "user")
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements UserDetails {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "user_id")
 	private Long id;
-	
+
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	private List<Authority> authorities;
-	
-	
-	
-	public User() {
-		super();
-	}
 
+	public User() {
+
+	}
+	
 	public User(String email, String password) {
+		super();
 		this.email = email;
 		this.password = password;
 	}
@@ -62,6 +58,7 @@ public class User implements UserDetails {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 
 	public String getEmail() {
 		return email;
@@ -78,7 +75,17 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public void setAuthorities(List<Authority> authorities) {
+		this.authorities = authorities;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email
+				+ ", password=" + password + "]";
+	}
+
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
@@ -114,4 +121,5 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return this.authorities;
 	}
+
 }

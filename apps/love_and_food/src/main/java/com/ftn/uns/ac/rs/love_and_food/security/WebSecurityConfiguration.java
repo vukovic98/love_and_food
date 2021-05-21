@@ -108,29 +108,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
-		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login","/admin");
-		web.ignoring().antMatchers(HttpMethod.GET, "/culturalOffers/**",
-												   "/culturalOffers/detail/**",
-												   "/comments",
-												   "/comments/by-page/**",
-												   "/comments/{\\d+}",
-												   "/comments/for-offer/**",
-												   "/posts/for-offer/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/culturalOffers/filter/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/cultural-offer-categories/**");
-
-		web.ignoring().antMatchers(HttpMethod.GET, "/cultural-offer-types/getAll");
-		web.ignoring().antMatchers(HttpMethod.GET, "/cultural-offer-types/**");
-		//TODO
-		//web.ignoring().antMatchers(HttpMethod.DELETE, "/cultural-offer-types/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/cultural-offer-types/byPage/**");
-
-		web.ignoring().antMatchers(HttpMethod.GET, "/cultural-offer-types/byCategory/**");
-
+		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 		
 		web.ignoring().antMatchers(HttpMethod.GET, "/image");
 		
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
-				"/**/*.css", "/**/*.js","/swagger-ui.html","/swagger-resources/**","/v2/api-docs");
+				"/**/*.css", "/**/*.js");
 	}
 }

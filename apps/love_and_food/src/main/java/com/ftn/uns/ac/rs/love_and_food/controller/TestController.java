@@ -19,16 +19,16 @@ public class TestController {
 	@Autowired
 	private TestService testService;
 
-	@PostMapping
-	public ResponseEntity<RegisteredUser> register(@RequestBody UserDTO registeredUserDto) {
-
-		RegisteredUser freshUser = new RegisteredUser(registeredUserDto.getName(), registeredUserDto.getSurname(), registeredUserDto.getEmail(),
-				registeredUserDto.getPassword(), registeredUserDto.getDateOfBirth(),  registeredUserDto.getIncome(), registeredUserDto.getGender(),
-				registeredUserDto.getSexualOrientation(), registeredUserDto.getEducation(), registeredUserDto.getReligion(), registeredUserDto.getChildren(),
-				registeredUserDto.getDesiredRelationship(), registeredUserDto.getLocation(), registeredUserDto.isAlchocol(), registeredUserDto.isSmoking());
-		
-		RegisteredUser newUser = this.testService.findMatch(freshUser);
-		
-		return new ResponseEntity<>(newUser, HttpStatus.OK);
-	}
+//	@PostMapping
+//	public ResponseEntity<RegisteredUser> register(@RequestBody UserDTO registeredUserDto) {
+//
+//		RegisteredUser freshUser = new RegisteredUser(registeredUserDto.getName(), registeredUserDto.getSurname(), registeredUserDto.getEmail(),
+//				registeredUserDto.getPassword(), registeredUserDto.getDateOfBirth(),  registeredUserDto.getIncome(), registeredUserDto.getGender(),
+//				registeredUserDto.getSexualOrientation(), registeredUserDto.getEducation(), registeredUserDto.getReligion(), registeredUserDto.getChildren(),
+//				registeredUserDto.getDesiredRelationship(), registeredUserDto.getLocation(), registeredUserDto.isAlchocol(), registeredUserDto.isSmoking());
+//		
+//		RegisteredUser newUser = this.testService.findMatch(freshUser);
+//		
+//		return new ResponseEntity<>(newUser, HttpStatus.OK);
+//	}
 }

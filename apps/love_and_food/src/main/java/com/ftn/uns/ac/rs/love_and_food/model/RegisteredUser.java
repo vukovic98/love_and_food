@@ -5,13 +5,14 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
-import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
@@ -54,7 +55,8 @@ public class RegisteredUser extends User {
 	@Column(name = "desired_relationship", nullable = false)
 	private DesiredRelationship desiredRelationship;
 
-	@Column(name = "location", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "location_id", nullable = false)
 	private Location location;
 
 	@Column(name = "alchocol", nullable = false)
@@ -67,11 +69,10 @@ public class RegisteredUser extends User {
 		super();
 	}
 
-	public RegisteredUser(String email, String password, String name, String surname, Date dateOfBirth, double income,
-			Gender gender, SexualOrientation sexualOrientation, Education education, Religion religion,
-			Children children, DesiredRelationship desiredRelationship, Location location, boolean alchocol,
-			boolean smoking) {
-		super(email, password);
+	public RegisteredUser(String name, String surname, Date dateOfBirth, double income, Gender gender,
+			SexualOrientation sexualOrientation, Education education, Religion religion, Children children,
+			DesiredRelationship desiredRelationship, Location location, boolean alchocol, boolean smoking) {
+		super();
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
@@ -111,12 +112,28 @@ public class RegisteredUser extends User {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	public double getIncome() {
+		return income;
+	}
+
+	public void setIncome(double income) {
+		this.income = income;
+	}
+
 	public Gender getGender() {
 		return gender;
 	}
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public SexualOrientation getSexualOrientation() {
+		return sexualOrientation;
+	}
+
+	public void setSexualOrientation(SexualOrientation sexualOrientation) {
+		this.sexualOrientation = sexualOrientation;
 	}
 
 	public Education getEducation() {
@@ -175,20 +192,8 @@ public class RegisteredUser extends User {
 		this.smoking = smoking;
 	}
 
-	public SexualOrientation getSexualOrientation() {
-		return sexualOrientation;
-	}
-
-	public void setSexualOrientation(SexualOrientation sexualOrientation) {
-		this.sexualOrientation = sexualOrientation;
-	}
-
-	public double getIncome() {
-		return income;
-	}
-
-	public void setIncome(double income) {
-		this.income = income;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

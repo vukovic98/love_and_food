@@ -33,6 +33,7 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
 		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
 		
+
 		if (enc.matches((String)authentication.getCredentials(), user.getPassword()))
 			return user;
 		else
