@@ -7,6 +7,7 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.ac.rs.love_and_food.exceptions.NonExistingIdException;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
@@ -55,16 +56,25 @@ public class LoveService {
 		session.fireAllRules();
 		
 		RegisteredUser soulmate = (RegisteredUser) session.getGlobal("soulmate");
-		
-		// rejting ce se dodavati posle sa fronta - update
+
 		Match match = new Match();
 		match.setInitiator(user);
 		match.setSoulmate(soulmate);
 		match.setMatchDate(LocalDate.now());
-		match.setRating(1);
+		
 		matchRepository.save(match);
 		
 		return soulmate;
+	}
+	
+	public Match rateDate(Long matchId, int rating) throws NonExistingIdException {
+		Match match = matchRepository.findById(matchId).orElse(null);
+		if ( match != null) {
+			match.setRating(rating);
+			return matchRepository.save(match);
+		}
+		
+		throw new NonExistingIdException("Match");
 	}
 	
 }

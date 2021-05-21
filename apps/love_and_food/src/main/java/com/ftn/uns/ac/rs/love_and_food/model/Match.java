@@ -34,7 +34,9 @@ public class Match {
 	@Column(name = "soulmate_rating", nullable = true)
 	private int rating;
 	
-	public Match() {}
+	public Match() {
+		this.rating = 0;
+	}
 	
 	public Match(Long id, RegisteredUser initiator, RegisteredUser soulmate, LocalDate matchDate, int rating) {
 		this.id = id;

@@ -8,6 +8,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
@@ -23,6 +24,7 @@ public class UserDTO {
 	private Gender gender;
 	private SexualOrientation sexualOrientation;
 	private Education education;
+	private Income income;
 	private Religion religion;
 	private Children children;
 	private DesiredRelationship desiredRelationship;
@@ -30,8 +32,6 @@ public class UserDTO {
 	
 	private boolean alchocol;
 	private boolean smoking;
-	
-	private double income;
 	
 	private List<PersonalityAnswer> testAnswers;
 	
@@ -79,10 +79,10 @@ public class UserDTO {
 	public void setSexualOrientation(SexualOrientation sexualOrientation) {
 		this.sexualOrientation = sexualOrientation;
 	}
-	public double getIncome() {
+	public Income getIncome() {
 		return income;
 	}
-	public void setIncome(double income) {
+	public void setIncome(Income income) {
 		this.income = income;
 	}
 	public Education getEducation() {

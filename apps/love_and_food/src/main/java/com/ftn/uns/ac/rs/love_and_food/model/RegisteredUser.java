@@ -14,6 +14,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
@@ -23,9 +24,6 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 @PropertyReactive
 public class RegisteredUser extends User {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "name", nullable = false)
@@ -37,9 +35,6 @@ public class RegisteredUser extends User {
 	@Column(name = "date_of_birth", nullable = false)
 	private Date dateOfBirth;
 
-	@Column(name = "income", nullable = false)
-	private double income;
-
 	@Column(name = "gender", nullable = false)
 	private Gender gender;
 
@@ -48,6 +43,9 @@ public class RegisteredUser extends User {
 
 	@Column(name = "education", nullable = false)
 	private Education education;
+	
+	@Column(name = "income", nullable = false)
+	private Income income;
 
 	@Column(name = "religion", nullable = false)
 	private Religion religion;
@@ -76,7 +74,7 @@ public class RegisteredUser extends User {
 		super();
 	}
 
-	public RegisteredUser(String email, String password, String name, String surname, Date dateOfBirth, double income,
+	public RegisteredUser(String email, String password, String name, String surname, Date dateOfBirth, Income income,
 			Gender gender, SexualOrientation sexualOrientation, Education education, Religion religion,
 			Children children, DesiredRelationship desiredRelationship, Location location, boolean alchocol,
 			boolean smoking) {
@@ -193,11 +191,11 @@ public class RegisteredUser extends User {
 		this.sexualOrientation = sexualOrientation;
 	}
 
-	public double getIncome() {
+	public Income getIncome() {
 		return income;
 	}
 
-	public void setIncome(double income) {
+	public void setIncome(Income income) {
 		this.income = income;
 	}
 	

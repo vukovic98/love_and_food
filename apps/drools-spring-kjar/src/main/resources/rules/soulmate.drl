@@ -19,6 +19,8 @@ declare PartnerCompatibility
 	smokingScore: double
 	alchocolScore: double
 	educationScore: double
+	incomeScore: double
+	religionScore: double
 	ratingScore: double
 end
 
@@ -27,12 +29,13 @@ end
 
 rule "Soulmate"
 	agenda-group "soulmate"
-	salience ($smoking + $alchocol + $education + $trait)
+	salience ($smoking + $alchocol + $education + $income + $religion + $trait)
 	when
 		$u: RegisteredUser( id == loggedInUserId )
 		$mate: PartnerCompatibility( $mateId : mateId, 
 			$smoking : smokingScore, $alchocol : alchocolScore, 
 			$education: educationScore, $trait: traitsScore,
+			$income: incomeScore, $religion: religionScore,
 			$rating: ratingScore)
 		$soulmate: RegisteredUser( id == $mateId )
 		not FoundSoulmate( )
@@ -42,6 +45,8 @@ rule "Soulmate"
 		System.out.println("smoking " + $smoking);
 		System.out.println("alchocol " + $alchocol);
 		System.out.println("education " + $education);
+		System.out.println("income " + $income);
+		System.out.println("religion " + $religion);
 		System.out.println("traits " + $trait);
 		System.out.println("ratings " + $rating);
 		drools.getKnowledgeRuntime().setGlobal("soulmate", $soulmate);
@@ -61,7 +66,7 @@ rule "Compatibility - filters"
 			children == $ur.children )
 	then
 		System.out.println("Compatibile mate with id: " + $mate.getId());
-		insert(new PartnerCompatibility($mate.getId(), -1, -1, 0, 0, 0));
+		insert(new PartnerCompatibility($mate.getId(), -1, -1, 0, 0, 0, -1, 0));
 end;
 
 rule "Compatibility - traits"
@@ -169,6 +174,43 @@ rule "Compatibility - smoking"
 	then
 		System.out.println("Added score for smoking compatibility for mate: " + $mateId);
 		modify($compatibleMate){setSmokingScore(5);};
+end;
+
+rule "Compatibility - same income"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $income: income )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, income.getValue() == $income.getValue())
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!incomeScore)
+	then
+		System.out.println("Added score for same income compatibility for mate: " + $mateId);
+		modify($compatibleMate){setIncomeScore(1);};
+end;
+
+rule "Compatibility - one above income"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $income: income )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, income.getValue() == $income.getValue() + 1)
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!incomeScore)
+	then
+		System.out.println("Added score for same income compatibility for mate: " + $mateId);
+		modify($compatibleMate){setIncomeScore(1);};
+end;
+
+
+rule "Compatibility - same religion opinions"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: RegisteredUser( id == loggedInUserId, $religion: religion )
+		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, religion == $religion )
+		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!religionScore)
+	then
+		System.out.println("Added score for same religion compatibility for mate: " + $mateId);
+		modify($compatibleMate){setReligionScore(2);};
 end;
 
 rule "Compatibility - alchocol"
