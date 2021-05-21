@@ -95,7 +95,7 @@ public class RegisteredUser extends User {
 		this.personalityTraits = "";
 	}
 
-	public RegisteredUser(String email, String password, String name2, String surname2, Date dateOfBirth2,
+	/*public RegisteredUser(String email, String password, String name2, String surname2, Date dateOfBirth2,
 			double income2, Gender gender2, SexualOrientation sexualOrientation2, Education education2,
 			Religion religion2, Children children2, DesiredRelationship desiredRelationship2, Location location2,
 			boolean alchocol2, boolean smoking2) {
@@ -114,7 +114,7 @@ public class RegisteredUser extends User {
 		this.alchocol = alchocol2;
 		this.smoking = smoking2;
 		this.personalityTraits = "";
-	}
+	}*/
 
 	public String getName() {
 		return name;
@@ -140,11 +140,11 @@ public class RegisteredUser extends User {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public double getIncome() {
+	public Income getIncome() {
 		return income;
 	}
 
-	public void setIncome(double income) {
+	public void setIncome(Income income) {
 		this.income = income;
 	}
 
@@ -154,14 +154,6 @@ public class RegisteredUser extends User {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
-	}
-
-	public SexualOrientation getSexualOrientation() {
-		return sexualOrientation;
-	}
-
-	public void setSexualOrientation(SexualOrientation sexualOrientation) {
-		this.sexualOrientation = sexualOrientation;
 	}
 
 	public Education getEducation() {
@@ -226,14 +218,6 @@ public class RegisteredUser extends User {
 
 	public void setSexualOrientation(SexualOrientation sexualOrientation) {
 		this.sexualOrientation = sexualOrientation;
-	}
-
-	public Income getIncome() {
-		return income;
-	}
-
-	public void setIncome(Income income) {
-		this.income = income;
 	}
 	
 	public String getPersonalityTraits() {
