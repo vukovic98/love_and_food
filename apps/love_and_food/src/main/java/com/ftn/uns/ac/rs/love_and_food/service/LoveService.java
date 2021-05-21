@@ -25,7 +25,9 @@ public class LoveService {
 		// kreiranje zahteva vezanog za tog korisnika
 		PartnerRequirements partnerReq = new PartnerRequirements(user.getId());
 		
+		kieService.releaseRulesSession();
 		KieSession session = kieService.getRulesSession();
+		session.setGlobal("loggedInUserId", user.getId());
 		
 		session.insert(user);
 		session.insert(partnerReq);
@@ -37,7 +39,8 @@ public class LoveService {
 		for (RegisteredUser registeredUser : allUsersExceptLoggedIn) {
 			session.insert(registeredUser);
 		}
-		session.setGlobal("loggedInUserId", user.getId());
+		session.getAgenda().getAgendaGroup("partner-age").setFocus();
+		session.fireAllRules();
 		session.getAgenda().getAgendaGroup("soulmate").setFocus();
 		session.fireAllRules();
 		return partnerReq;

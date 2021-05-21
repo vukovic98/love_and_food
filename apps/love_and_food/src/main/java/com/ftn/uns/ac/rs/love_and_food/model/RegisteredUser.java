@@ -7,6 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.kie.api.definition.type.PropertyReactive;
+
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
@@ -17,6 +20,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
 @Entity
 @Table(name = "registered_user")
+@PropertyReactive
 public class RegisteredUser extends User {
 
 	/**
@@ -65,6 +69,8 @@ public class RegisteredUser extends User {
 	
 	@Column(name = "personality", nullable = false)
 	private String personalityTraits;
+	
+	private Age ageGroup;
 	
 	public RegisteredUser() {
 		super();
@@ -201,6 +207,14 @@ public class RegisteredUser extends User {
 
 	public void setPersonalityTraits(String personalityTraits) {
 		this.personalityTraits = personalityTraits;
+	}
+	
+	public Age getAgeGroup() {
+		return ageGroup;
+	}
+
+	public void setAgeGroup(Age ageGroup) {
+		this.ageGroup = ageGroup;
 	}
 
 	@Override

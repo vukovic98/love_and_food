@@ -4,7 +4,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.QuestionGroup;
 
-global java.lang.Long loggedInUserId;
+global Long loggedInUserId;
 
 rule "Soulmate"
 	agenda-group "soulmate"
@@ -14,10 +14,19 @@ rule "Soulmate"
 		$ur: PartnerRequirements( userId == loggedInUserId )
 		$mate: RegisteredUser( id != loggedInUserId, 
 			gender == $ur.prefferedGender,
-			$ur.suitableAge contains DateUtil.getDiffYears(dateOfBirth)
-			desiredRelationship == $ur.desiredRelationship
+			$ur.suitableAge contains $mate.ageGroup,
+			desiredRelationship == $ur.desiredRelationship,
 			children == $ur.children )
 	then
-		System.out.println("Izvrseno soulmate pravilo");
+		System.out.println("Izvrseno soulmate pravilo " + $u.getId());
+		System.out.println("ulogovan " + loggedInUserId);
+		System.out.println("nadjen " + $mate.getId());
 		//modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(0));};
 end;
+/*
+rule "Compatibility"
+	agenda-group "prepare-soulmate"
+	when
+		$i: 
+	then
+*/
