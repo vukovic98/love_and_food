@@ -1,7 +1,9 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.util.Date;
+import java.util.List;
 
+import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
@@ -30,6 +32,8 @@ public class UserDTO {
 	private boolean smoking;
 	
 	private double income;
+	
+	private List<PersonalityAnswer> testAnswers;
 	
 	public UserDTO() {
 	}
@@ -122,5 +126,11 @@ public class UserDTO {
 	}
 	public void setSmoking(boolean smoking) {
 		this.smoking = smoking;
+	}
+	public List<PersonalityAnswer> getTestAnswers() {
+		return testAnswers;
+	}
+	public void setTestAnswers(List<PersonalityAnswer> testAnswers) {
+		this.testAnswers = testAnswers;
 	}
 }

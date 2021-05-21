@@ -1,0 +1,23 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.QuestionGroup;
+
+global java.lang.Long loggedInUserId;
+
+rule "Soulmate"
+	agenda-group "soulmate"
+	//salience 
+	when
+		$u: RegisteredUser( id == loggedInUserId )
+		$ur: PartnerRequirements( userId == loggedInUserId )
+		$mate: RegisteredUser( id != loggedInUserId, 
+			gender == $ur.prefferedGender,
+			$ur.suitableAge contains DateUtil.getDiffYears(dateOfBirth)
+			desiredRelationship == $ur.desiredRelationship
+			children == $ur.children )
+	then
+		System.out.println("Izvrseno soulmate pravilo");
+		//modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(0));};
+end;

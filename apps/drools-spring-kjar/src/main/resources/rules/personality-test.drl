@@ -1,0 +1,35 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.QuestionGroup;
+
+rule "Personality more 0"
+	agenda-group "personality-test"
+	lock-on-active true
+	when
+		$u: RegisteredUser()
+		$qg: QuestionGroup() from QuestionGroup.values()
+		Number($value: intValue >= 3) from accumulate(
+        	PersonalityAnswer($t:this, group == $qg, answer == 0),
+        	count($t)
+        )
+	then
+		System.out.println("Added personality " + $qg.getName().charAt(0) + " because count was " + $value);
+		modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(0));};
+end;
+
+rule "Personality more 1"
+	agenda-group "personality-test"
+	lock-on-active true
+	when
+		$u: RegisteredUser()
+		$qg: QuestionGroup() from QuestionGroup.values()
+		Number($value: intValue >= 3) from accumulate(
+        	PersonalityAnswer($t:this, group == $qg, answer == 1),
+        	count($t)
+        )
+	then
+		System.out.println("Added personality " + $qg.getName().charAt(1) + " because count was " + $value);
+		modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(1));};
+end;
