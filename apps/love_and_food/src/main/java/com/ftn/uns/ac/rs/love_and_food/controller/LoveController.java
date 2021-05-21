@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.service.LoveService;
 
 @RestController
@@ -21,12 +21,12 @@ public class LoveController {
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping( value = "/find-match")
-	public ResponseEntity<PartnerRequirements> findMatch() {
+	public ResponseEntity<RegisteredUser> findMatch() {
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		PartnerRequirements partnerReq = loveService.findMatch(email);
+		RegisteredUser soulmate = loveService.findMatch(email);
 		
-		return new ResponseEntity<PartnerRequirements>(partnerReq, HttpStatus.OK);
+		return new ResponseEntity<RegisteredUser>(soulmate, HttpStatus.OK);
 
 	}
 }

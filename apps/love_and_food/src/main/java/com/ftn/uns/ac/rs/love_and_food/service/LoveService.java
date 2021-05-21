@@ -19,7 +19,7 @@ public class LoveService {
 	@Autowired
 	private RegisteredUserRepository registeredUserRepository;
 	
-	public PartnerRequirements findMatch(String email) {
+	public RegisteredUser findMatch(String email) {
 		// dobavljanje ulogovanog korisnika
 		RegisteredUser user = registeredUserRepository.findByEmail(email);
 		// kreiranje zahteva vezanog za tog korisnika
@@ -41,9 +41,12 @@ public class LoveService {
 		}
 		session.getAgenda().getAgendaGroup("partner-age").setFocus();
 		session.fireAllRules();
-		session.getAgenda().getAgendaGroup("soulmate").setFocus();
+		session.getAgenda().getAgendaGroup("prepare-soulmate").setFocus();
 		session.fireAllRules();
-		return partnerReq;
+		
+		RegisteredUser soulmate = (RegisteredUser) session.getGlobal("soulmate");
+		
+		return soulmate;
 	}
 	
 }
