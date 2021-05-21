@@ -1,6 +1,6 @@
 package com.ftn.uns.ac.rs.love_and_food.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 
 @Entity
 @Table(name = "user_match")
@@ -31,17 +29,21 @@ public class Match {
 	private RegisteredUser soulmate;
 
 	@Column(name = "match_date", nullable = false)
-	private Date matchDate;
-
+	private LocalDate matchDate;
+	
+	@Column(name = "soulmate_rating", nullable = true)
+	private int rating;
+	
 	public Match() {
-		super();
+		this.rating = 0;
 	}
-
-	public Match(Long id, RegisteredUser initiator, RegisteredUser soulmate, Date matchDate) {
+	
+	public Match(Long id, RegisteredUser initiator, RegisteredUser soulmate, LocalDate matchDate, int rating) {
 		this.id = id;
 		this.initiator = initiator;
 		this.soulmate = soulmate;
 		this.matchDate = matchDate;
+		this.rating = rating;
 	}
 
 	public Long getId() {
@@ -67,12 +69,18 @@ public class Match {
 	public void setSoulmate(RegisteredUser soulmate) {
 		this.soulmate = soulmate;
 	}
-
-	public Date getMatchDate() {
+	public LocalDate getMatchDate() {
 		return matchDate;
 	}
-
-	public void setMatchDate(Date matchDate) {
+	public void setMatchDate(LocalDate matchDate) {
 		this.matchDate = matchDate;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }

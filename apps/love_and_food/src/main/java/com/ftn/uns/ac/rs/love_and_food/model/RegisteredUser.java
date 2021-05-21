@@ -7,21 +7,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.kie.api.definition.type.PropertyReactive;
+
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
 @Entity
 @Table(name = "registered_user")
+@PropertyReactive
 public class RegisteredUser extends User {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "name", nullable = false)
@@ -33,9 +35,6 @@ public class RegisteredUser extends User {
 	@Column(name = "date_of_birth", nullable = false)
 	private Date dateOfBirth;
 
-	@Column(name = "income", nullable = false)
-	private double income;
-
 	@Column(name = "gender", nullable = false)
 	private Gender gender;
 
@@ -44,6 +43,9 @@ public class RegisteredUser extends User {
 
 	@Column(name = "education", nullable = false)
 	private Education education;
+	
+	@Column(name = "income", nullable = false)
+	private Income income;
 
 	@Column(name = "religion", nullable = false)
 	private Religion religion;
@@ -66,14 +68,17 @@ public class RegisteredUser extends User {
 	@Column(name = "personality", nullable = false)
 	private String personalityTraits;
 	
+	private Age ageGroup;
+	
 	public RegisteredUser() {
 		super();
 	}
 
-	public RegisteredUser(String name, String surname, Date dateOfBirth, double income, Gender gender,
-			SexualOrientation sexualOrientation, Education education, Religion religion, Children children,
-			DesiredRelationship desiredRelationship, Location location, boolean alchocol, boolean smoking) {
-		super();
+	public RegisteredUser(String email, String password, String name, String surname, Date dateOfBirth, Income income,
+			Gender gender, SexualOrientation sexualOrientation, Education education, Religion religion,
+			Children children, DesiredRelationship desiredRelationship, Location location, boolean alchocol,
+			boolean smoking) {
+		super(email, password);
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
@@ -215,8 +220,20 @@ public class RegisteredUser extends User {
 		this.smoking = smoking;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public SexualOrientation getSexualOrientation() {
+		return sexualOrientation;
+	}
+
+	public void setSexualOrientation(SexualOrientation sexualOrientation) {
+		this.sexualOrientation = sexualOrientation;
+	}
+
+	public Income getIncome() {
+		return income;
+	}
+
+	public void setIncome(Income income) {
+		this.income = income;
 	}
 	
 	public String getPersonalityTraits() {
@@ -225,6 +242,14 @@ public class RegisteredUser extends User {
 
 	public void setPersonalityTraits(String personalityTraits) {
 		this.personalityTraits = personalityTraits;
+	}
+	
+	public Age getAgeGroup() {
+		return ageGroup;
+	}
+
+	public void setAgeGroup(Age ageGroup) {
+		this.ageGroup = ageGroup;
 	}
 
 	@Override

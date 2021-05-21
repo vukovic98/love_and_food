@@ -28,8 +28,10 @@ public class KieStatefulSessionService {
     }
     
     public void releaseRulesSession(){
-        this.rulesSession.dispose();
-        this.rulesSession = null;
+    	if (this.rulesSession != null) {
+            this.rulesSession.dispose();
+            this.rulesSession = null;
+    	}
     }
 
 }

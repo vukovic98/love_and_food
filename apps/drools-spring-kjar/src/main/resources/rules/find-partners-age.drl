@@ -1,0 +1,70 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+
+import com.ftn.uns.ac.rs.love_and_food.util.DateUtil;
+
+//Age
+rule "Parnter Age_18_20"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(18 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20) @Watch(!ageGroup)
+	then
+		System.out.println("Age_18_20");
+		modify($ru){setAgeGroup(Age.AGE_18_20);};
+end;
+
+rule "Parnter Age_20_25"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(20 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 25) @Watch(!ageGroup)
+	then
+		System.out.println("Age_20_25");
+		modify($ru){setAgeGroup(Age.AGE_20_25);};
+end;
+
+rule "Parnter Age_25_30"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(25 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 30) @Watch(!ageGroup)
+	then
+		System.out.println("AGE_25_30");
+		modify($ru){setAgeGroup(Age.AGE_25_30);};
+end;
+
+rule "Parnter Age_30_40"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(30 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 40) @Watch(!ageGroup)
+	then
+		System.out.println("Age_30_40");
+		modify($ru){setAgeGroup(Age.AGE_30_40);};
+end;
+
+rule "Parnter Age_40_50"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(40 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 50) @Watch(!ageGroup)
+	then
+		System.out.println("AGE_40_50");
+		modify($ru){setAgeGroup(Age.AGE_40_50);};
+end;
+	
+rule "Parnter Age_50_65"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(50 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth) <= 65) @Watch(!ageGroup)
+	then
+		System.out.println("Age_50_65");
+		modify($ru){setAgeGroup(Age.AGE_50_65);};
+end;
+
+rule "Parnter Age_65+"
+	agenda-group "partner-age"
+	when
+		$ru: RegisteredUser(65 < DateUtil.getDiffYears(dateOfBirth)) @Watch(!ageGroup)
+	then
+		System.out.println("Age_65+");
+		modify($ru){setAgeGroup(Age.AGE_65_PLUS);};
+end;
