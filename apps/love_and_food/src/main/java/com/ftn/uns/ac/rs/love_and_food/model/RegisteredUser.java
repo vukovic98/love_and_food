@@ -5,14 +5,13 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Children;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Religion;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.SexualOrientation;
 
@@ -55,8 +54,7 @@ public class RegisteredUser extends User {
 	@Column(name = "desired_relationship", nullable = false)
 	private DesiredRelationship desiredRelationship;
 
-	@ManyToOne
-	@JoinColumn(name = "location_id", nullable = false)
+	@Column(name = "location", nullable = false)
 	private Location location;
 
 	@Column(name = "alchocol", nullable = false)
@@ -89,6 +87,27 @@ public class RegisteredUser extends User {
 		this.location = location;
 		this.alchocol = alchocol;
 		this.smoking = smoking;
+		this.personalityTraits = "";
+	}
+
+	public RegisteredUser(String email, String password, String name2, String surname2, Date dateOfBirth2,
+			double income2, Gender gender2, SexualOrientation sexualOrientation2, Education education2,
+			Religion religion2, Children children2, DesiredRelationship desiredRelationship2, Location location2,
+			boolean alchocol2, boolean smoking2) {
+		super(email, password);
+		this.name = name2;
+		this.surname = surname2;
+		this.dateOfBirth = dateOfBirth2;
+		this.income = income2;
+		this.gender = gender2;
+		this.sexualOrientation = sexualOrientation2;
+		this.education = education2;
+		this.religion = religion2;
+		this.children = children2;
+		this.desiredRelationship = desiredRelationship2;
+		this.location = location2;
+		this.alchocol = alchocol2;
+		this.smoking = smoking2;
 		this.personalityTraits = "";
 	}
 

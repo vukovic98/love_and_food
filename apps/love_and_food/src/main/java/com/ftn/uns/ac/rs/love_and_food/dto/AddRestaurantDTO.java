@@ -1,92 +1,49 @@
-package com.ftn.uns.ac.rs.love_and_food.model;
+package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Music;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 
-@Entity
-@Table(name = "restaurant")
-public class Restaurant {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "restaurant_id")
+public class AddRestaurantDTO {
+
 	private Long restaurant_id;
-
-	@Column(name = "name", nullable = false)
 	private String name;
-
-	@Column(name = "location", nullable = false)
 	private Location location;
-
-	@Column(name = "starting_hours", nullable = false)
 	private LocalTime startingHours;
-
-	@Column(name = "ending_hours", nullable = false)
 	private LocalTime endingHours;
-
-	@ElementCollection
-	@CollectionTable(name = "restaurant_grade", joinColumns = @JoinColumn(name = "restaurant_id"))
 	private List<Grade> grades;
-
-	@Enumerated(value = EnumType.STRING)
 	private Ambient ambient;
-
-	@Enumerated(value = EnumType.STRING)
 	private Music music;
-
-	@Enumerated(value = EnumType.STRING)
 	private Cuisine cuisine;
-
-	@Enumerated(value = EnumType.STRING)
 	private PriceRange priceRange;
-
-	@Column(name = "garden", nullable = false)
 	private boolean garden;
-
-	@Column(name = "wifi", nullable = false)
 	private boolean wifi;
-
-	@Column(name = "tv", nullable = false)
 	private boolean tv;
-
-	@Column(name = "live_music", nullable = false)
 	private boolean liveMusic;
-
-	@Column(name = "alcohol", nullable = false)
 	private boolean alcohol;
-
-	@Column(name = "parking", nullable = false)
 	private boolean parking;
-
-	@Column(name = "smoking_area", nullable = false)
 	private boolean smokingArea;
 
-	public Restaurant() {
+	public AddRestaurantDTO() {
 		super();
 	}
 
-	public Restaurant(Long restaurant_id, String name, Location location, LocalTime startingHours,
-			LocalTime endingHours, ArrayList<Grade> grades, Ambient ambient, Music music, Cuisine cuisine,
+	public AddRestaurantDTO(Long restaurant_id, String name, Location location, LocalTime startingHours,
+			LocalTime endingHours, List<Grade> grades, Ambient ambient, Music music, Cuisine cuisine,
 			PriceRange priceRange, boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol,
 			boolean parking, boolean smokingArea) {
 		super();
@@ -153,7 +110,7 @@ public class Restaurant {
 		return grades;
 	}
 
-	public void setGrades(ArrayList<Grade> grades) {
+	public void setGrades(List<Grade> grades) {
 		this.grades = grades;
 	}
 

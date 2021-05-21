@@ -1,0 +1,106 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
+import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
+package com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
+
+
+rule "Desired relationship status - ROMANTIC"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$match: Match(initiator.desiredRelationship == DesiredRelationship.LONG_TERM || initiator.desiredRelationship == DesiredRelationship.MARRIAGE
+		 || soulmate.desiredRelationship == DesiredRelationship.LONG_TERM || soulmate.desiredRelationship == DesiredRelationship.MARRIAGE
+		 || soulmate.desiredRelationship == DesiredRelationship.SHORT_TERM || initiator.desiredRelationship == DesiredRelationship.SHORT_TERM)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added ambient - ROMANTIC");
+		modify($req){setAmbient(Ambient.ROMANTIC);};
+end;
+
+rule "Desired relationship status - CASUAL"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$match: Match(initiator.desiredRelationship == DesiredRelationship.FRIENDSHIP && initiator.desiredRelationship == DesiredRelationship.FRIENDSHIP)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added ambient - CASUAL");
+		modify($req){setAmbient(Ambient.CASUAL);};
+end;
+
+rule "CASUAL ambient features"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$req: RestaurantRequirements(ambient == Ambient.CASUAL)
+	then
+		System.out.println("CASUAL - tv and wifi added");
+		modify($req){setWifi(true);};
+		modify($req){setTv(true);};
+end;
+
+rule "ROMANTIC ambient features"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$req: RestaurantRequirements(ambient == Ambient.ROMANTIC)
+	then
+		System.out.println("ROMANTIC - tv and wifi excluded");
+		modify($req){setWifi(false);};
+		modify($req){setTv(false);};
+end;
+
+
+rule "Alcohol consumation"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$match: Match()
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added alcohol consumation - " + ($match.getInitiator().isAlchocol() || $match.getSoulmate().isAlchocol()));
+		modify($req){setAlcohol($match.getInitiator().isAlchocol() || $match.getSoulmate().isAlchocol());};
+end;
+
+rule "Cigarette consumation"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$match: Match()
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added cigarette consumation - " + ($match.getInitiator().isSmoking() || $match.getSoulmate().isSmoking()));
+		modify($req){setSmokingArea($match.getInitiator().isSmoking() || $match.getSoulmate().isSmoking());};
+end;
+
+rule "Filling user preferences"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$entry: RestaurantEntryDTO($m: music, $c: cuisine, $foot: onFoot, $garden: hasGarden, $time: dateTime)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added user preferences");
+		modify($req){setMusic($m)};
+		modify($req){setCuisine($c)};
+		modify($req){setOnFoot($foot)};
+		modify($req){setGarden($garden)};
+		modify($req){setDateTime($time)};
+end;
+
+rule "Parking space"
+	agenda-group "restaurant-requirements"
+	lock-on-active true
+	when
+		$entry: RestaurantEntryDTO($foot: onFoot)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added parking space preference");
+		modify($req){setParking(!$foot)};
+end;
+

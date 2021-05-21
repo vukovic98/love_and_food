@@ -1,28 +1,38 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
+import java.time.LocalTime;
+
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Music;
-import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 
 public class RestaurantEntryDTO {
 
 	private Music music;
 	private Cuisine cuisine;
-	private PriceRange priceRange;
 	private boolean onFoot;
 	private boolean hasGarden;
+	private LocalTime dateTime;
 
 	public RestaurantEntryDTO() {
 		super();
 	}
 
-	public RestaurantEntryDTO(Music music, Cuisine cuisine, PriceRange priceRange, boolean onFoot, boolean hasGarden) {
+	public RestaurantEntryDTO(Music music, Cuisine cuisine, boolean onFoot, boolean hasGarden,
+			LocalTime dt) {
 		super();
 		this.music = music;
 		this.cuisine = cuisine;
-		this.priceRange = priceRange;
 		this.onFoot = onFoot;
 		this.hasGarden = hasGarden;
+		this.dateTime = dt;
+	}
+
+	public LocalTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public Music getMusic() {
@@ -39,14 +49,6 @@ public class RestaurantEntryDTO {
 
 	public void setCuisine(Cuisine cuisine) {
 		this.cuisine = cuisine;
-	}
-
-	public PriceRange getPriceRange() {
-		return priceRange;
-	}
-
-	public void setPriceRange(PriceRange priceRange) {
-		this.priceRange = priceRange;
 	}
 
 	public boolean isOnFoot() {

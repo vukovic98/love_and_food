@@ -73,6 +73,17 @@ public class AuthController {
 
 	}
 	
-//	
+	@PostMapping( value = "/register")
+	public ResponseEntity<RegisteredUser> register(@RequestBody UserDTO userDTO) {
+
+		RegisteredUser user = new RegisteredUser(userDTO.getEmail(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(),
+				userDTO.getDateOfBirth(), userDTO.getIncome(), userDTO.getGender(), userDTO.getSexualOrientation(),
+				userDTO.getEducation(), userDTO.getReligion(), userDTO.getChildren(), userDTO.getDesiredRelationship(),
+				userDTO.getLocation(), userDTO.isAlchocol(), userDTO.isSmoking());
+		
+		RegisteredUser createdUser = this.authService.register(user, userDTO.getTestAnswers());
+		
+		return new ResponseEntity<>(createdUser, HttpStatus.OK);
+	}
 
 }

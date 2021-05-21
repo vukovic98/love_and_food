@@ -40,10 +40,11 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	private List<Authority> authorities;
-		public User() {
+
+	public User() {
 
 	}
-	
+
 	public User(String email, String password) {
 		super();
 		this.email = email;
@@ -57,7 +58,6 @@ public class User implements UserDetails {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getEmail() {
 		return email;
@@ -81,8 +81,7 @@ public class User implements UserDetails {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email
-				+ ", password=" + password + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + "]";
 	}
 
 	@Override
@@ -120,6 +119,4 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return this.authorities;
 	}
-public void setAuthorities(List<Authority> authorities) {
-		this.authorities = authorities;
-	}}
+}

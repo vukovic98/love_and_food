@@ -16,31 +16,38 @@ import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
 @Service
 public class AuthService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RegisteredUserRepository registeredUserRepository;
-	
+
 	@Autowired
-	private AuthorityService authorityService;	
-	
+	private AuthorityService authorityService;
+
 	@Autowired
 	private KieStatefulSessionService sessionService;
-	
+
 	public RegisteredUser register(RegisteredUser user, List<PersonalityAnswer> testAnswers) {
 		User existingUser = (User) userRepository.findByEmail(user.getEmail());
-		if(existingUser == null) {
-			//ovde treba da se hashira lozinka i da se dodaju authorities i onda da se sacuva u bazu
-			//enkripcija lozinke
+		if (existingUser == null) {
+			// ovde treba da se hashira lozinka i da se dodaju authorities i onda da se
+			// sacuva u bazu
+			// enkripcija lozinke
+			System.out.println(user.getEmail());
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getPassword()));
-			//postavljanje authorities
+			// postavljanje authorities
+			System.out.println(user.getEmail());
+
 			user.setAuthorities(new ArrayList<>(authorityService.findByName("ROLE_USER")));
-			
+			System.out.println(user.getEmail());
+
+
 			// ubacivanje u sesiju i odredjivanje licnosti korisnika
-			// kreiramo sesiju za svaku registraciju jer nam nije neophodno da cuvamo sve odgovore za svakog korisnika
+			// kreiramo sesiju za svaku registraciju jer nam nije neophodno da cuvamo sve
+			// odgovore za svakog korisnika
 			KieSession session = sessionService.getRulesSession();
 			session.insert(user);
 			for (PersonalityAnswer personalityAnswer : testAnswers) {
@@ -49,10 +56,10 @@ public class AuthService {
 			session.getAgenda().getAgendaGroup("personality-test").setFocus();
 			session.fireAllRules();
 			sessionService.releaseRulesSession();
-			
+
 			return registeredUserRepository.save(user);
 		}
-		
+
 		return user;
 	}
 

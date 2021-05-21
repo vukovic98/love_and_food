@@ -19,28 +19,28 @@ public class LoveService {
 	@Autowired
 	private RegisteredUserRepository registeredUserRepository;
 	
-	public PartnerRequirements findMatch(String email) {
-		// dobavljanje ulogovanog korisnika
-		RegisteredUser user = registeredUserRepository.findByEmail(email);
-		// kreiranje zahteva vezanog za tog korisnika
-		PartnerRequirements partnerReq = new PartnerRequirements(user.getId());
-		
-		KieSession session = kieService.getRulesSession();
-		
-		session.insert(user);
-		session.insert(partnerReq);
-		
-		session.getAgenda().getAgendaGroup("partner-requirements").setFocus();
-		session.fireAllRules();
-		
-		List<RegisteredUser> allUsersExceptLoggedIn = registeredUserRepository.findAllByIdNot(user.getId());
-		for (RegisteredUser registeredUser : allUsersExceptLoggedIn) {
-			session.insert(registeredUser);
-		}
-		session.setGlobal("loggedInUserId", user.getId());
-		session.getAgenda().getAgendaGroup("soulmate").setFocus();
-		session.fireAllRules();
-		return partnerReq;
-	}
+//	public PartnerRequirements findMatch(String email) {
+//		// dobavljanje ulogovanog korisnika
+//		RegisteredUser user = registeredUserRepository.findByEmail(email);
+//		// kreiranje zahteva vezanog za tog korisnika
+//		PartnerRequirements partnerReq = new PartnerRequirements(user.getId());
+//		
+//		KieSession session = kieService.getRulesSession();
+//		
+//		session.insert(user);
+//		session.insert(partnerReq);
+//		
+//		session.getAgenda().getAgendaGroup("partner-requirements").setFocus();
+//		session.fireAllRules();
+//		
+//		List<RegisteredUser> allUsersExceptLoggedIn = registeredUserRepository.findAllByIdNot(user.getId());
+//		for (RegisteredUser registeredUser : allUsersExceptLoggedIn) {
+//			session.insert(registeredUser);
+//		}
+//		session.setGlobal("loggedInUserId", user.getId());
+////		session.getAgenda().getAgendaGroup("soulmate").setFocus();
+////		session.fireAllRules();
+//		return partnerReq;
+//	}
 	
 }

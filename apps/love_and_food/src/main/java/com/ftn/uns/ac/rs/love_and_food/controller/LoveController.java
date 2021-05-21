@@ -19,14 +19,14 @@ public class LoveController {
 	@Autowired
 	private LoveService loveService;
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@GetMapping( value = "/find-match")
-	public ResponseEntity<PartnerRequirements> findMatch() {
-		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
-		
-		PartnerRequirements partnerReq = loveService.findMatch(email);
-		
-		return new ResponseEntity<PartnerRequirements>(partnerReq, HttpStatus.OK);
-
-	}
+//	@PreAuthorize("hasRole('ROLE_USER')")
+//	@GetMapping( value = "/find-match")
+//	public ResponseEntity<PartnerRequirements> findMatch() {
+//		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
+//		
+//		PartnerRequirements partnerReq = loveService.findMatch(email);
+//		
+//		return new ResponseEntity<PartnerRequirements>(partnerReq, HttpStatus.OK);
+//
+//	}
 }
