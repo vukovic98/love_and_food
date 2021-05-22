@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
@@ -48,10 +48,9 @@ public class RestaurantController {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
 
-		RegisteredUser user = this.registeredUserService.findByEmail(username);
+		User user = this.registeredUserService.findByEmail(username);
 
 		if (user != null) {
-
 			Match match = this.matchService.findByInitiator(user.getId());
 
 			if (match != null) {

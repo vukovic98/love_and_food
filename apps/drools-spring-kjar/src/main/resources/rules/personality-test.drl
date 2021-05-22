@@ -1,14 +1,14 @@
 package rules;
 
 import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.QuestionGroup;
 
 rule "Personality more 0"
 	agenda-group "personality-test"
 	lock-on-active true
 	when
-		$u: RegisteredUser()
+		$u: User()
 		$qg: QuestionGroup() from QuestionGroup.values()
 		Number($value: intValue >= 3) from accumulate(
         	PersonalityAnswer($t:this, group == $qg, answer == 0),
@@ -23,7 +23,7 @@ rule "Personality more 1"
 	agenda-group "personality-test"
 	lock-on-active true
 	when
-		$u: RegisteredUser()
+		$u: User()
 		$qg: QuestionGroup() from QuestionGroup.values()
 		Number($value: intValue >= 3) from accumulate(
         	PersonalityAnswer($t:this, group == $qg, answer == 1),

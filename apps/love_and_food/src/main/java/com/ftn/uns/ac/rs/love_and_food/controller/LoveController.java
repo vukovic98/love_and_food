@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.uns.ac.rs.love_and_food.model.Match;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
+import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.LoveService;
 
 @RestController
@@ -22,24 +23,26 @@ public class LoveController {
 	@Autowired
 	private LoveService loveService;
 	
+	private final UserMapper userMapper = new UserMapper();
+	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping( value = "/find-match")
-	public ResponseEntity<RegisteredUser> findMatch() {
+	public ResponseEntity<UserDTO> findMatch() {
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		RegisteredUser soulmate = loveService.findMatch(email);
+		User soulmate = loveService.findMatch(email);
 		
-		return new ResponseEntity<RegisteredUser>(soulmate, HttpStatus.OK);
+		return new ResponseEntity<UserDTO>( userMapper.toDTO(soulmate), HttpStatus.OK);
 
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PutMapping( value = "/rate-date/{matchId}/{rating}")
-	public ResponseEntity<Match> rateDate(@PathVariable("matchId") Long matchId,
+	public ResponseEntity<Void> rateDate(@PathVariable("matchId") Long matchId,
 			@PathVariable("rating") int rating) {
 		try {
-			Match match = loveService.rateDate(matchId, rating);
-			return new ResponseEntity<Match>(match, HttpStatus.OK);
+			loveService.rateDate(matchId, rating);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

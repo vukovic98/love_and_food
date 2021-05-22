@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
 @Service
@@ -30,12 +30,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// ako se ne radi nasledjivanje, paziti gde sve treba da se proveri email
-		User user = userRepository.findByEmail(email);
+		RegisteredUser registeredUser = userRepository.findByEmail(email);
 		
-		if (user == null) {
+		if (registeredUser == null) {
 			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email)); 
 		} else {
-			return user;
+			return registeredUser;
 		}
 	}
 
@@ -44,19 +44,19 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		// Ocitavamo trenutno ulogovanog korisnika
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		String username = ((User) currentUser.getPrincipal()).getEmail();
+		String username = ((RegisteredUser) currentUser.getPrincipal()).getEmail();
 
 		if (authenticationManager != null) {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
 		} else {
 			return;
 		}
-		User user = (User) loadUserByUsername(username);
-        System.out.println(user.getEmail());
+		RegisteredUser registeredUser = (RegisteredUser) loadUserByUsername(username);
+        System.out.println(registeredUser.getEmail());
 		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
 		// ne zelimo da u bazi cuvamo lozinke u plain text formatu
-		user.setPassword(passwordEncoder.encode(newPassword));
-		userRepository.save(user);
+		registeredUser.setPassword(passwordEncoder.encode(newPassword));
+		userRepository.save(registeredUser);
 	}
 
 }

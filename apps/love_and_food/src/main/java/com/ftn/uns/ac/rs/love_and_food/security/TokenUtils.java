@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 import com.google.gson.Gson;
 
@@ -57,7 +57,7 @@ public class TokenUtils {
 	// Funkcija za generisanje JWT token
 
 	public String generateToken(String username) {
-		User u;
+		RegisteredUser u;
 		u = this.userRepository.findByEmail(username);
 
 		return Jwts.builder().setIssuer(APP_NAME).setSubject(username).setAudience(generateAudience())
@@ -107,11 +107,11 @@ public class TokenUtils {
 
 	// Funkcija za validaciju JWT tokena
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		User user = (User) userDetails;
+		RegisteredUser registeredUser = (RegisteredUser) userDetails;
 		final String username = getUsernameFromToken(token);
 		final Date created = getIssuedAtDateFromToken(token);
 
-		return (username != null && username.equals(((User) userDetails).getEmail()));
+		return (username != null && username.equals(((RegisteredUser) userDetails).getEmail()));
 	}
 
 	public String getUsernameFromToken(String token) {

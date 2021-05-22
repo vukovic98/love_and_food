@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 
 @Repository
-public interface RegisteredUserRepository extends JpaRepository<RegisteredUser, Long>{
+public interface RegisteredUserRepository extends JpaRepository<User, Long>{
 	
-	RegisteredUser findByEmail(String email);
+	User findByEmail(String email);
 	
-	List<RegisteredUser> findAllByIdNot(Long id);
+	List<User> findAllByIdNot(Long id);
 }

@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.ac.rs.love_and_food.exceptions.ExistingFieldValueException;
 import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.repository.RegisteredUserRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
@@ -29,22 +30,14 @@ public class AuthService {
 	@Autowired
 	private KieStatefulSessionService sessionService;
 
-	public RegisteredUser register(RegisteredUser user, List<PersonalityAnswer> testAnswers) {
-		User existingUser = (User) userRepository.findByEmail(user.getEmail());
+	public User register(User user, List<PersonalityAnswer> testAnswers) throws Exception {
+		RegisteredUser existingUser = (RegisteredUser) registeredUserRepository.findByEmail(user.getEmail());
 		if (existingUser == null) {
-			// ovde treba da se hashira lozinka i da se dodaju authorities i onda da se
-			// sacuva u bazu
-			// enkripcija lozinke
-			System.out.println(user.getEmail());
+			//enkripcija lozinke
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getPassword()));
 			// postavljanje authorities
-			System.out.println(user.getEmail());
-
 			user.setAuthorities(new ArrayList<>(authorityService.findByName("ROLE_USER")));
-			System.out.println(user.getEmail());
-
-
 			// ubacivanje u sesiju i odredjivanje licnosti korisnika
 			// kreiramo sesiju za svaku registraciju jer nam nije neophodno da cuvamo sve
 			// odgovore za svakog korisnika
@@ -57,10 +50,10 @@ public class AuthService {
 			session.fireAllRules();
 			sessionService.releaseRulesSession();
 
-			return registeredUserRepository.save(user);
+			return userRepository.save(user);
 		}
 
-		return user;
+		throw new ExistingFieldValueException("User", "email");
 	}
 
 }

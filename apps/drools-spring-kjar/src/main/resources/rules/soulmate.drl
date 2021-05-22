@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
-import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Education;
 
 global Long loggedInUserId;
-global RegisteredUser soulmate;
+global User soulmate;
 
 declare PartnerCompatibility
 	@PropertyReactive
@@ -31,24 +31,23 @@ rule "Soulmate"
 	agenda-group "soulmate"
 	salience ($smoking + $alchocol + $education + $income + $religion + $trait)
 	when
-		$u: RegisteredUser( id == loggedInUserId )
+		$u: User( id == loggedInUserId )
 		$mate: PartnerCompatibility( $mateId : mateId, 
 			$smoking : smokingScore, $alchocol : alchocolScore, 
 			$education: educationScore, $trait: traitsScore,
 			$income: incomeScore, $religion: religionScore,
 			$rating: ratingScore)
-		$soulmate: RegisteredUser( id == $mateId )
+		$soulmate: User( id == $mateId )
 		not FoundSoulmate( )
 	then
-		System.out.println("Izvrseno soulmate pravilo " + $u.getId());
-		System.out.println("nadjen " + $mateId);
-		System.out.println("smoking " + $smoking);
-		System.out.println("alchocol " + $alchocol);
-		System.out.println("education " + $education);
-		System.out.println("income " + $income);
-		System.out.println("religion " + $religion);
-		System.out.println("traits " + $trait);
-		System.out.println("ratings " + $rating);
+		System.out.println("Found soulmate for " + $u.getId() + " is " + $mateId);
+		System.out.println("Smoking score " + $smoking);
+		System.out.println("Alchocol score " + $alchocol);
+		System.out.println("Education score " + $education);
+		System.out.println("Income score " + $income);
+		System.out.println("Religion score " + $religion);
+		System.out.println("Traits score " + $trait);
+		System.out.println("Rating score " + $rating);
 		drools.getKnowledgeRuntime().setGlobal("soulmate", $soulmate);
 		insert(new FoundSoulmate());
 end;
@@ -57,9 +56,9 @@ rule "Compatibility - filters"
 	agenda-group "prepare-soulmate"
 	salience 2
 	when
-		$u: RegisteredUser( id == loggedInUserId )
+		$u: User( id == loggedInUserId )
 		$ur: PartnerRequirements( userId == loggedInUserId )
-		$mate: RegisteredUser( id != loggedInUserId, 
+		$mate: User( id != loggedInUserId, 
 			gender == $ur.prefferedGender,
 			$ur.suitableAge contains $mate.ageGroup,
 			desiredRelationship == $ur.desiredRelationship,
@@ -73,8 +72,8 @@ rule "Compatibility - traits"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $userTraits: personalityTraits )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
+		$u: User( id == loggedInUserId, $userTraits: personalityTraits )
+		$userMate: User( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!traitsScore)
 		Number($count: intValue > 0) from accumulate(
 			String($userTrait: this) from $userTraits.split("") and
@@ -90,8 +89,8 @@ rule "Compatibility - very bad rating"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $userTraits: personalityTraits )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
+		$u: User( id == loggedInUserId, $userTraits: personalityTraits )
+		$userMate: User( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!ratingScore)
 		$matchRatings: List(size > 0) from collect(
 			Match(soulmate.id == $mateId,
@@ -111,8 +110,8 @@ rule "Compatibility - bad rating"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $userTraits: personalityTraits )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
+		$u: User( id == loggedInUserId, $userTraits: personalityTraits )
+		$userMate: User( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits)
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!ratingScore)
 		$matchRatings: List(size > 0) from collect(
 			Match(soulmate.id == $mateId,
@@ -132,8 +131,8 @@ rule "Compatibility - same education"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $education: education )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education == $education )
+		$u: User( id == loggedInUserId, $education: education )
+		$userMate: User( id != loggedInUserId, $mateId : id, education == $education )
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
 	then
 		System.out.println("Added score for same education compatibility for mate: " + $mateId);
@@ -144,8 +143,8 @@ rule "Compatibility - one below education"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $education: education )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() - 1)
+		$u: User( id == loggedInUserId, $education: education )
+		$userMate: User( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() - 1)
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
 	then
 		System.out.println("Added score for same education compatibility for mate: " + $mateId);
@@ -156,11 +155,11 @@ rule "Compatibility - one above education"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $education: education )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() + 1)
+		$u: User( id == loggedInUserId, $education: education )
+		$userMate: User( id != loggedInUserId, $mateId : id, education.getValue() == $education.getValue() + 1)
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!educationScore)
 	then
-		System.out.println("Added score for same education compatibility for mate: " + $mateId);
+		System.out.println("Added score for one above education compatibility for mate: " + $mateId);
 		modify($compatibleMate){setEducationScore(2);};
 end;
 
@@ -168,8 +167,8 @@ rule "Compatibility - smoking"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $smoking: smoking )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, smoking == $smoking )
+		$u: User( id == loggedInUserId, $smoking: smoking )
+		$userMate: User( id != loggedInUserId, $mateId : id, smoking == $smoking )
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!smokingScore)
 	then
 		System.out.println("Added score for smoking compatibility for mate: " + $mateId);
@@ -180,8 +179,8 @@ rule "Compatibility - same income"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $income: income )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, income.getValue() == $income.getValue())
+		$u: User( id == loggedInUserId, $income: income )
+		$userMate: User( id != loggedInUserId, $mateId : id, income.getValue() == $income.getValue())
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!incomeScore)
 	then
 		System.out.println("Added score for same income compatibility for mate: " + $mateId);
@@ -192,11 +191,11 @@ rule "Compatibility - one above income"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $income: income )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, income.getValue() == $income.getValue() + 1)
+		$u: User( id == loggedInUserId, $income: income )
+		$userMate: User( id != loggedInUserId, $mateId : id, income.getValue() == $income.getValue() + 1)
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!incomeScore)
 	then
-		System.out.println("Added score for same income compatibility for mate: " + $mateId);
+		System.out.println("Added score for one above income compatibility for mate: " + $mateId);
 		modify($compatibleMate){setIncomeScore(1);};
 end;
 
@@ -205,8 +204,8 @@ rule "Compatibility - same religion opinions"
 	agenda-group "prepare-soulmate"
 	salience 1
 	when
-		$u: RegisteredUser( id == loggedInUserId, $religion: religion )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, religion == $religion )
+		$u: User( id == loggedInUserId, $religion: religion )
+		$userMate: User( id != loggedInUserId, $mateId : id, religion == $religion )
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!religionScore)
 	then
 		System.out.println("Added score for same religion compatibility for mate: " + $mateId);
@@ -217,8 +216,8 @@ rule "Compatibility - alchocol"
 	agenda-group "prepare-soulmate"
 	salience 0
 	when
-		$u: RegisteredUser( id == loggedInUserId, $alchocol: alchocol )
-		$userMate: RegisteredUser( id != loggedInUserId, $mateId : id, alchocol == $alchocol )
+		$u: User( id == loggedInUserId, $alchocol: alchocol )
+		$userMate: User( id != loggedInUserId, $mateId : id, alchocol == $alchocol )
 		$compatibleMate: PartnerCompatibility( mateId == $mateId ) @Watch(!alchocolScore)
 	then
 		System.out.println("Added score for alchocol compatibility for mate: " + $mateId);

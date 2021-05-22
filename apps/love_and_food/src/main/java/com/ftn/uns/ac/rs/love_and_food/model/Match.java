@@ -22,11 +22,11 @@ public class Match {
 
 	@ManyToOne
 	@JoinColumn(name = "initiator_id", referencedColumnName = "user_id", nullable = false)
-	private RegisteredUser initiator;
+	private User initiator;
 
 	@ManyToOne
 	@JoinColumn(name = "soulmate_id", referencedColumnName = "user_id", nullable = false)
-	private RegisteredUser soulmate;
+	private User soulmate;
 
 	@Column(name = "match_date", nullable = false)
 	private LocalDate matchDate;
@@ -38,7 +38,7 @@ public class Match {
 		this.rating = 0;
 	}
 	
-	public Match(Long id, RegisteredUser initiator, RegisteredUser soulmate, LocalDate matchDate, int rating) {
+	public Match(Long id, User initiator, User soulmate, LocalDate matchDate, int rating) {
 		this.id = id;
 		this.initiator = initiator;
 		this.soulmate = soulmate;
@@ -54,19 +54,19 @@ public class Match {
 		this.id = id;
 	}
 
-	public RegisteredUser getInitiator() {
+	public User getInitiator() {
 		return initiator;
 	}
 
-	public void setInitiator(RegisteredUser initiator) {
+	public void setInitiator(User initiator) {
 		this.initiator = initiator;
 	}
 
-	public RegisteredUser getSoulmate() {
+	public User getSoulmate() {
 		return soulmate;
 	}
 
-	public void setSoulmate(RegisteredUser soulmate) {
+	public void setSoulmate(User soulmate) {
 		this.soulmate = soulmate;
 	}
 	public LocalDate getMatchDate() {

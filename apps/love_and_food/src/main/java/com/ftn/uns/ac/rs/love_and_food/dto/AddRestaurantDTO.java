@@ -1,14 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
 
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;

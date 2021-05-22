@@ -6,7 +6,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.DesiredRelationship;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
-package com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
 
 
 rule "Desired relationship status - ROMANTIC"
@@ -103,4 +103,3 @@ rule "Parking space"
 		System.out.println("Added parking space preference");
 		modify($req){setParking(!$foot)};
 end;
-

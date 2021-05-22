@@ -1,6 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.controller;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,21 +10,22 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserLoginDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserTokenStateDTO;
+import com.ftn.uns.ac.rs.love_and_food.exceptions.ExistingFieldValueException;
+import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.security.TokenUtils;
 import com.ftn.uns.ac.rs.love_and_food.service.AuthService;
 import com.ftn.uns.ac.rs.love_and_food.service.CustomUserDetailsService;
-import com.ftn.uns.ac.rs.love_and_food.service.RegisteredUserService;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -40,10 +42,9 @@ public class AuthController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	private final UserMapper userMapper = new UserMapper();
 
-
-	// Prvi endpoint koji pogadja korisnik kada se loguje.
-	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/log-in")
 	public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody UserLoginDTO authenticationRequest,
 			HttpServletResponse response) {
@@ -58,10 +59,10 @@ public class AuthController {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 
 			// Kreiraj token za tog korisnika
-			User user = (User) authentication.getPrincipal();
+			RegisteredUser registeredUser = (RegisteredUser) authentication.getPrincipal();
 
-			String email = user.getEmail();
-			String jwt = tokenUtils.generateToken(user.getEmail()); // prijavljujemo se na sistem sa email adresom
+			String email = registeredUser.getEmail();
+			String jwt = tokenUtils.generateToken(registeredUser.getEmail());
 			int expiresIn = tokenUtils.getExpiredIn();
 
 			// Vrati token kao odgovor na uspesnu autentifikaciju
@@ -74,16 +75,16 @@ public class AuthController {
 	}
 	
 	@PostMapping( value = "/register")
-	public ResponseEntity<RegisteredUser> register(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<UserDTO> register(@Valid @RequestBody UserDTO userDTO) {
 
-		RegisteredUser user = new RegisteredUser(userDTO.getEmail(), userDTO.getPassword(), userDTO.getName(), userDTO.getSurname(),
-				userDTO.getDateOfBirth(), userDTO.getIncome(), userDTO.getGender(), userDTO.getSexualOrientation(),
-				userDTO.getEducation(), userDTO.getReligion(), userDTO.getChildren(), userDTO.getDesiredRelationship(),
-				userDTO.getLocation(), userDTO.isAlchocol(), userDTO.isSmoking());
+		User user = userMapper.toEntity(userDTO);
 		
-		RegisteredUser createdUser = this.authService.register(user, userDTO.getTestAnswers());
+		try {
+			User createdUser = this.authService.register(user, userDTO.getTestAnswers());
+			return new ResponseEntity<>(userMapper.toDTO(createdUser), HttpStatus.OK);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 		
-		return new ResponseEntity<>(createdUser, HttpStatus.OK);
 	}
-
 }

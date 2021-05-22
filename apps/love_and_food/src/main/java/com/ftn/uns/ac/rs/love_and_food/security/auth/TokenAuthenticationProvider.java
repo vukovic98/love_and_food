@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
 @Component
@@ -29,13 +29,13 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
 	protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException {
 
-		User user = userRepository.findByEmail(username);
+		RegisteredUser registeredUser = userRepository.findByEmail(username);
 
 		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
 		
 
-		if (enc.matches((String)authentication.getCredentials(), user.getPassword()))
-			return user;
+		if (enc.matches((String)authentication.getCredentials(), registeredUser.getPassword()))
+			return registeredUser;
 		else
 			throw new BadCredentialsException("Password incorrect");
 			
