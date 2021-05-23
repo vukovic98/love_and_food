@@ -11,6 +11,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Income;
 
 rule "Desired relationship status - ROMANTIC"
 	agenda-group "restaurant-requirements"
+	salience 10
 	lock-on-active true
 	when
 		$match: Match(initiator.desiredRelationship == DesiredRelationship.LONG_TERM || initiator.desiredRelationship == DesiredRelationship.MARRIAGE
@@ -24,6 +25,7 @@ end;
 
 rule "Desired relationship status - CASUAL"
 	agenda-group "restaurant-requirements"
+	salience 10
 	lock-on-active true
 	when
 		$match: Match(initiator.desiredRelationship == DesiredRelationship.FRIENDSHIP && initiator.desiredRelationship == DesiredRelationship.FRIENDSHIP)
@@ -35,7 +37,7 @@ end;
 
 rule "CASUAL ambient features"
 	agenda-group "restaurant-requirements"
-	lock-on-active true
+	salience 5
 	when
 		$req: RestaurantRequirements(ambient == Ambient.CASUAL)
 	then
@@ -46,7 +48,7 @@ end;
 
 rule "ROMANTIC ambient features"
 	agenda-group "restaurant-requirements"
-	lock-on-active true
+	salience 5
 	when
 		$req: RestaurantRequirements(ambient == Ambient.ROMANTIC)
 	then
@@ -58,6 +60,7 @@ end;
 
 rule "Alcohol consumation"
 	agenda-group "restaurant-requirements"
+	salience 10
 	lock-on-active true
 	when
 		$match: Match()
@@ -67,8 +70,45 @@ rule "Alcohol consumation"
 		modify($req){setAlcohol($match.getInitiator().isAlchocol() || $match.getSoulmate().isAlchocol());};
 end;
 
+rule "Initiators income -  CHEEP price range"
+	agenda-group "restaurant-requirements"
+	salience 10
+	lock-on-active true
+	when
+		$match: Match(initiator.income == Income.INCOME_NONE)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added income - [NONE] - PriceRange.CHEEP");
+		modify($req){setPriceRange(PriceRange.CHEEP);};
+end;
+
+rule "Initiators income -  AFFORDABLE price range"
+	agenda-group "restaurant-requirements"
+	salience 10
+	lock-on-active true
+	when
+		$match: Match(initiator.income == Income.INCOME_0_500 || initiator.income == Income.INCOME_500_1000)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added income - [0 - 1000] - PriceRange.AFFORDABLE");
+		modify($req){setPriceRange(PriceRange.AFFORDABLE);};
+end;
+
+rule "Initiators income -  EXPENSIVE price range"
+	agenda-group "restaurant-requirements"
+	salience 10
+	lock-on-active true
+	when
+		$match: Match(initiator.income == Income.INCOME_2000_PLUS)
+		$req: RestaurantRequirements()
+	then
+		System.out.println("Added income - [2000 +] - PriceRange.EXPENSIVE");
+		modify($req){setPriceRange(PriceRange.EXPENSIVE);};
+end;
+
 rule "Cigarette consumation"
 	agenda-group "restaurant-requirements"
+	salience 10
 	lock-on-active true
 	when
 		$match: Match()
@@ -80,6 +120,7 @@ end;
 
 rule "Filling user preferences"
 	agenda-group "restaurant-requirements"
+	salience 10
 	lock-on-active true
 	when
 		$entry: RestaurantEntryDTO($m: music, $c: cuisine, $foot: onFoot, $garden: hasGarden, $time: dateTime)
@@ -95,6 +136,7 @@ end;
 
 rule "Parking space"
 	agenda-group "restaurant-requirements"
+	salience 10
 	lock-on-active true
 	when
 		$entry: RestaurantEntryDTO($foot: onFoot)

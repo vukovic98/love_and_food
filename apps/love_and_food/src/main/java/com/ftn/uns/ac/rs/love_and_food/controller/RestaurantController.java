@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
@@ -62,6 +63,25 @@ public class RestaurantController {
 				else
 					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			} else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@PostMapping(path = "/grade-restaurant")
+	public ResponseEntity<HttpStatus> gradeRestaurant(@RequestBody GradeDTO dto) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = userDetails.getUsername();
+
+		User user = this.registeredUserService.findByEmail(username);
+
+		if (user != null) {
+			boolean ok = this.restaurantService.gradeRestaurant(dto, user);
+
+			if (ok)
+				return new ResponseEntity<>(HttpStatus.OK);
+			else
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
