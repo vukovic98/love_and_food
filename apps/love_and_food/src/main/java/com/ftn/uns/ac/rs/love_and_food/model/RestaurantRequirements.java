@@ -20,8 +20,8 @@ public class RestaurantRequirements {
 	private Cuisine cuisine;
 
 	private boolean garden;
-	private boolean tv = true;
-	private boolean wifi = true;
+	private boolean tv;
+	private boolean wifi;
 	private boolean parking;
 
 	public RestaurantRequirements() {
