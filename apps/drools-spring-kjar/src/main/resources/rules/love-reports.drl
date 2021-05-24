@@ -1,0 +1,51 @@
+package rules;
+
+import java.util.List;
+import java.util.Set;
+
+import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+
+import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
+
+global List<UserRatingDTO> mvps;
+global List<User> liars;
+
+rule "Liars"
+	agenda-group "liars-report"
+	when
+		$goodMatches: List() from collect(
+			Match(rating > 3)
+		)
+		$badMatches: List() from collect(
+			Match(rating < 3)
+		)
+		accumulate(
+			Match($initiator: initiator) from $goodMatches,
+			$initiators: collectSet($initiator)
+		)
+		accumulate(
+			User($init: this) from $initiators and
+			Match($m: this, soulmate == $init) from $badMatches,
+			$liars: collectList($init)
+		)
+	then
+		liars.addAll($liars);
+		System.out.println("Liars report created.");
+end;
+
+rule "MVPs of the year"
+	agenda-group "MVPs"
+	salience $averageRating
+	when
+		$user: User()
+		$averageRating: Double(doubleValue > 3.0) from accumulate(
+			Match(soulmate == $user,
+			$rating: rating, $matchDate: matchDate,
+			$matchDate.isAfter(LocalDate.now().minusMonths(12))),
+			average($rating)
+		)
+	then
+		mvps.add(new UserRatingDTO($user, $averageRating));
+		System.out.println("Added user to MVPs of the year report.");
+end
