@@ -1,0 +1,37 @@
+import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+
+global Restaurant selectedRestaurant;
+
+
+declare FoundRestaurant
+end
+
+rule "Perfect Restaurant"
+	agenda-group "calculating-score"
+	salience ($ambient + $alcohol + $smoking + $dateTime + $distance + $price + $music + $cuisine + $garden + $parking + $tv + $wifi + $grade)
+	when
+		$u: User( id == loggedInUserId )
+		$rest: RestaurantCompatibility( 
+			$rest_id: restaurantId,
+			$ambient: ambientScore,
+			$smoking: smokingScore,
+			$alcohol: alcoholScore,
+			$dateTime: dateTimeScore,
+			$distance: distanceScore,
+			$price: priceRangeScore,
+			$music: musicScore,
+			$cuisine: cuisineScore,
+			$garden: gardenScore,
+			$parking: parkingScore,
+			$tv: tvScore,
+			$wifi: wifiScore,
+			$grade: gradeScore
+		)
+		$found_restaurant: Restaurant( restaurant_id == $rest_id )
+		not FoundRestaurant( )
+	then
+		System.out.println("Restaurant has been choosen: " + $rest_id);
+		drools.getKnowledgeRuntime().setGlobal("selectedRestaurant", $found_restaurant);
+		insert(new FoundRestaurant());
+end;

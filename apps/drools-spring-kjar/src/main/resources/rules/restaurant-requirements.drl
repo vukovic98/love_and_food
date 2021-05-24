@@ -123,7 +123,7 @@ rule "Filling user preferences"
 	salience 10
 	lock-on-active true
 	when
-		$entry: RestaurantEntryDTO($m: music, $c: cuisine, $foot: onFoot, $garden: hasGarden, $time: dateTime)
+		$entry: RestaurantEntryDTO($m: music, $c: cuisine, $foot: onFoot, $garden: hasGarden, $time: getTimeOfDate())
 		$req: RestaurantRequirements()
 	then
 		System.out.println("Added user preferences");

@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
+import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
-import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
-import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
 import com.ftn.uns.ac.rs.love_and_food.service.RegisteredUserService;
 import com.ftn.uns.ac.rs.love_and_food.service.RestaurantService;
@@ -32,6 +33,9 @@ public class RestaurantController {
 
 	@Autowired
 	private MatchService matchService;
+	
+	@Autowired
+	private RestaurantMapper restaurantMapper;
 
 	@PostMapping()
 	public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant r) {
@@ -44,7 +48,7 @@ public class RestaurantController {
 	}
 
 	@PostMapping(path = "/find-restaurant")
-	public ResponseEntity<RestaurantRequirements> findRestaurant(@RequestBody RestaurantEntryDTO dto) {
+	public ResponseEntity<RestaurantDTO> findRestaurant(@RequestBody RestaurantEntryDTO dto) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
@@ -56,10 +60,10 @@ public class RestaurantController {
 
 			if (match != null) {
 
-				RestaurantRequirements r = this.restaurantService.findRestaurant(dto, match);
+				Restaurant r = this.restaurantService.findRestaurant(dto, match);
 
 				if (r != null)
-					return new ResponseEntity<>(r, HttpStatus.OK);
+					return new ResponseEntity<>(this.restaurantMapper.toDTO(r), HttpStatus.OK);
 				else
 					return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			} else

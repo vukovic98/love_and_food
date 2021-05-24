@@ -21,7 +21,7 @@ public class AddRestaurantDTO {
 	private List<Grade> grades;
 	private Ambient ambient;
 	private Music music;
-	private Cuisine cuisine;
+	private List<Cuisine> cuisine;
 	private PriceRange priceRange;
 	private boolean garden;
 	private boolean wifi;
@@ -36,7 +36,7 @@ public class AddRestaurantDTO {
 	}
 
 	public AddRestaurantDTO(Long restaurant_id, String name, Location location, LocalTime startingHours,
-			LocalTime endingHours, List<Grade> grades, Ambient ambient, Music music, Cuisine cuisine,
+			LocalTime endingHours, List<Grade> grades, Ambient ambient, Music music,List<Cuisine> cuisine,
 			PriceRange priceRange, boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol,
 			boolean parking, boolean smokingArea) {
 		super();
@@ -123,11 +123,11 @@ public class AddRestaurantDTO {
 		this.music = music;
 	}
 
-	public Cuisine getCuisine() {
+	public List<Cuisine> getCuisine() {
 		return cuisine;
 	}
 
-	public void setCuisine(Cuisine cuisine) {
+	public void setCuisine(List<Cuisine> cuisine) {
 		this.cuisine = cuisine;
 	}
 

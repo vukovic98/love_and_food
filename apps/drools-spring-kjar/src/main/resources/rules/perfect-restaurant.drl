@@ -1,0 +1,221 @@
+import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
+import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+global Long loggedInUserId;
+
+declare RestaurantCompatibility
+	@PropertyReactive
+	
+	restaurantId: long
+	ambientScore: double
+	smokingScore: double
+	alcoholScore: double
+	dateTimeScore: double
+	distanceScore: double
+	priceRangeScore: double
+	musicScore: double
+	cuisineScore: double
+	gardenScore: double
+	parkingScore: double
+	tvScore: double
+	wifiScore: double
+	gradeScore: double
+end
+
+
+rule "Compatibility - creating requirement objects"
+	agenda-group "perfect-restaurant"
+	salience 2
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $dateTime: dateTime )
+		$potential: Restaurant()
+		 eval($potential.isOpen($req.getDateTime()) == true )
+	then
+		System.out.println("Compatibile restaurant with id: " + $potential.getRestaurant_id());
+		insert(new RestaurantCompatibility($potential.getRestaurant_id(), -1, -1, -1, 3, -1, -1, -1, -1, -1, 0, 0, 0, 0));
+end;
+
+rule "Compatibility - ambient"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_ambient: ambient )
+		$restaurant: Restaurant( $rest_id: restaurant_id, ambient == $req_ambient )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!ambientScore)
+	then
+		System.out.println("Added score for ambient compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setAmbientScore(3);};
+end;
+
+rule "Compatibility - smoking"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_smoking: smokingArea )
+		$restaurant: Restaurant( $rest_id: restaurant_id, smokingArea == $req_smoking )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!smokingScore)
+	then
+		System.out.println("Added score for smoking area compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setSmokingScore(3);};
+end;
+
+rule "Compatibility - alcohol"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_alcohol: alcohol )
+		$restaurant: Restaurant( $rest_id: restaurant_id, alcohol == $req_alcohol )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!alcoholScore)
+	then
+		System.out.println("Added score for alcohol compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setAlcoholScore(3);};
+end;
+
+rule "Compatibility - price range"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_price: priceRange )
+		$restaurant: Restaurant( $rest_id: restaurant_id, priceRange == $req_price )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
+	then
+		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setPriceRangeScore(3);};
+end;
+
+rule "Compatibility - music"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_music: music )
+		$restaurant: Restaurant( $rest_id: restaurant_id, music == $req_music )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!musicScore)
+	then
+		System.out.println("Added score for music compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setMusicScore(3);};
+end;
+
+rule "Compatibility - cuisine"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_cuisine: cuisine )
+		$restaurant: Restaurant( $rest_id: restaurant_id, $req_cuisine memberOf cuisine )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!cuisineScore)
+	then
+		System.out.println("Added score for cuisine compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setCuisineScore(3);};
+end;
+
+rule "Compatibility - garden"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, $req_garden: garden )
+		$restaurant: Restaurant( $rest_id: restaurant_id, garden == $req_garden )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!gardenScore)
+	then
+		System.out.println("Added score for garden compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setGardenScore(3);};
+end;
+
+rule "Compatibility - parking"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, parking == true )
+		$restaurant: Restaurant( $rest_id: restaurant_id, parking == true )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!parkingScore)
+	then
+		System.out.println("Added score for parking compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setParkingScore(3);};
+end;
+
+rule "Compatibility - tv"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, tv == true )
+		$restaurant: Restaurant( $rest_id: restaurant_id, tv == true )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!tvScore)
+	then
+		System.out.println("Added score for tv compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setTvScore(3);};
+end;
+
+rule "Compatibility - WiFi"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, wifi == true )
+		$restaurant: Restaurant( $rest_id: restaurant_id, wifi == true )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!wifiScore)
+	then
+		System.out.println("Added score for WiFi compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setWifiScore(3);};
+end;
+
+rule "Compatibility - Grade of Restaurant"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$restaurant: Restaurant( $rest_id: restaurant_id, $grades: grades )
+		$total : Double() from accumulate(
+         Grade( $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade, $all: overall_grade ) from  $grades,
+         init( double total = 0; ),
+         action( total = total + $loc + $amb + $hos + $ser + $all + $all; ),
+         reverse( total = total - ( $loc + $amb + $hos + $ser + $all + $all ); ),
+         result( new Double( total / 10 ) ) )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!gradeScore)
+	then
+		System.out.println("Added score for grade compatibility for restaurant: " + $rest_id + ", [ " + new Double($total/2) + " ]");
+		modify($compatibleRest){setGradeScore( new Double($total/2));};
+end;
+
+rule "Compatibility - Extra 3 working hours"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId )
+		$restaurant: Restaurant( $rest_id: restaurant_id )
+			eval($restaurant.isOpenForNext3Hours($req.getDateTime()) == true )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!dateTimeScore)
+	then
+		System.out.println("Added score for extra 3 working hours compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setDateTimeScore($compatibleRest.getDateTimeScore() + 3);};
+end;
+
+rule "Compatibility - Distance score"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId, $loc: location )
+		$req: RestaurantRequirements( userId == loggedInUserId, onFoot == true)
+		$places: Map()
+		$restaurant: Restaurant( $rest_id: restaurant_id, location memberOf $places.get($loc) )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!distanceScore)
+	then
+		System.out.println("Added score for distance compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setDistanceScore(3);};
+end;

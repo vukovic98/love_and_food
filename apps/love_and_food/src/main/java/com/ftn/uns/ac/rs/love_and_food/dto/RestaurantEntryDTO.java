@@ -1,6 +1,8 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Music;
@@ -11,14 +13,13 @@ public class RestaurantEntryDTO {
 	private Cuisine cuisine;
 	private boolean onFoot;
 	private boolean hasGarden;
-	private LocalTime dateTime;
+	private Date dateTime;
 
 	public RestaurantEntryDTO() {
 		super();
 	}
 
-	public RestaurantEntryDTO(Music music, Cuisine cuisine, boolean onFoot, boolean hasGarden,
-			LocalTime dt) {
+	public RestaurantEntryDTO(Music music, Cuisine cuisine, boolean onFoot, boolean hasGarden, Date dt) {
 		super();
 		this.music = music;
 		this.cuisine = cuisine;
@@ -27,12 +28,18 @@ public class RestaurantEntryDTO {
 		this.dateTime = dt;
 	}
 
-	public LocalTime getDateTime() {
+	public Date getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(LocalTime dateTime) {
+	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public LocalTime getTimeOfDate() {
+		return this.dateTime.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDateTime().toLocalTime();
 	}
 
 	public Music getMusic() {

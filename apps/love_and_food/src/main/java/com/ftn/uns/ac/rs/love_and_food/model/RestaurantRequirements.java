@@ -9,6 +9,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 
 public class RestaurantRequirements {
 
+	private long userId;
 	private Ambient ambient;
 	private boolean alcohol;
 	private boolean smokingArea;
@@ -28,10 +29,11 @@ public class RestaurantRequirements {
 		super();
 	}
 
-	public RestaurantRequirements(Ambient ambient, boolean alcohol, boolean smokingArea, LocalTime dateTime,
+	public RestaurantRequirements(long id, Ambient ambient, boolean alcohol, boolean smokingArea, LocalTime dateTime,
 			boolean onFoot, PriceRange priceRange, Music music, Cuisine cuisine, boolean tv, boolean wifi, boolean g,
 			boolean p) {
 		super();
+		this.userId = id;
 		this.parking = p;
 		this.garden = g;
 		this.ambient = ambient;
@@ -52,6 +54,14 @@ public class RestaurantRequirements {
 
 	public void setParking(boolean parking) {
 		this.parking = parking;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public boolean isGarden() {

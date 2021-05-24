@@ -1,20 +1,7 @@
-package com.ftn.uns.ac.rs.love_and_food.model;
+package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
@@ -22,80 +9,39 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Music;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 
-@Entity
-@Table(name = "restaurant")
-public class Restaurant {
+public class RestaurantDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "restaurant_id")
 	private Long restaurant_id;
-
-	@Column(name = "name", nullable = false)
 	private String name;
-
-	@Column(name = "location", nullable = false)
 	private Location location;
-
-	@Column(name = "starting_hours", nullable = false)
 	private LocalTime startingHours;
-
-	@Column(name = "ending_hours", nullable = false)
 	private LocalTime endingHours;
-
-	@ElementCollection
-	@CollectionTable(name = "restaurant_grade", joinColumns = @JoinColumn(name = "restaurant_id"))
-	private List<Grade> grades;
-
-	@Enumerated(value = EnumType.STRING)
 	private Ambient ambient;
-
-	@Enumerated(value = EnumType.STRING)
 	private Music music;
-
-	@ElementCollection
-	@CollectionTable(name = "restaurant_cuisine", joinColumns = @JoinColumn(name = "restaurant_id"))
 	private List<Cuisine> cuisine;
-
-	@Enumerated(value = EnumType.STRING)
 	private PriceRange priceRange;
-
-	@Column(name = "garden", nullable = false)
 	private boolean garden;
-
-	@Column(name = "wifi", nullable = false)
 	private boolean wifi;
-
-	@Column(name = "tv", nullable = false)
 	private boolean tv;
-
-	@Column(name = "live_music", nullable = false)
 	private boolean liveMusic;
-
-	@Column(name = "alcohol", nullable = false)
 	private boolean alcohol;
-
-	@Column(name = "parking", nullable = false)
 	private boolean parking;
-
-	@Column(name = "smoking_area", nullable = false)
 	private boolean smokingArea;
 
-	public Restaurant() {
+	public RestaurantDTO() {
 		super();
 	}
 
-	public Restaurant(Long restaurant_id, String name, Location location, LocalTime startingHours,
-			LocalTime endingHours, ArrayList<Grade> grades, Ambient ambient, Music music, List<Cuisine> cuisine,
-			PriceRange priceRange, boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol,
-			boolean parking, boolean smokingArea) {
+	public RestaurantDTO(Long restaurant_id, String name, Location location, LocalTime startingHours,
+			LocalTime endingHours, Ambient ambient, Music music, List<Cuisine> cuisine, PriceRange priceRange,
+			boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol, boolean parking,
+			boolean smokingArea) {
 		super();
 		this.restaurant_id = restaurant_id;
 		this.name = name;
 		this.location = location;
 		this.startingHours = startingHours;
 		this.endingHours = endingHours;
-		this.grades = grades;
 		this.ambient = ambient;
 		this.music = music;
 		this.cuisine = cuisine;
@@ -147,14 +93,6 @@ public class Restaurant {
 
 	public void setEndingHours(LocalTime endingHours) {
 		this.endingHours = endingHours;
-	}
-
-	public List<Grade> getGrades() {
-		return grades;
-	}
-
-	public void setGrades(ArrayList<Grade> grades) {
-		this.grades = grades;
 	}
 
 	public Ambient getAmbient() {
@@ -243,20 +181,6 @@ public class Restaurant {
 
 	public void setSmokingArea(boolean smokingArea) {
 		this.smokingArea = smokingArea;
-	}
-
-	public boolean isOpen(LocalTime time) {
-		if (this.startingHours.isAfter(this.endingHours)) {
-			return !time.isBefore(this.startingHours) || !time.isAfter(this.endingHours);
-		} else {
-			return !time.isBefore(this.startingHours) && !time.isAfter(this.endingHours);
-		}
-	}
-	
-	public boolean isOpenForNext3Hours(LocalTime time) {
-		time = time.plusHours(3);
-		
-		return this.isOpen(time);
 	}
 
 }
