@@ -88,7 +88,6 @@ public class UserDTO {
 			@NotBlank(message = "Name cannot be empty.") @Pattern(regexp = "[A-Z][a-z]+", message = "Name must start with capital letter and can contain only letters.") String name,
 			@NotBlank(message = "Surname cannot be empty.") @Pattern(regexp = "[A-Z][a-z]+", message = "Surname must start with capital letter and can contain only letters.") String surname,
 			@NotBlank(message = "Email cannot be empty.") @Email(message = "Email must be in format 'example@mail.com'") String email,
-			@NotBlank(message = "Password cannot be empty.") String password,
 			@NotNull(message = "Date of birth cannot be empty.") Date dateOfBirth,
 			@NotNull(message = "Gender cannot be empty.") Gender gender,
 			@NotNull(message = "Sexual orientation cannot be empty.") SexualOrientation sexualOrientation,
@@ -105,7 +104,6 @@ public class UserDTO {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
-		this.password = password;
 		this.dateOfBirth = dateOfBirth;
 		this.gender = gender;
 		this.sexualOrientation = sexualOrientation;

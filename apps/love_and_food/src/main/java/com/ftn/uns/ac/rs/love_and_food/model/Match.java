@@ -83,4 +83,10 @@ public class Match {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	@Override
+	public String toString() {
+		return "Match [id=" + id + ", initiator=" + initiator + ", soulmate=" + soulmate + ", matchDate=" + matchDate
+				+ ", rating=" + rating + "]";
+	}
 }

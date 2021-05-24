@@ -1,12 +1,14 @@
 package com.ftn.uns.ac.rs.love_and_food.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 import com.ftn.uns.ac.rs.love_and_food.exceptions.NonExistingIdException;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
@@ -75,6 +77,52 @@ public class LoveService {
 		}
 		
 		throw new NonExistingIdException("Match");
+	}
+	
+	public List<User> reportLiars() {
+		kieService.releaseRulesSession();
+		KieSession session = kieService.getRulesSession();
+		
+		List<User> liars = new ArrayList<User>();
+		
+		session.setGlobal("liars", liars);
+		
+		List<User> allUsers = registeredUserRepository.findAll();
+		for (User user1 : allUsers) {
+			session.insert(user1);
+		}
+		List<Match> allMatches = matchRepository.findAll();
+		for (Match match : allMatches) {
+			session.insert(match);
+		}
+		
+		session.getAgenda().getAgendaGroup("liars-report").setFocus();
+		session.fireAllRules();
+		
+		return liars;
+	}
+	
+	public List<UserRatingDTO> reportMVPs() {
+		kieService.releaseRulesSession();
+		KieSession session = kieService.getRulesSession();
+		
+		List<UserRatingDTO> mvps = new ArrayList<UserRatingDTO>();
+		
+		session.setGlobal("mvps", mvps);
+		
+		List<User> allUsers = registeredUserRepository.findAll();
+		for (User user1 : allUsers) {
+			session.insert(user1);
+		}
+		List<Match> allMatches = matchRepository.findAll();
+		for (Match match : allMatches) {
+			session.insert(match);
+		}
+		
+		session.getAgenda().getAgendaGroup("MVPs").setFocus();
+		session.fireAllRules();
+		
+		return mvps;
 	}
 	
 }
