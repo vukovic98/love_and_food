@@ -1,5 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +38,9 @@ public class Grade {
 	@Column(name = "overall", nullable = false)
 	private int overall_grade;
 
+	@Column(name = "date", nullable = false)
+	private Date date;
+
 	@ManyToOne
 	@JoinColumn(name = "restaurant_id", nullable = false)
 	private Restaurant restaurant;
@@ -49,8 +54,9 @@ public class Grade {
 	}
 
 	public Grade(Long grade_id, int location_grade, int ambient_grade, int atmosphere_grade, int hospitability_grade,
-			int service_grade, int overall_grade, Restaurant restaurant, User user) {
+			int service_grade, int overall_grade, Restaurant restaurant, User user, Date d) {
 		super();
+		this.date = d;
 		this.grade_id = grade_id;
 		this.location_grade = location_grade;
 		this.ambient_grade = ambient_grade;
@@ -68,6 +74,14 @@ public class Grade {
 
 	public void setGrade_id(Long grade_id) {
 		this.grade_id = grade_id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public int getLocation_grade() {
@@ -133,5 +147,6 @@ public class Grade {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
+	
 
 }

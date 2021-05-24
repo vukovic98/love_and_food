@@ -1,13 +1,12 @@
 package com.ftn.uns.ac.rs.love_and_food.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.Date;
 
 @Repository
-public interface MatchRepository extends JpaRepository<Match, Long> {
-
-	
+public interface DateRepository extends JpaRepository<Date, Long> {
 	
 }

@@ -1,0 +1,29 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
+import com.ftn.uns.ac.rs.love_and_food.model.Date;
+import java.text.SimpleDateFormat;
+
+
+
+global List<Restaurant> mostVisitedRestaurants;
+global List<Date> dates;
+
+rule "Most visited restaurants in [FALL] of last year"
+	agenda-group "most-visited-fall"
+	salience $total
+	when
+		$restaurant: Restaurant()
+		$total : Integer(intValue > 5) from accumulate(
+	         Date( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))), $r: restaurant ) from dates,
+	         init( Integer total = 0; ),
+	         action( 
+	         	if($r.getRestaurant_id() == $restaurant.getRestaurant_id()) total += 1;
+	          ),
+	         result( new Integer( total ) ) )
+	then
+		mostVisitedRestaurants.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total + " [FALL]");
+end;

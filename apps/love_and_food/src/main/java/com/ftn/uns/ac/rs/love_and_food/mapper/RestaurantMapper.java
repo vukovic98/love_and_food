@@ -1,5 +1,6 @@
 package com.ftn.uns.ac.rs.love_and_food.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -34,8 +35,13 @@ public class RestaurantMapper implements MapperInterface<Restaurant, RestaurantD
 
 	@Override
 	public List<RestaurantDTO> toDTOList(List<Restaurant> entityList) {
-		// TODO Auto-generated method stub
-		return null;
+		List<RestaurantDTO> dtos = new ArrayList<>();
+		
+		for(Restaurant r : entityList) {
+			dtos.add(this.toDTO(r));
+		}
+		
+		return dtos;
 	}
 
 }

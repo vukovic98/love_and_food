@@ -1,3 +1,5 @@
+package rules;
+
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
@@ -57,7 +59,7 @@ rule "Compatibility - ambient"
 		modify($compatibleRest){setAmbientScore(3);};
 end;
 
-rule "Compatibility - smoking"
+rule "Compatibility - smoking preference"
 	agenda-group "perfect-restaurant"
 	salience 1
 	when

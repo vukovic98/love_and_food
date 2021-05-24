@@ -1,0 +1,70 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
+
+import java.util.Date;
+import java.time.LocalDate;
+
+
+global List<Restaurant> bestGraded;
+global List<Restaurant> decliningRestaurants;
+global List<Restaurant> risingRestaurants;
+
+
+rule "Best graded restaurants"
+	agenda-group "best-graded-report"
+	salience $total
+	when
+		$restaurant: Restaurant($grades: grades)
+		$total : Double() from accumulate(
+	         Grade( $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade, $all: overall_grade ) from  $grades,
+	         init( double total = 0; ),
+	         action( total = total + $loc + $amb + $hos + $ser + $all; ),
+	         reverse( total = total - ( $loc + $amb + $hos + $ser + $all ); ),
+	         result( new Double( total / ($grades.size() * 6) ) ) )
+	then
+		bestGraded.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total);
+end;
+
+rule "Restaurants that got more than 3 grades lower than 3 in last two months"
+	agenda-group "declining-rating"
+	when
+		$restaurant: Restaurant($grades: grades)
+		$total : Integer(intValue > 3) from accumulate(
+	         Grade( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))) == true, $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade) from  $grades,
+	         init( Integer total = 0; ),
+	         action( 
+	         	if($loc < 3) total += 1;
+	         	if($amb < 3) total += 1;
+	         	if($hos < 3) total += 1;
+	         	if($ser < 3) total += 1;
+	          ),
+	         result( new Integer( total ) ) )
+	then
+		decliningRestaurants.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total + " bad grades!");
+
+end;
+
+rule "Restaurants that got more than five 5's in last two months"
+	agenda-group "rising-rating"
+	when
+		$restaurant: Restaurant($grades: grades)
+		$total : Integer(intValue > 5) from accumulate(
+	         Grade( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))) == true, $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade) from  $grades,
+	         init( Integer total = 0; ),
+	         action( 
+	         	if($loc > 4) total += 1;
+	         	if($amb > 4) total += 1;
+	         	if($hos > 4) total += 1;
+	         	if($ser > 4) total += 1;
+	          ),
+	         result( new Integer( total ) ) )
+	then
+		risingRestaurants.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total + " good grades!");
+end;
+
