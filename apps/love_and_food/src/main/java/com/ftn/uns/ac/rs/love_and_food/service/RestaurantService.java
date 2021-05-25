@@ -149,6 +149,7 @@ public class RestaurantService {
 
 		session.getAgenda().getAgendaGroup("restaurant-requirements").setFocus();
 		session.fireAllRules();
+		
 
 		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
 
@@ -161,7 +162,7 @@ public class RestaurantService {
 
 		session.getAgenda().getAgendaGroup("perfect-restaurant").setFocus();
 		session.fireAllRules();
-
+		
 		session.getAgenda().getAgendaGroup("calculating-score").setFocus();
 		session.fireAllRules();
 

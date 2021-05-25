@@ -13,8 +13,7 @@ rule "Perfect Restaurant"
 	agenda-group "calculating-score"
 	salience ($ambient + $alcohol + $smoking + $dateTime + $distance + $price + $music + $cuisine + $garden + $parking + $tv + $wifi + $grade)
 	when
-		$u: User( id == loggedInUserId )
-		$rest: RestaurantCompatibility( 
+		$rest: RestaurantCompatibility(
 			$rest_id: restaurantId,
 			$ambient: ambientScore,
 			$smoking: smokingScore,
@@ -28,12 +27,11 @@ rule "Perfect Restaurant"
 			$parking: parkingScore,
 			$tv: tvScore,
 			$wifi: wifiScore,
-			$grade: gradeScore
-		)
+			$grade: gradeScore)
 		$found_restaurant: Restaurant( restaurant_id == $rest_id )
 		not FoundRestaurant( )
 	then
-		System.out.println("Restaurant has been choosen: " + $rest_id);
+		System.out.println("Restaurant has been choosen: " + $rest_id + ", " + ($ambient + $alcohol + $smoking + $dateTime + $distance + $price + $music + $cuisine + $garden + $parking + $tv + $wifi + $grade));
 		drools.getKnowledgeRuntime().setGlobal("selectedRestaurant", $found_restaurant);
 		insert(new FoundRestaurant());
 end;
