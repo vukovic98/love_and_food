@@ -1,5 +1,6 @@
 package com.ftn.uns.ac.rs.love_and_food.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,16 +14,15 @@ import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
-import com.ftn.uns.ac.rs.love_and_food.model.Date;
+import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
-import com.ftn.uns.ac.rs.love_and_food.repository.DateRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.DatePlaceRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.GradeRepository;
-import com.ftn.uns.ac.rs.love_and_food.repository.MatchRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantRepository;
 
 @Service
@@ -38,7 +38,7 @@ public class RestaurantService {
 	private GradeRepository gradeRepository;
 
 	@Autowired
-	private DateRepository dateRepository;
+	private DatePlaceRepository dateRepository;
 
 	@Autowired
 	private RestaurantMapper restaurantMapper;
@@ -167,7 +167,7 @@ public class RestaurantService {
 
 		Restaurant perfect = (Restaurant) session.getGlobal("selectedRestaurant");
 
-		Date d = new Date();
+		DatePlace d = new DatePlace();
 
 		d.setDate(dto.getDateTime());
 		d.setRestaurant(perfect);
@@ -280,19 +280,43 @@ public class RestaurantService {
 		KieSession session = this.sessionService.getRulesSession();
 
 		List<Restaurant> mostVisitedRestaurants = new ArrayList<>();
-		List<Date> dates = this.dateRepository.findAll();
+		List<DatePlace> dates = this.dateRepository.findAll();
 		
 		session.setGlobal("mostVisitedRestaurants", mostVisitedRestaurants);
 		session.setGlobal("dates", dates);
+		
+		LocalDate start_fall = LocalDate.of( 2020 , 9 , 23 ) ;
+		LocalDate stop_fall = LocalDate.of( 2020 , 12 , 21 ) ;
+		
+		LocalDate start_winter = LocalDate.of( 2020 , 12 , 21 ) ;
+		LocalDate stop_winter = LocalDate.of( 2020 , 3 , 21 ) ;
+
+		LocalDate start_summer = LocalDate.of( 2020 , 6 , 21 ) ;
+		LocalDate stop_summer = LocalDate.of( 2020 , 9 , 23 ) ;
+
+		LocalDate start_spring = LocalDate.of( 2020 , 3 , 21 ) ;
+		LocalDate stop_spring = LocalDate.of( 2020 , 6 , 21 ) ;
+		
+		session.setGlobal("start_fall", start_fall);
+		session.setGlobal("stop_fall", stop_fall);
+
+		session.setGlobal("start_winter", start_winter);
+		session.setGlobal("stop_winter", stop_winter);
+
+		session.setGlobal("start_summer", start_summer);
+		session.setGlobal("stop_summer", stop_summer);
+
+		session.setGlobal("start_spring", start_spring);
+		session.setGlobal("stop_spring", stop_spring);
+
 
 
 		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
-
 		for (Restaurant r : allRestaurants) {
 			session.insert(r);
 		}
 
-		if (season.equalsIgnoreCase("FALL")) {
+		if (season.equalsIgnoreCase("FALL")) {	
 			session.getAgenda().getAgendaGroup("most-visited-fall").setFocus();
 			session.fireAllRules();
 		}

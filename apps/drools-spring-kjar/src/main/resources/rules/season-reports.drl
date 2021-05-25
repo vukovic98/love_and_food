@@ -3,13 +3,28 @@ package rules;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
-import com.ftn.uns.ac.rs.love_and_food.model.Date;
-import java.text.SimpleDateFormat;
+import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDate;
 
 
 global List<Restaurant> mostVisitedRestaurants;
-global List<Date> dates;
+global List<DatePlace> dates;
+
+/* SEASON DATES */
+global LocalDate start_fall;
+global LocalDate stop_fall;
+
+global LocalDate start_winter;
+global LocalDate stop_winter;
+
+global LocalDate start_summer;
+global LocalDate stop_summer;
+
+global LocalDate start_spring;
+global LocalDate stop_spring;
 
 rule "Most visited restaurants in [FALL] of last year"
 	agenda-group "most-visited-fall"
@@ -17,13 +32,68 @@ rule "Most visited restaurants in [FALL] of last year"
 	when
 		$restaurant: Restaurant()
 		$total : Integer(intValue > 5) from accumulate(
-	         Date( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))), $r: restaurant ) from dates,
+	         DatePlace( date.after(java.sql.Date.valueOf(start_fall)) && date.before(java.sql.Date.valueOf(stop_fall)), $r: restaurant ) from dates,
 	         init( Integer total = 0; ),
 	         action( 
 	         	if($r.getRestaurant_id() == $restaurant.getRestaurant_id()) total += 1;
 	          ),
-	         result( new Integer( total ) ) )
+	         result( new Integer(total) ) 
+	         )
 	then
 		mostVisitedRestaurants.add($restaurant);
 		System.out.println($restaurant.getName() + ": " + $total + " [FALL]");
+end;
+
+rule "Most visited restaurants in [WINTER] of last year"
+	agenda-group "most-visited-winter"
+	salience $total
+	when
+		$restaurant: Restaurant()
+		$total : Integer(intValue > 5) from accumulate(
+	         DatePlace( date.after(java.sql.Date.valueOf(start_winter)) && date.before(java.sql.Date.valueOf(stop_winter)), $r: restaurant ) from dates,
+	         init( Integer total = 0; ),
+	         action( 
+	         	if($r.getRestaurant_id() == $restaurant.getRestaurant_id()) total += 1;
+	          ),
+	         result( new Integer(total) ) 
+	         )
+	then
+		mostVisitedRestaurants.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total + " [WINTER]");
+end;
+
+rule "Most visited restaurants in [SUMMER] of last year"
+	agenda-group "most-visited-summer"
+	salience $total
+	when
+		$restaurant: Restaurant()
+		$total : Integer(intValue > 5) from accumulate(
+	         DatePlace( date.after(java.sql.Date.valueOf(start_summer)) && date.before(java.sql.Date.valueOf(stop_summer)), $r: restaurant ) from dates,
+	         init( Integer total = 0; ),
+	         action( 
+	         	if($r.getRestaurant_id() == $restaurant.getRestaurant_id()) total += 1;
+	          ),
+	         result( new Integer(total) ) 
+	         )
+	then
+		mostVisitedRestaurants.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total + " [SUMMER]");
+end;
+
+rule "Most visited restaurants in [SPRING] of last year"
+	agenda-group "most-visited-spring"
+	salience $total
+	when
+		$restaurant: Restaurant()
+		$total : Integer(intValue > 5) from accumulate(
+	         DatePlace( date.after(java.sql.Date.valueOf(start_spring)) && date.before(java.sql.Date.valueOf(stop_spring)), $r: restaurant ) from dates,
+	         init( Integer total = 0; ),
+	         action( 
+	         	if($r.getRestaurant_id() == $restaurant.getRestaurant_id()) total += 1;
+	          ),
+	         result( new Integer(total) ) 
+	         )
+	then
+		mostVisitedRestaurants.add($restaurant);
+		System.out.println($restaurant.getName() + ": " + $total + " [SPRING]");
 end;

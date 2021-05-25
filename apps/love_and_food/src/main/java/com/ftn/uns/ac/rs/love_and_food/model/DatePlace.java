@@ -1,5 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "date")
-public class Date {
+@Table(name = "date_place")
+public class DatePlace {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +33,13 @@ public class Date {
 	private User soulmate;
 
 	@Column(name = "date", nullable = false)
-	private java.util.Date date;
+	private Date date;
 
-	public Date() {
+	public DatePlace() {
 		super();
 	}
 
-	public Date(Long id, Restaurant restaurant, User initiator, User soulmate, java.util.Date date) {
+	public DatePlace(Long id, Restaurant restaurant, User initiator, User soulmate, java.util.Date date) {
 		super();
 		this.id = id;
 		this.restaurant = restaurant;
