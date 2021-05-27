@@ -85,13 +85,39 @@ rule "Compatibility - alcohol"
 		modify($compatibleRest){setAlcoholScore(3);};
 end;
 
-rule "Compatibility - price range"
+rule "Compatibility - price range - CHEEP"
 	agenda-group "perfect-restaurant"
 	salience 1
 	when
 		$u: User( id == loggedInUserId )
-		$req: RestaurantRequirements( userId == loggedInUserId, $req_price: priceRange )
-		$restaurant: Restaurant( $rest_id: restaurant_id, priceRange == $req_price )
+		$req: RestaurantRequirements( userId == loggedInUserId, priceRange == PriceRange.CHEEP )
+		$restaurant: Restaurant( $rest_id: restaurant_id, priceRange == PriceRange.CHEEP || priceRange == PriceRange.AFFORDABLE )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
+	then
+		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setPriceRangeScore(3);};
+end;
+
+rule "Compatibility - price range - AFFORDABLE"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, priceRange == PriceRange.AFFORDABLE )
+		$restaurant: Restaurant( $rest_id: restaurant_id, priceRange == PriceRange.CHEEP || priceRange == PriceRange.AFFORDABLE )
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
+	then
+		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
+		modify($compatibleRest){setPriceRangeScore(3);};
+end;
+
+rule "Compatibility - price range - EXPENSIVE"
+	agenda-group "perfect-restaurant"
+	salience 1
+	when
+		$u: User( id == loggedInUserId )
+		$req: RestaurantRequirements( userId == loggedInUserId, priceRange == PriceRange.EXPENSIVE )
+		$restaurant: Restaurant( $rest_id: restaurant_id )
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
