@@ -42,6 +42,9 @@ public class RegisteredUser implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	private List<Authority> authorities;
+	
+	@Column(name = "enabled", nullable = false)
+	private boolean enabled;
 
 	public RegisteredUser() {
 
@@ -108,7 +111,11 @@ public class RegisteredUser implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override

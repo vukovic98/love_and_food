@@ -12,13 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
-import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.RegisteredUserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private RegisteredUserRepository registeredUserRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// ako se ne radi nasledjivanje, paziti gde sve treba da se proveri email
-		RegisteredUser registeredUser = userRepository.findByEmail(email);
+		RegisteredUser registeredUser = registeredUserRepository.findByEmail(email);
 		
 		if (registeredUser == null) {
 			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email)); 
@@ -56,7 +56,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
 		// ne zelimo da u bazi cuvamo lozinke u plain text formatu
 		registeredUser.setPassword(passwordEncoder.encode(newPassword));
-		userRepository.save(registeredUser);
+		registeredUserRepository.save(registeredUser);
 	}
 
 }

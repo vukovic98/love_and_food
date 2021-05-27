@@ -25,6 +25,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
 import com.ftn.uns.ac.rs.love_and_food.service.RegisteredUserService;
 import com.ftn.uns.ac.rs.love_and_food.service.RestaurantService;
+import com.ftn.uns.ac.rs.love_and_food.service.UserService;
 
 @RestController
 @RequestMapping(path = "/restaurant")
@@ -34,7 +35,7 @@ public class RestaurantController {
 	private RestaurantService restaurantService;
 
 	@Autowired
-	private RegisteredUserService registeredUserService;
+	private UserService userService;
 
 	@Autowired
 	private MatchService matchService;
@@ -58,7 +59,7 @@ public class RestaurantController {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
 
-		User user = this.registeredUserService.findByEmail(username);
+		User user = this.userService.findByEmail(username);
 
 		if (user != null) {
 			Match match = this.matchService.findByInitiator(user.getId());
@@ -83,7 +84,7 @@ public class RestaurantController {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
 
-		User user = this.registeredUserService.findByEmail(username);
+		User user = this.userService.findByEmail(username);
 
 		if (user != null) {
 			boolean ok = this.restaurantService.gradeRestaurant(dto, user);

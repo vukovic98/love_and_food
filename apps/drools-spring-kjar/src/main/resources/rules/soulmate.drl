@@ -81,7 +81,7 @@ rule "Compatibility - traits"
 			count($userTrait)
 		)
 	then
-		System.out.println("Added score for same education compatibility for mate: " + $mateId);
+		System.out.println("Added score for traits for mate: " + $mateId);
 		modify($compatibleMate){setTraitsScore($count);};
 end;
 
@@ -214,7 +214,7 @@ end;
 
 rule "Compatibility - alchocol"
 	agenda-group "prepare-soulmate"
-	salience 0
+	salience 1
 	when
 		$u: User( id == loggedInUserId, $alchocol: alchocol )
 		$userMate: User( id != loggedInUserId, $mateId : id, alchocol == $alchocol )
@@ -222,5 +222,14 @@ rule "Compatibility - alchocol"
 	then
 		System.out.println("Added score for alchocol compatibility for mate: " + $mateId);
 		modify($compatibleMate){setAlchocolScore(2);};
+end;
+
+rule "Change focus to soulmate"
+	agenda-group "prepare-soulmate"
+	salience -1
+	when
+		PartnerCompatibility() 
+	then
+		System.out.println("Focus group changed to soulmate.");
 		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup("soulmate").setFocus();
 end;

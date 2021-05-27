@@ -11,6 +11,7 @@ public class KieStatefulSessionService {
 	@Autowired
 	private KieContainer kieContainer;
     private KieSession rulesSession;
+    private KieSession eventsSession;
 
     public KieContainer getKieContainer() {
         return kieContainer;
@@ -32,6 +33,16 @@ public class KieStatefulSessionService {
             this.rulesSession.dispose();
             this.rulesSession = null;
     	}
+    }
+    public KieSession getEventsSession() {
+        if(eventsSession == null){
+    		eventsSession = kieContainer.newKieSession("eventsSession");
+        }
+        return eventsSession;
+    }
+
+    public void setEventsSession(KieSession kieSession) {
+        this.eventsSession = kieSession;
     }
 
 }

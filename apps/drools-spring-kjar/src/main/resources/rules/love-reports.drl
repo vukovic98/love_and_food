@@ -18,7 +18,7 @@ rule "Liars"
 			Match(rating > 3)
 		)
 		$badMatches: List() from collect(
-			Match(rating < 3)
+			Match(rating < 3, rating != 0)
 		)
 		accumulate(
 			Match($initiator: initiator) from $goodMatches,

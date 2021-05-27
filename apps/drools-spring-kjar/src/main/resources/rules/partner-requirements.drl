@@ -37,7 +37,7 @@ end;
 rule "Age_18_20"
 	agenda-group "partner-requirements"
 	when
-		$u: User(18 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20);
+		$u: User(18 <= DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20);
 		$pr: PartnerRequirements(userId==$u.id, idealAge == null, suitableAge.isEmpty());
 	then
 		System.out.println("Partner Requirements set ideal age - Age_18_20");

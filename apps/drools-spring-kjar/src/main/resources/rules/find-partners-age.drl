@@ -9,7 +9,7 @@ import com.ftn.uns.ac.rs.love_and_food.util.DateUtil;
 rule "Partner Age_18_20"
 	agenda-group "partner-age"
 	when
-		$u: User(18 < DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20) @Watch(!ageGroup)
+		$u: User(18 <= DateUtil.getDiffYears(dateOfBirth),  DateUtil.getDiffYears(dateOfBirth)<= 20) @Watch(!ageGroup)
 	then
 		System.out.println("Set partner age - Age_18_20");
 		modify($u){setAgeGroup(Age.AGE_18_20);};

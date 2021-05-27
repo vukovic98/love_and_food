@@ -4,4 +4,7 @@
 	<kbase  name="rules" packages="rules">
 	     <ksession name="loveAndFoodSession"/>
 	</kbase>
+	<kbase name="cepKbase" eventProcessingMode="stream" packages="rules.events">
+        <ksession name="eventsSession"/>
+    </kbase>
 </kmodule>

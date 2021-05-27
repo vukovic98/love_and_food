@@ -33,6 +33,8 @@ public class AuthService {
 	public User register(User user, List<PersonalityAnswer> testAnswers) throws Exception {
 		RegisteredUser existingUser = (RegisteredUser) registeredUserRepository.findByEmail(user.getEmail());
 		if (existingUser == null) {
+			//aktiviranje naloga
+			user.setEnabled(true);
 			//enkripcija lozinke
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getPassword()));
