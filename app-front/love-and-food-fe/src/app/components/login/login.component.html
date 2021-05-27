@@ -1,24 +1,36 @@
 <div class="col-md-12 background pt-5">
   <div class="login-form bg-light col-md-5 ml-auto mr-auto mt-5 h-75">
     <div class="col-md-2 pt-5 m-auto">
-      <img class="h-100 w-100" src="https://lh3.googleusercontent.com/proxy/HfJct1jP0mrsSwnItrWdJJc3gfniCAtSR6JWQ4K0sF1g59EQDLEbIJVe1Tqsy02HlkkWXjAeZRTbdqeZq5-BXREtA7FmNmU">
+      <img class="h-100 w-100" src="assets/img/heart.png">
     </div>
     <div class="col-md-8 ml-auto mr-auto mt-3" style="opacity: 1;!important;">
-      <div class="wrap-input100 validate-input mt-5" data-validate = "Valid email is required: ex@abc.xyz">
-        <input id="email" class="input100" type="text" name="email" placeholder="Email">
-        <span class="focus-input100"></span>
-<!--        <span class="label-input100">Email</span>-->
-      </div>
-      <div class="wrap-input100 validate-input" data-validate="Password is required">
-        <input id="password" class="input100" type="password" name="pass" placeholder="Password">
-        <span class="focus-input100"></span>
-<!--        <span class="label-input100">Password</span>-->
-      </div>
-      <div class="container-login100-form-btn mt-5 pt-5">
-        <button class="login100-form-btn">
-          Login
-        </button>
-      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="signin-form">
+        <div class="wrap-input100 validate-input mt-5">
+          <input id="email" class="input100" name="email" type="email" formControlName="email" placeholder="Email">
+          <span class="focus-input100"></span>
+          <div style="height: 50px; ">
+            <div *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched" class="ml-1 mt-0 mb-0">
+              <small *ngIf="loginForm.controls['email'].errors?.required" class="text-danger">*This field is mandatory</small>
+              <small *ngIf="loginForm.controls['email'].errors?.email" class="text-danger">*Email form is not valid</small>
+            </div>
+          </div>
+        </div>
+        <div class="wrap-input100 validate-input mt-4">
+          <input id="password" class="input100" type="password" name="password" formControlName="password" placeholder="Password">
+          <span class="focus-input100"></span>
+          <div style="height: 50px;">
+            <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" class="ml-1 mt-0 mb-0">
+              <small *ngIf="loginForm.controls['password'].errors?.required" class="text-danger">*This field is mandatory</small>
+            </div>
+          </div>
+        </div>
+        <div class="container-login100-form-btn mt-5 pt-5">
+          <button class="login100-form-btn" [disabled]="!loginForm.valid">
+            Login
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
