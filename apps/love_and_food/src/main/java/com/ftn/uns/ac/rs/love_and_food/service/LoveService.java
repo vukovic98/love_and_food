@@ -22,6 +22,9 @@ import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 public class LoveService {
 
 	@Autowired
+    private KieSession kieSession;
+	
+	@Autowired
 	private KieStatefulSessionService kieService;
 	
 	@Autowired
@@ -36,30 +39,19 @@ public class LoveService {
 		// kreiranje zahteva vezanog za tog korisnika
 		PartnerRequirements partnerReq = new PartnerRequirements(user.getId());
 		
-		kieService.releaseRulesSession();
-		KieSession session = kieService.getRulesSession();
-		session.setGlobal("loggedInUserId", user.getId());
+		this.kieSession.setGlobal("loggedInUserId", user.getId());
 		
-		session.insert(user);
-		session.insert(partnerReq);
+		this.kieSession.insert(partnerReq);
 		
-		session.getAgenda().getAgendaGroup("partner-requirements").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("partner-requirements").setFocus();
+		this.kieSession.fireAllRules();
 		
-		List<User> allUsersExceptLoggedIn = userRepository.findAllByIdNot(user.getId());
-		for (User user1 : allUsersExceptLoggedIn) {
-			session.insert(user1);
-		}
-		List<Match> allMatches = matchRepository.findAll();
-		for (Match match : allMatches) {
-			session.insert(match);
-		}
-		session.getAgenda().getAgendaGroup("partner-age").setFocus();
-		session.fireAllRules();
-		session.getAgenda().getAgendaGroup("prepare-soulmate").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("partner-age").setFocus();
+		this.kieSession.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("prepare-soulmate").setFocus();
+		this.kieSession.fireAllRules();
 		
-		User soulmate = (User) session.getGlobal("soulmate");
+		User soulmate = (User) this.kieSession.getGlobal("soulmate");
 		
 		if( soulmate != null ) {
 			Match match = new Match();
@@ -96,47 +88,25 @@ public class LoveService {
 	}
 	
 	public List<User> reportLiars() {
-		kieService.releaseRulesSession();
-		KieSession session = kieService.getRulesSession();
 		
 		List<User> liars = new ArrayList<User>();
 		
-		session.setGlobal("liars", liars);
+		this.kieSession.setGlobal("liars", liars);
 		
-		List<User> allUsers = userRepository.findAll();
-		for (User user1 : allUsers) {
-			session.insert(user1);
-		}
-		List<Match> allMatches = matchRepository.findAll();
-		for (Match match : allMatches) {
-			session.insert(match);
-		}
-		
-		session.getAgenda().getAgendaGroup("liars-report").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("liars-report").setFocus();
+		this.kieSession.fireAllRules();
 		
 		return liars;
 	}
 	
 	public List<UserRatingDTO> reportMVPs() {
-		kieService.releaseRulesSession();
-		KieSession session = kieService.getRulesSession();
 		
 		List<UserRatingDTO> mvps = new ArrayList<UserRatingDTO>();
 		
-		session.setGlobal("mvps", mvps);
+		this.kieSession.setGlobal("mvps", mvps);
 		
-		List<User> allUsers = userRepository.findAll();
-		for (User user1 : allUsers) {
-			session.insert(user1);
-		}
-		List<Match> allMatches = matchRepository.findAll();
-		for (Match match : allMatches) {
-			session.insert(match);
-		}
-		
-		session.getAgenda().getAgendaGroup("MVPs").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("MVPs").setFocus();
+		this.kieSession.fireAllRules();
 		
 		return mvps;
 	}

@@ -1,0 +1,9 @@
+/*package rules;
+
+query "getAllSuspiciousUsers"
+    $result: SuspiciousUserEvent()
+end
+
+query "getAllUsers"
+    $users: User()
+end*/

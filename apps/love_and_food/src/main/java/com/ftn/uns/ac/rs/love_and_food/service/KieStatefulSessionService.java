@@ -10,29 +10,10 @@ public class KieStatefulSessionService {
 
 	@Autowired
 	private KieContainer kieContainer;
-    private KieSession rulesSession;
     private KieSession eventsSession;
 
     public KieContainer getKieContainer() {
         return kieContainer;
-    }
-
-    public KieSession getRulesSession() {
-    	if (this.rulesSession == null) {
-        	rulesSession = kieContainer.newKieSession("loveAndFoodSession");	
-    	}
-        return rulesSession;
-    }
-
-    public void setRulesSession(KieSession kieSession) {
-        this.rulesSession = kieSession;
-    }
-    
-    public void releaseRulesSession(){
-    	if (this.rulesSession != null) {
-            this.rulesSession.dispose();
-            this.rulesSession = null;
-    	}
     }
     public KieSession getEventsSession() {
         if(eventsSession == null){

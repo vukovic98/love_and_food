@@ -32,7 +32,7 @@ public class RestaurantService {
 	private RestaurantRepository restaurantRepository;
 
 	@Autowired
-	private KieStatefulSessionService sessionService;
+    private KieSession kieSession;
 
 	@Autowired
 	private GradeRepository gradeRepository;
@@ -133,40 +133,28 @@ public class RestaurantService {
 
 	public Restaurant findRestaurant(RestaurantEntryDTO dto, Match match) {
 
-		this.sessionService.releaseRulesSession();
-		KieSession session = sessionService.getRulesSession();
+		this.kieSession.setGlobal("loggedInUserId", match.getInitiator().getId());
 
-		session.setGlobal("loggedInUserId", match.getInitiator().getId());
-
-		session.insert(dto);
-		session.insert(match);
+		this.kieSession.insert(dto);
 
 		RestaurantRequirements req = new RestaurantRequirements();
 
 		req.setUserId(match.getInitiator().getId());
 
-		session.insert(req);
+		this.kieSession.insert(req);
 
-		session.getAgenda().getAgendaGroup("restaurant-requirements").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("restaurant-requirements").setFocus();
+		this.kieSession.fireAllRules();
 		
+		this.kieSession.insert(this.distanceMap);
 
-		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
-
-		for (Restaurant r : allRestaurants) {
-			session.insert(r);
-		}
-
-		session.insert(match.getInitiator());
-		session.insert(this.distanceMap);
-
-		session.getAgenda().getAgendaGroup("perfect-restaurant").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("perfect-restaurant").setFocus();
+		this.kieSession.fireAllRules();
 		
-		session.getAgenda().getAgendaGroup("calculating-score").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("calculating-score").setFocus();
+		this.kieSession.fireAllRules();
 
-		Restaurant perfect = (Restaurant) session.getGlobal("selectedRestaurant");
+		Restaurant perfect = (Restaurant) this.kieSession.getGlobal("selectedRestaurant");
 
 		DatePlace d = new DatePlace();
 
@@ -217,74 +205,47 @@ public class RestaurantService {
 
 	public ArrayList<RestaurantDTO> bestGradedReport() {
 
-		this.sessionService.releaseRulesSession();
-		KieSession session = this.sessionService.getRulesSession();
-
 		List<Restaurant> bestGraded = new ArrayList<>();
 
-		session.setGlobal("bestGraded", bestGraded);
+		this.kieSession.setGlobal("bestGraded", bestGraded);
 
-		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
-
-		for (Restaurant r : allRestaurants) {
-			session.insert(r);
-		}
-
-		session.getAgenda().getAgendaGroup("best-graded-report").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("best-graded-report").setFocus();
+		this.kieSession.fireAllRules();
 
 		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(bestGraded);
 	}
 
 	public ArrayList<RestaurantDTO> decliningRestaurantsReport() {
-		this.sessionService.releaseRulesSession();
-		KieSession session = this.sessionService.getRulesSession();
 
 		List<Restaurant> decliningRestaurants = new ArrayList<>();
 
-		session.setGlobal("decliningRestaurants", decliningRestaurants);
+		this.kieSession.setGlobal("decliningRestaurants", decliningRestaurants);
 
-		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
-
-		for (Restaurant r : allRestaurants) {
-			session.insert(r);
-		}
-
-		session.getAgenda().getAgendaGroup("declining-rating").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("declining-rating").setFocus();
+		this.kieSession.fireAllRules();
 
 		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(decliningRestaurants);
 	}
 
 	public ArrayList<RestaurantDTO> risingRestaurantsReport() {
-		this.sessionService.releaseRulesSession();
-		KieSession session = this.sessionService.getRulesSession();
 
 		List<Restaurant> risingRestaurants = new ArrayList<>();
 
-		session.setGlobal("risingRestaurants", risingRestaurants);
+		this.kieSession.setGlobal("risingRestaurants", risingRestaurants);
 
-		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
-
-		for (Restaurant r : allRestaurants) {
-			session.insert(r);
-		}
-
-		session.getAgenda().getAgendaGroup("rising-rating").setFocus();
-		session.fireAllRules();
+		this.kieSession.getAgenda().getAgendaGroup("rising-rating").setFocus();
+		this.kieSession.fireAllRules();
 
 		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(risingRestaurants);
 	}
 
 	public ArrayList<RestaurantDTO> mostVisitedRestaurantsReport(String season) {
-		this.sessionService.releaseRulesSession();
-		KieSession session = this.sessionService.getRulesSession();
 
 		List<Restaurant> mostVisitedRestaurants = new ArrayList<>();
 		List<DatePlace> dates = this.dateRepository.findAll();
 		
-		session.setGlobal("mostVisitedRestaurants", mostVisitedRestaurants);
-		session.setGlobal("dates", dates);
+		this.kieSession.setGlobal("mostVisitedRestaurants", mostVisitedRestaurants);
+		this.kieSession.setGlobal("dates", dates);
 		
 		LocalDate start_fall = LocalDate.of( 2020 , 9 , 23 ) ;
 		LocalDate stop_fall = LocalDate.of( 2020 , 12 , 21 ) ;
@@ -298,43 +259,36 @@ public class RestaurantService {
 		LocalDate start_spring = LocalDate.of( 2020 , 3 , 21 ) ;
 		LocalDate stop_spring = LocalDate.of( 2020 , 6 , 21 ) ;
 		
-		session.setGlobal("start_fall", start_fall);
-		session.setGlobal("stop_fall", stop_fall);
+		this.kieSession.setGlobal("start_fall", start_fall);
+		this.kieSession.setGlobal("stop_fall", stop_fall);
 
-		session.setGlobal("start_winter", start_winter);
-		session.setGlobal("stop_winter", stop_winter);
+		this.kieSession.setGlobal("start_winter", start_winter);
+		this.kieSession.setGlobal("stop_winter", stop_winter);
 
-		session.setGlobal("start_summer", start_summer);
-		session.setGlobal("stop_summer", stop_summer);
+		this.kieSession.setGlobal("start_summer", start_summer);
+		this.kieSession.setGlobal("stop_summer", stop_summer);
 
-		session.setGlobal("start_spring", start_spring);
-		session.setGlobal("stop_spring", stop_spring);
-
-
-
-		List<Restaurant> allRestaurants = this.restaurantRepository.findAll();
-		for (Restaurant r : allRestaurants) {
-			session.insert(r);
-		}
+		this.kieSession.setGlobal("start_spring", start_spring);
+		this.kieSession.setGlobal("stop_spring", stop_spring);
 
 		if (season.equalsIgnoreCase("FALL")) {	
-			session.getAgenda().getAgendaGroup("most-visited-fall").setFocus();
-			session.fireAllRules();
+			this.kieSession.getAgenda().getAgendaGroup("most-visited-fall").setFocus();
+			this.kieSession.fireAllRules();
 		}
 
 		if (season.equalsIgnoreCase("WINTER")) {
-			session.getAgenda().getAgendaGroup("most-visited-winter").setFocus();
-			session.fireAllRules();
+			this.kieSession.getAgenda().getAgendaGroup("most-visited-winter").setFocus();
+			this.kieSession.fireAllRules();
 		}
 		
 		if (season.equalsIgnoreCase("SUMMER")) {
-			session.getAgenda().getAgendaGroup("most-visited-summer").setFocus();
-			session.fireAllRules();
+			this.kieSession.getAgenda().getAgendaGroup("most-visited-summer").setFocus();
+			this.kieSession.fireAllRules();
 		}
 		
 		if (season.equalsIgnoreCase("SPRING")) {
-			session.getAgenda().getAgendaGroup("most-visited-spring").setFocus();
-			session.fireAllRules();
+			this.kieSession.getAgenda().getAgendaGroup("most-visited-spring").setFocus();
+			this.kieSession.fireAllRules();
 		}
 		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(mostVisitedRestaurants);
 	}

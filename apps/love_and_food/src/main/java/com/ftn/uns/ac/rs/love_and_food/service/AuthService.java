@@ -28,7 +28,7 @@ public class AuthService {
 	private AuthorityService authorityService;
 
 	@Autowired
-	private KieStatefulSessionService sessionService;
+    private KieSession kieSession;
 
 	public User register(User user, List<PersonalityAnswer> testAnswers) throws Exception {
 		RegisteredUser existingUser = (RegisteredUser) registeredUserRepository.findByEmail(user.getEmail());
@@ -43,14 +43,12 @@ public class AuthService {
 			// ubacivanje u sesiju i odredjivanje licnosti korisnika
 			// kreiramo sesiju za svaku registraciju jer nam nije neophodno da cuvamo sve
 			// odgovore za svakog korisnika
-			KieSession session = sessionService.getRulesSession();
-			session.insert(user);
+			this.kieSession.insert(user);
 			for (PersonalityAnswer personalityAnswer : testAnswers) {
-				session.insert(personalityAnswer);
+				this.kieSession.insert(personalityAnswer);
 			}
-			session.getAgenda().getAgendaGroup("personality-test").setFocus();
-			session.fireAllRules();
-			sessionService.releaseRulesSession();
+			this.kieSession.getAgenda().getAgendaGroup("personality-test").setFocus();
+			this.kieSession.fireAllRules();
 
 			return userRepository.save(user);
 		}

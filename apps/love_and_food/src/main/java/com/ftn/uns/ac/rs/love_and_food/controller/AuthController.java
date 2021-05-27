@@ -45,7 +45,7 @@ public class AuthController {
 	private RegisteredUserService registeredUserService;
 	
 	@Autowired
-	private KieStatefulSessionService sessionService;
+    private KieStatefulSessionService kieSessionService;
 	
 	@Autowired
 	private TokenUtils tokenUtils;
@@ -84,10 +84,10 @@ public class AuthController {
 			RegisteredUser user = registeredUserService.findByEmail(authenticationRequest.getEmail());
 			if (user != null) {
 				FailedLoginEvent event = new FailedLoginEvent(new Date(), user);
-				KieSession session = sessionService.getEventsSession();
-				session.getAgenda().getAgendaGroup("failed-login-attempt").setFocus();
-				session.insert(event);
-				int fired = session.fireAllRules();
+				KieSession kieSession = kieSessionService.getEventsSession();
+				kieSession.getAgenda().getAgendaGroup("failed-login-attempt").setFocus();
+				kieSession.insert(event);
+				int fired = kieSession.fireAllRules();
 				if (fired == 1) {
 					user.setEnabled(false);
 					registeredUserService.save(user);

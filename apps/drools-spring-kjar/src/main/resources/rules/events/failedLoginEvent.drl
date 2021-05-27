@@ -5,7 +5,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 
 declare SuspiciousUserEvent
     @role(event)
-    @expires(10m)
+    @expires(24h)
     user: RegisteredUser
     reason: String
 end;
