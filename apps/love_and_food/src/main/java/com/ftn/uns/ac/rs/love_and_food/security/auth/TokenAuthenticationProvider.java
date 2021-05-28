@@ -10,13 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
-import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.RegisteredUserRepository;
 
 @Component
 public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
 	@Autowired
-	UserRepository userRepository;
+	RegisteredUserRepository registeredUserRepository;
 
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
@@ -29,7 +29,7 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
 	protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException {
 
-		RegisteredUser registeredUser = userRepository.findByEmail(username);
+		RegisteredUser registeredUser = registeredUserRepository.findByEmail(username);
 
 		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
 		

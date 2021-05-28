@@ -1,9 +1,11 @@
-/*package rules;
+package rules;
 
-query "getAllSuspiciousUsers"
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+
+/*query "getAllSuspiciousUsers"
     $result: SuspiciousUserEvent()
-end
+end*/
 
 query "getAllUsers"
-    $users: User()
-end*/
+    $user: User()
+end

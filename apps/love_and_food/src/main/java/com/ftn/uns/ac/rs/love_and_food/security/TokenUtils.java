@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
-import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.RegisteredUserRepository;
 import com.google.gson.Gson;
 
 import io.jsonwebtoken.Claims;
@@ -39,7 +39,7 @@ public class TokenUtils {
 	private String AUTH_HEADER;
 
 	@Autowired
-	private UserRepository userRepository;
+	private RegisteredUserRepository registeredUserRepository;
 
 	private Gson gson = new Gson();
 
@@ -58,7 +58,7 @@ public class TokenUtils {
 
 	public String generateToken(String username) {
 		RegisteredUser u;
-		u = this.userRepository.findByEmail(username);
+		u = this.registeredUserRepository.findByEmail(username);
 
 		return Jwts.builder().setIssuer(APP_NAME).setSubject(username).setAudience(generateAudience())
 				.setIssuedAt(new Date()).setExpiration(generateExpirationDate())

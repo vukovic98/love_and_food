@@ -93,6 +93,7 @@ public class AuthController {
 					registeredUserService.save(user);
 				}
 			}
+			e.printStackTrace();
 			throw new BadCredentialsException("Bad credentials.");
 		} 
 
