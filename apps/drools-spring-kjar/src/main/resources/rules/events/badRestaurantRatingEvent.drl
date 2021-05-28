@@ -1,0 +1,56 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
+import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
+
+rule "The restaurant rating is below 2.5 a minimum of 3 users rated it"
+	agenda-group "restaurant-rating-event"
+	salience 90
+    when
+        $ratingEvent: RestaurantRatingEvent($grade: grade);
+        $total : Double( doubleValue <= 2.5) from accumulate(
+	         Grade( restaurant == $grade.getRestaurant(), $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade, $all: overall_grade ),
+	         init( double total = 0; int cnt = 0; ),
+	         action( 
+	         	total = total + $loc + $amb + $hos + $ser + $all;
+	         	cnt = cnt + 1;
+	          ),
+	         reverse( 
+	         	total = total - ( $loc + $amb + $hos + $ser + $all ); 
+	         	cnt = cnt - 1;
+	         ),
+	         result( new Double( total / (cnt * 6) ) )
+        );
+        $gradeCount: Number (intValue >= 3) from accumulate (
+        	Grade( restaurant == $grade.getRestaurant() ),
+        	count(3)
+        );
+    then
+    	modify($ratingEvent){setMessage("WARNING: The rating of the restaurant: " + $grade.getRestaurant().getName()+  " is very bad => " + $total + " [ " + $gradeCount + " grades ] ");};
+    	System.out.println("WARNING: The rating of the restaurant: " + $grade.getRestaurant().getName()+  " is very bad => " + $total + " [ " + $gradeCount + " grades ] ");
+end;
+
+rule "The restaurant has received minimum grade (all 1s)"
+	agenda-group "restaurant-rating-event"
+	salience 80
+	when
+		$ratingEvent: RestaurantRatingEvent($grade: grade, $grade.getLocation_grade() == 1 && $grade.getAmbient_grade() == 1 
+			&& $grade.getAtmosphere_grade() == 1 && $grade.getHospitability_grade() == 1 && $grade.getService_grade() == 1 
+			&& $grade.getOverall_grade() == 1);
+	then
+		modify($ratingEvent){setMessage("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got minimal grade!");};
+	    System.out.println("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got minimal grade!");
+end;
+
+rule "The restaurant has received maximum grade (all 5s)"
+	agenda-group "restaurant-rating-event"
+	salience 80
+	when
+		$ratingEvent: RestaurantRatingEvent($grade: grade, $grade.getLocation_grade() == 5 && $grade.getAmbient_grade() == 5 
+			&& $grade.getAtmosphere_grade() == 5 && $grade.getHospitability_grade() == 5 && $grade.getService_grade() == 5 
+			&& $grade.getOverall_grade() == 5);
+	then
+		modify($ratingEvent){setMessage("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got maximum grade!");};
+	    System.out.println("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got maximum grade!");
+end;

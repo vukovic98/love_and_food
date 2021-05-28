@@ -2,6 +2,7 @@ package com.ftn.uns.ac.rs.love_and_food.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
+import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
@@ -33,6 +35,9 @@ public class RestaurantService {
 
 	@Autowired
     private KieSession kieSession;
+	
+	@Autowired
+	private KieStatefulSessionService kieService;
 
 	@Autowired
 	private GradeRepository gradeRepository;
@@ -191,6 +196,19 @@ public class RestaurantService {
 
 				this.restaurantRepository.save(r);
 
+				RestaurantRatingEvent event = new RestaurantRatingEvent(new Date(), saved, "");
+				
+				KieSession session = this.kieService.getEventsSession();
+				session.insert(event);
+				
+				List<Grade> grades = this.gradeRepository.findAll();
+				
+				for(Grade gr : grades) 
+					session.insert(gr);
+				
+				session.getAgenda().getAgendaGroup("restaurant-rating-event").setFocus();
+				session.fireAllRules();
+				
 				if (saved != null)
 					return true;
 				else
