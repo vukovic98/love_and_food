@@ -3,6 +3,7 @@ package com.ftn.uns.ac.rs.love_and_food.model;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,9 +55,9 @@ public class Restaurant {
 	@Enumerated(value = EnumType.STRING)
 	private Music music;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "restaurant_cuisine", joinColumns = @JoinColumn(name = "restaurant_id"))
-	private List<Cuisine> cuisine;
+	private Set<Cuisine> cuisine;
 
 	@Enumerated(value = EnumType.STRING)
 	private PriceRange priceRange;
@@ -86,7 +88,7 @@ public class Restaurant {
 	}
 
 	public Restaurant(Long restaurant_id, String name, Location location, LocalTime startingHours,
-			LocalTime endingHours, ArrayList<Grade> grades, Ambient ambient, Music music, List<Cuisine> cuisine,
+			LocalTime endingHours, ArrayList<Grade> grades, Ambient ambient, Music music, Set<Cuisine> cuisine,
 			PriceRange priceRange, boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol,
 			boolean parking, boolean smokingArea) {
 		super();
@@ -173,11 +175,11 @@ public class Restaurant {
 		this.music = music;
 	}
 
-	public List<Cuisine> getCuisine() {
+	public Set<Cuisine> getCuisine() {
 		return cuisine;
 	}
 
-	public void setCuisine(List<Cuisine> cuisine) {
+	public void setCuisine(Set<Cuisine> cuisine) {
 		this.cuisine = cuisine;
 	}
 

@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
-import com.ftn.uns.ac.rs.love_and_food.service.RegisteredUserService;
 import com.ftn.uns.ac.rs.love_and_food.service.RestaurantService;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
 
@@ -42,6 +42,26 @@ public class RestaurantController {
 	
 	@Autowired
 	private RestaurantMapper restaurantMapper;
+	
+	@GetMapping()
+	public ResponseEntity<ArrayList<RestaurantDTO>> findAll() {
+		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.findAll();
+		
+		if(!found.isEmpty())
+			return new ResponseEntity<>(found, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping(path = "/filter")
+	public ResponseEntity<ArrayList<RestaurantDTO>> findAllByCuisine(@RequestBody RestaurantFilterDTO dto) {
+		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.filterRestaurants(dto);
+		
+		if(!found.isEmpty())
+			return new ResponseEntity<>(found, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
 	@PostMapping()
 	public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant r) {

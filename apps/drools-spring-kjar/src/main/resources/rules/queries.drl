@@ -1,6 +1,12 @@
 package rules;
 
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
+
+
 
 /*query "getAllSuspiciousUsers"
     $result: SuspiciousUserEvent()
@@ -9,3 +15,69 @@ end*/
 query "getAllUsers"
     $user: User()
 end
+
+/*	FOOD PART	*/
+
+query "getAllRestaurants"
+	$restaurant: Restaurant()
+end;
+
+query "getRestaurantsByName"(String restName)
+	$restaurant: Restaurant(name == restName)
+end;
+
+query "getRestaurantsByLocation"(Location loc)
+	$restaurant: Restaurant(location == loc)
+end;
+
+query "getRestaurantsByPrice"(PriceRange price)
+	$restaurant: Restaurant(priceRange == price)
+end;
+
+query "getRestaurantsByCuisine"(Cuisine c)
+	$restaurant: Restaurant(c memberOf cuisine)
+end;
+
+query "getRestaurantsByNameAndLocation"(String restName, Location l)
+	$restaurant: Restaurant(name == restName && location == l)
+end;
+
+query "getRestaurantsByNameAndLocationAndCuisine"(String restName, Location l, Cuisine c)
+	$restaurant: Restaurant(name == restName && location == l && c memberOf cuisine)
+end;
+
+query "getRestaurantsByNameAndLocationAndPrice"(String restName, Location l, PriceRange p)
+	$restaurant: Restaurant(name == restName && location == l && priceRange == p)
+end;
+
+query "getRestaurantsByNameAndPrice"(String restName, PriceRange p)
+	$restaurant: Restaurant(name == restName && priceRange == p)
+end;
+
+query "getRestaurantsByNameAndCuisine"(String restName, Cuisine c)
+	$restaurant: Restaurant(name == restName && c memberOf cuisine)
+end;
+
+query "getRestaurantsByLocationAndPrice"(Location l, PriceRange p)
+	$restaurant: Restaurant(location == l && priceRange == p)
+end;
+
+query "getRestaurantsByLocationAndCuisine"(Location l, Cuisine c)
+	$restaurant: Restaurant(location == l && c memberOf cuisine)
+end;
+
+query "getRestaurantsByLocationAndPriceAndCuisine"(Location l, PriceRange p, Cuisine c)
+	$restaurant: Restaurant(location == l && priceRange == p && c memberOf cuisine)
+end;
+
+query "getRestaurantsByPriceAndCuisine"(PriceRange p, Cuisine c)
+	$restaurant: Restaurant(priceRange == p && c memberOf cuisine)
+end;
+
+query "getRestaurantsByNameAndPriceAndCuisine"(String restName, PriceRange p, Cuisine c)
+	$restaurant: Restaurant(name == restName && priceRange == p && c memberOf cuisine)
+end;
+
+query "getRestaurantsByAll"(String restName, Location l, PriceRange p, Cuisine c)
+	$restaurant: Restaurant(name == restName && location == l && priceRange == p && c memberOf cuisine)
+end;

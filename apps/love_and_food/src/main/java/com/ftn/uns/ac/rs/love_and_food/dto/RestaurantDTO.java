@@ -2,6 +2,7 @@ package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
@@ -18,7 +19,7 @@ public class RestaurantDTO {
 	private LocalTime endingHours;
 	private Ambient ambient;
 	private Music music;
-	private List<Cuisine> cuisine;
+	private Set<Cuisine> cuisine;
 	private PriceRange priceRange;
 	private boolean garden;
 	private boolean wifi;
@@ -33,7 +34,7 @@ public class RestaurantDTO {
 	}
 
 	public RestaurantDTO(Long restaurant_id, String name, Location location, LocalTime startingHours,
-			LocalTime endingHours, Ambient ambient, Music music, List<Cuisine> cuisine, PriceRange priceRange,
+			LocalTime endingHours, Ambient ambient, Music music, Set<Cuisine> cuisine, PriceRange priceRange,
 			boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol, boolean parking,
 			boolean smokingArea) {
 		super();
@@ -111,11 +112,11 @@ public class RestaurantDTO {
 		this.music = music;
 	}
 
-	public List<Cuisine> getCuisine() {
+	public Set<Cuisine> getCuisine() {
 		return cuisine;
 	}
 
-	public void setCuisine(List<Cuisine> cuisine) {
+	public void setCuisine(Set<Cuisine> cuisine) {
 		this.cuisine = cuisine;
 	}
 

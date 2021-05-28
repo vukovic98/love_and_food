@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
@@ -34,8 +37,8 @@ public class RestaurantService {
 	private RestaurantRepository restaurantRepository;
 
 	@Autowired
-    private KieSession kieSession;
-	
+	private KieSession kieSession;
+
 	@Autowired
 	private KieStatefulSessionService kieService;
 
@@ -132,6 +135,18 @@ public class RestaurantService {
 		}
 	};
 
+	public List<RestaurantDTO> findAll() {
+		QueryResults results = this.kieSession.getQueryResults("getAllRestaurants");
+		ArrayList<Restaurant> restaurants = new ArrayList<>();
+
+		for (QueryResultsRow row : results) {
+			Restaurant restaurant = (Restaurant) row.get("$restaurant");
+			restaurants.add(restaurant);
+		}
+
+		return this.restaurantMapper.toDTOList(restaurants);
+	}
+
 	public Restaurant addRestaurant(Restaurant r) {
 		return this.restaurantRepository.save(r);
 	}
@@ -150,12 +165,12 @@ public class RestaurantService {
 
 		this.kieSession.getAgenda().getAgendaGroup("restaurant-requirements").setFocus();
 		this.kieSession.fireAllRules();
-		
+
 		this.kieSession.insert(this.distanceMap);
 
 		this.kieSession.getAgenda().getAgendaGroup("perfect-restaurant").setFocus();
 		this.kieSession.fireAllRules();
-		
+
 		this.kieSession.getAgenda().getAgendaGroup("calculating-score").setFocus();
 		this.kieSession.fireAllRules();
 
@@ -197,18 +212,18 @@ public class RestaurantService {
 				this.restaurantRepository.save(r);
 
 				RestaurantRatingEvent event = new RestaurantRatingEvent(new Date(), saved, "");
-				
+
 				KieSession session = this.kieService.getEventsSession();
 				session.insert(event);
-				
+
 				List<Grade> grades = this.gradeRepository.findAll();
-				
-				for(Grade gr : grades) 
+
+				for (Grade gr : grades)
 					session.insert(gr);
-				
+
 				session.getAgenda().getAgendaGroup("restaurant-rating-event").setFocus();
 				session.fireAllRules();
-				
+
 				if (saved != null)
 					return true;
 				else
@@ -261,22 +276,22 @@ public class RestaurantService {
 
 		List<Restaurant> mostVisitedRestaurants = new ArrayList<>();
 		List<DatePlace> dates = this.dateRepository.findAll();
-		
+
 		this.kieSession.setGlobal("mostVisitedRestaurants", mostVisitedRestaurants);
 		this.kieSession.setGlobal("dates", dates);
-		
-		LocalDate start_fall = LocalDate.of( 2020 , 9 , 23 ) ;
-		LocalDate stop_fall = LocalDate.of( 2020 , 12 , 21 ) ;
-		
-		LocalDate start_winter = LocalDate.of( 2020 , 12 , 21 ) ;
-		LocalDate stop_winter = LocalDate.of( 2020 , 3 , 21 ) ;
 
-		LocalDate start_summer = LocalDate.of( 2020 , 6 , 21 ) ;
-		LocalDate stop_summer = LocalDate.of( 2020 , 9 , 23 ) ;
+		LocalDate start_fall = LocalDate.of(2020, 9, 23);
+		LocalDate stop_fall = LocalDate.of(2020, 12, 21);
 
-		LocalDate start_spring = LocalDate.of( 2020 , 3 , 21 ) ;
-		LocalDate stop_spring = LocalDate.of( 2020 , 6 , 21 ) ;
-		
+		LocalDate start_winter = LocalDate.of(2020, 12, 21);
+		LocalDate stop_winter = LocalDate.of(2020, 3, 21);
+
+		LocalDate start_summer = LocalDate.of(2020, 6, 21);
+		LocalDate stop_summer = LocalDate.of(2020, 9, 23);
+
+		LocalDate start_spring = LocalDate.of(2020, 3, 21);
+		LocalDate stop_spring = LocalDate.of(2020, 6, 21);
+
 		this.kieSession.setGlobal("start_fall", start_fall);
 		this.kieSession.setGlobal("stop_fall", stop_fall);
 
@@ -289,7 +304,7 @@ public class RestaurantService {
 		this.kieSession.setGlobal("start_spring", start_spring);
 		this.kieSession.setGlobal("stop_spring", stop_spring);
 
-		if (season.equalsIgnoreCase("FALL")) {	
+		if (season.equalsIgnoreCase("FALL")) {
 			this.kieSession.getAgenda().getAgendaGroup("most-visited-fall").setFocus();
 			this.kieSession.fireAllRules();
 		}
@@ -298,17 +313,134 @@ public class RestaurantService {
 			this.kieSession.getAgenda().getAgendaGroup("most-visited-winter").setFocus();
 			this.kieSession.fireAllRules();
 		}
-		
+
 		if (season.equalsIgnoreCase("SUMMER")) {
 			this.kieSession.getAgenda().getAgendaGroup("most-visited-summer").setFocus();
 			this.kieSession.fireAllRules();
 		}
-		
+
 		if (season.equalsIgnoreCase("SPRING")) {
 			this.kieSession.getAgenda().getAgendaGroup("most-visited-spring").setFocus();
 			this.kieSession.fireAllRules();
 		}
 		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(mostVisitedRestaurants);
+	}
+
+	public ArrayList<RestaurantDTO> filterRestaurants(RestaurantFilterDTO dto) {
+		QueryResults results = null;
+
+		if (dto.getName() != null) {
+//			NAME
+			if (dto.getLocation() != null) {
+				if (dto.getPrice() != null) {
+					if (dto.getCuisine() != null) {
+//						ALL
+						results = this.kieSession.getQueryResults("getRestaurantsByAll", dto.getName(),
+								dto.getLocation(), dto.getPrice(), dto.getCuisine());
+					} else {
+//						CUISINE == NULL
+//						NAME, LOCATION, PRICE
+						results = this.kieSession.getQueryResults("getRestaurantsByNameAndLocationAndPrice",
+								dto.getName(), dto.getLocation(), dto.getPrice());
+					}
+				} else {
+//					PRICE == NULL
+					if (dto.getCuisine() != null) {
+//					NAME, LOCATION, CUISINE
+						results = this.kieSession.getQueryResults("getRestaurantsByNameAndLocationAndCuisine",
+								dto.getName(), dto.getLocation(), dto.getCuisine());
+					} else {
+//						CUISINE == NULL
+//						NAME, LOCATION
+						results = this.kieSession.getQueryResults("getRestaurantsByNameAndLocation", dto.getName(),
+								dto.getLocation());
+					}
+				}
+			} else {
+//				LOCATION == NULL
+				if (dto.getPrice() != null) {
+					if (dto.getCuisine() != null) {
+//						NAME, PRICE, CUISINE
+						results = this.kieSession.getQueryResults("getRestaurantsByNameAndPriceAndCuisine",
+								dto.getName(), dto.getPrice(), dto.getCuisine());
+					} else {
+//						CUISINE == NULL
+//						NAME, PRICE
+						results = this.kieSession.getQueryResults("getRestaurantsByNameAndPrice", dto.getName(),
+								dto.getPrice());
+					}
+				} else {
+//					PRICE == NULL
+					if (dto.getCuisine() != null) {
+//					NAME, CUISINE
+						results = this.kieSession.getQueryResults("getRestaurantsByNameAndCuisine", dto.getName(),
+								dto.getCuisine());
+					} else {
+//						CUISINE == NULL
+//						NAME
+						results = this.kieSession.getQueryResults("getRestaurantsByName", dto.getName());
+					}
+				}
+			}
+		} else {
+//			NAME = NULL
+			if (dto.getLocation() != null) {
+				if (dto.getPrice() != null) {
+					if (dto.getCuisine() != null) {
+//						LOCATION, CUISINE, PRICE
+						results = this.kieSession.getQueryResults("getRestaurantsByLocationAndPriceAndCuisine",
+								dto.getLocation(), dto.getPrice(), dto.getCuisine());
+					} else {
+//						LOCATION, PRICE
+						results = this.kieSession.getQueryResults("getRestaurantsByLocationAndPrice", dto.getLocation(),
+								dto.getPrice());
+					}
+				} else {
+//					PRICE == NULL
+					if (dto.getCuisine() != null) {
+//						LOCATION, CUISINE
+						results = this.kieSession.getQueryResults("getRestaurantsByLocationAndCuisine",
+								dto.getLocation(), dto.getCuisine());
+					} else {
+//						LOCATION
+						results = this.kieSession.getQueryResults("getRestaurantsByLocation", dto.getLocation());
+					}
+				}
+			} else {
+//				LOCATION == NULL, NAME == NULL
+				if (dto.getPrice() != null) {
+					if (dto.getCuisine() != null) {
+//						CUISINE, PRICE
+						results = this.kieSession.getQueryResults("getRestaurantsByPriceAndCuisine", dto.getPrice(),
+								dto.getCuisine());
+					} else {
+//						PRICE
+						results = this.kieSession.getQueryResults("getRestaurantsByPrice", dto.getPrice());
+					}
+				} else {
+//					PRICE == NULL
+					if (dto.getCuisine() != null) {
+//						CUISINE
+						results = this.kieSession.getQueryResults("getRestaurantsByCuisine", dto.getCuisine());
+					} else {
+//						NONE
+						results = this.kieSession.getQueryResults("getAllRestaurants");
+					}
+				}
+			}
+		}
+
+		if (results != null) {
+			ArrayList<Restaurant> restaurants = new ArrayList<>();
+
+			for (QueryResultsRow row : results) {
+				Restaurant restaurant = (Restaurant) row.get("$restaurant");
+				restaurants.add(restaurant);
+			}
+
+			return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(restaurants);
+		} else
+			return new ArrayList<>();
 	}
 
 }
