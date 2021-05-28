@@ -19,6 +19,7 @@ import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
@@ -39,25 +40,47 @@ public class RestaurantController {
 
 	@Autowired
 	private MatchService matchService;
-	
+
 	@Autowired
 	private RestaurantMapper restaurantMapper;
-	
+
 	@GetMapping()
 	public ResponseEntity<ArrayList<RestaurantDTO>> findAll() {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.findAll();
-		
-		if(!found.isEmpty())
+
+		if (!found.isEmpty())
 			return new ResponseEntity<>(found, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
+	@GetMapping(path = "/filter-by-hours")
+	public ResponseEntity<ArrayList<RestaurantDTO>> test(WorkingHoursDTO dto) {
+		ArrayList<RestaurantDTO> result = this.restaurantService.findRestaurantsByHours();
+
+		if (!result.isEmpty())
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping(path = "/create-filter-by-hours")
+	public ResponseEntity<ArrayList<RestaurantDTO>> filterByHours(@RequestBody WorkingHoursDTO dto) {
+
+		boolean ok = this.restaurantService.createRuleForWorkingHours(dto);
+
+		if (ok) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	@GetMapping(path = "/filter")
-	public ResponseEntity<ArrayList<RestaurantDTO>> findAllByCuisine(@RequestBody RestaurantFilterDTO dto) {
+	public ResponseEntity<ArrayList<RestaurantDTO>> filterRestaurants(@RequestBody RestaurantFilterDTO dto) {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.filterRestaurants(dto);
-		
-		if(!found.isEmpty())
+
+		if (!found.isEmpty())
 			return new ResponseEntity<>(found, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -116,46 +139,47 @@ public class RestaurantController {
 		} else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/best-graded")
 	public ResponseEntity<ArrayList<RestaurantDTO>> bestGradedReport() {
 		ArrayList<RestaurantDTO> dtos = this.restaurantService.bestGradedReport();
-		
-		if(!dtos.isEmpty())
+
+		if (!dtos.isEmpty())
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/declining-restaurant")
 	public ResponseEntity<ArrayList<RestaurantDTO>> decliningRestaurantsReport() {
 		ArrayList<RestaurantDTO> dtos = this.restaurantService.decliningRestaurantsReport();
-		
-		if(!dtos.isEmpty())
+
+		if (!dtos.isEmpty())
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/rising-restaurant")
 	public ResponseEntity<ArrayList<RestaurantDTO>> risingRestaurantsReport() {
 		ArrayList<RestaurantDTO> dtos = this.restaurantService.risingRestaurantsReport();
-		
-		if(!dtos.isEmpty())
+
+		if (!dtos.isEmpty())
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/most-visited/{season}")
-	public ResponseEntity<ArrayList<RestaurantDTO>> mostVisitedRestaurantsReport(@PathVariable("season") String season) {
+	public ResponseEntity<ArrayList<RestaurantDTO>> mostVisitedRestaurantsReport(
+			@PathVariable("season") String season) {
 		ArrayList<RestaurantDTO> dtos = this.restaurantService.mostVisitedRestaurantsReport(season);
-		
-		if(!dtos.isEmpty())
+
+		if (!dtos.isEmpty())
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

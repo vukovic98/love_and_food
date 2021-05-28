@@ -39,23 +39,23 @@ query "getRestaurantsByCuisine"(Cuisine c)
 end;
 
 query "getRestaurantsByNameAndLocation"(String restName, Location l)
-	$restaurant: Restaurant(name == restName && location == l)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && location == l)
 end;
 
 query "getRestaurantsByNameAndLocationAndCuisine"(String restName, Location l, Cuisine c)
-	$restaurant: Restaurant(name == restName && location == l && c memberOf cuisine)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && location == l && c memberOf cuisine)
 end;
 
 query "getRestaurantsByNameAndLocationAndPrice"(String restName, Location l, PriceRange p)
-	$restaurant: Restaurant(name == restName && location == l && priceRange == p)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && location == l && priceRange == p)
 end;
 
 query "getRestaurantsByNameAndPrice"(String restName, PriceRange p)
-	$restaurant: Restaurant(name == restName && priceRange == p)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && priceRange == p)
 end;
 
 query "getRestaurantsByNameAndCuisine"(String restName, Cuisine c)
-	$restaurant: Restaurant(name == restName && c memberOf cuisine)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && c memberOf cuisine)
 end;
 
 query "getRestaurantsByLocationAndPrice"(Location l, PriceRange p)
@@ -75,9 +75,9 @@ query "getRestaurantsByPriceAndCuisine"(PriceRange p, Cuisine c)
 end;
 
 query "getRestaurantsByNameAndPriceAndCuisine"(String restName, PriceRange p, Cuisine c)
-	$restaurant: Restaurant(name == restName && priceRange == p && c memberOf cuisine)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && priceRange == p && c memberOf cuisine)
 end;
 
 query "getRestaurantsByAll"(String restName, Location l, PriceRange p, Cuisine c)
-	$restaurant: Restaurant(name == restName && location == l && priceRange == p && c memberOf cuisine)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && location == l && priceRange == p && c memberOf cuisine)
 end;

@@ -1,12 +1,21 @@
 package com.ftn.uns.ac.rs.love_and_food.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.Invoker;
+import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
@@ -17,6 +26,7 @@ import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
@@ -52,7 +62,7 @@ public class RestaurantService {
 	private RestaurantMapper restaurantMapper;
 
 	@SuppressWarnings("serial")
-	public Map<Location, ArrayList<Location>> distanceMap = new HashMap<Location, ArrayList<Location>>() {
+	public HashMap<Location, ArrayList<Location>> distanceMap = new HashMap<Location, ArrayList<Location>>() {
 		{
 			put(Location.BANATIC, new ArrayList<Location>() {
 				{
@@ -186,6 +196,18 @@ public class RestaurantService {
 		this.dateRepository.save(d);
 
 		return perfect;
+	}
+	
+	public ArrayList<RestaurantDTO> findRestaurantsByHours() {
+
+		ArrayList<Restaurant> result = new ArrayList<>();
+		
+		this.kieSession.setGlobal("resultHours", result);
+
+		this.kieSession.getAgenda().getAgendaGroup("working-hours").setFocus();
+		this.kieSession.fireAllRules();
+
+		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(result);
 	}
 
 	public boolean gradeRestaurant(GradeDTO dto, User user) {
@@ -441,6 +463,39 @@ public class RestaurantService {
 			return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(restaurants);
 		} else
 			return new ArrayList<>();
+	}
+
+	public boolean createRuleForWorkingHours(WorkingHoursDTO hoursRange) {
+		System.out.println(hoursRange.getStartTime() + ": " + hoursRange.getEndTime());
+		try {
+			InputStream template = new FileInputStream(
+					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\templates\\restaurantsByWorkingHours.drt");
+
+			// Compile template to generate new rules
+			List<WorkingHoursDTO> arguments = new ArrayList<>();
+			arguments.add(hoursRange);
+			ObjectDataCompiler compiler = new ObjectDataCompiler();
+			String drl = compiler.compile(arguments, template);
+
+			// Save rule to drl file
+			FileOutputStream drlFile = new FileOutputStream(new File(
+					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\restaurantsByWorkingHours.drl"));
+			drlFile.write(drl.getBytes());
+			drlFile.close();
+
+			// Update Rules project
+			InvocationRequest request = new DefaultInvocationRequest();
+			request.setPomFile(new File("../drools-spring-kjar/pom.xml"));
+			request.setGoals(Arrays.asList("clean", "install"));
+
+			Invoker invoker = new DefaultInvoker();
+			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
+			invoker.execute(request);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
