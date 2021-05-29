@@ -13,6 +13,8 @@ import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.drools.template.ObjectDataCompiler;
+
+
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
@@ -84,5 +86,4 @@ public class MatchService {
 			e.printStackTrace();
 			return null;
 		}
-	}
 }
