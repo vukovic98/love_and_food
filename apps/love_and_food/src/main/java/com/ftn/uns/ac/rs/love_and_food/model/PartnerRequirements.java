@@ -1,6 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
@@ -16,11 +17,16 @@ public class PartnerRequirements {
 	private DesiredRelationship desiredRelationship;
 	private Children children;
 	
+	private boolean active;
+	private Date timestamp;
+	
 	private long userId;	
 
 	public PartnerRequirements(long userId) {
 		this.userId = userId;
 		this.suitableAge = new ArrayList<Age>();
+		this.active = true;
+		this.timestamp = new Date();
 	}
 
 	public Gender getPrefferedGender() {
@@ -70,8 +76,22 @@ public class PartnerRequirements {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
-	
-	
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 	
 
 }

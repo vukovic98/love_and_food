@@ -18,8 +18,17 @@ public class PersonalityAnswer {
 	@Min( value = 1, message = "Invalid answer value.")
 	private int answer;
 	
+	private Long userId;
+	
 	public PersonalityAnswer() {}
 	
+	public PersonalityAnswer(
+			@NotBlank(message = "Question group cannot be empty.") @Pattern(regexp = "EI|SN|TF|JP") QuestionGroup group,
+			@NotNull(message = "Answer cannot be emtpy.") @Min(value = 0, message = "Invalid answer value.") @Min(value = 1, message = "Invalid answer value.") int answer) {
+		this.group = group;
+		this.answer = answer;
+	}
+
 	public QuestionGroup getGroup() {
 		return group;
 	}
@@ -31,5 +40,11 @@ public class PersonalityAnswer {
 	}
 	public void setAnswer(int answer) {
 		this.answer = answer;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

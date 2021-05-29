@@ -84,6 +84,43 @@ public class UserDTO {
 	public UserDTO() {
 	}
 	
+	
+	
+	public UserDTO(
+			@NotBlank(message = "Name cannot be empty.") @Pattern(regexp = "[A-Z][a-z]+", message = "Name must start with capital letter and can contain only letters.") String name,
+			@NotBlank(message = "Surname cannot be empty.") @Pattern(regexp = "[A-Z][a-z]+", message = "Surname must start with capital letter and can contain only letters.") String surname,
+			@NotBlank(message = "Email cannot be empty.") @Email(message = "Email must be in format 'example@mail.com'") String email,
+			@NotBlank(message = "Password cannot be empty.") String password,
+			@NotNull(message = "Date of birth cannot be empty.") Date dateOfBirth,
+			@NotNull(message = "Gender cannot be empty.") Gender gender,
+			@NotNull(message = "Sexual orientation cannot be empty.") SexualOrientation sexualOrientation,
+			@NotNull(message = "Education cannot be empty.") Education education,
+			@NotNull(message = "Income cannot be empty.") Income income,
+			@NotNull(message = "Religion cannot be empty.") Religion religion,
+			@NotNull(message = "Children cannot be empty.") Children children,
+			@NotNull(message = "Desired relationship cannot be empty.") DesiredRelationship desiredRelationship,
+			@NotNull(message = "Location cannot be empty.") Location location,
+			@NotNull(message = "Alchocol cannot be empty.") boolean alchocol,
+			@NotNull(message = "Smoking cannot be empty.") boolean smoking) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.password = password;
+		this.dateOfBirth = dateOfBirth;
+		this.gender = gender;
+		this.sexualOrientation = sexualOrientation;
+		this.education = education;
+		this.income = income;
+		this.religion = religion;
+		this.children = children;
+		this.desiredRelationship = desiredRelationship;
+		this.location = location;
+		this.alchocol = alchocol;
+		this.smoking = smoking;
+	}
+
+
+
 	public UserDTO(Long id,
 			@NotBlank(message = "Name cannot be empty.") @Pattern(regexp = "[A-Z][a-z]+", message = "Name must start with capital letter and can contain only letters.") String name,
 			@NotBlank(message = "Surname cannot be empty.") @Pattern(regexp = "[A-Z][a-z]+", message = "Surname must start with capital letter and can contain only letters.") String surname,

@@ -9,7 +9,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 
 global List<UserRatingDTO> mvps;
-global List<User> liars;
+global Set<User> liars;
 
 rule "Liars"
 	agenda-group "liars-report"
@@ -27,7 +27,7 @@ rule "Liars"
 		accumulate(
 			User($init: this) from $initiators and
 			Match($m: this, soulmate == $init) from $badMatches,
-			$liars: collectList($init)
+			$liars: collectSet($init)
 		)
 	then
 		liars.addAll($liars);

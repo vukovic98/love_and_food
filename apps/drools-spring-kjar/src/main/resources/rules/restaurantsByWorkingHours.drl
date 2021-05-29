@@ -9,7 +9,7 @@ global ArrayList<Restaurant> resultHours;
 rule "Get restaurants with working hours in range"
 	agenda-group "working-hours"
 	when
-		$restaurant: Restaurant(startingHours.isBefore(LocalTime.parse("13:00")) && endingHours.isAfter(LocalTime.parse("15:00")));
+		$restaurant: Restaurant(startingHours.isBefore(LocalTime.parse("08:00")) && endingHours.isAfter(LocalTime.parse("20:00")));
 	then
 	    resultHours.add($restaurant);
 end

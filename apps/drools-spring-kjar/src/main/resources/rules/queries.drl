@@ -2,19 +2,25 @@ package rules;
 
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
+import com.ftn.uns.ac.rs.love_and_food.event.FailedLoginEvent;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
-
-
-
-/*query "getAllSuspiciousUsers"
-    $result: SuspiciousUserEvent()
-end*/
+import com.ftn.uns.ac.rs.love_and_food.model.Match;
 
 query "getAllUsers"
     $user: User()
 end
+
+query "getAllMatches"
+    $match: Match()
+end
+
+// dobavi sve po prosledjenom tipu licnosti
+query "getAllUsersByPersonality"(String personalityType)
+	$users: User(personalityTraits.contains(personalityType.toUpperCase()))
+end;
+
 
 /*	FOOD PART	*/
 
@@ -81,3 +87,4 @@ end;
 query "getRestaurantsByAll"(String restName, Location l, PriceRange p, Cuisine c)
 	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()) && location == l && priceRange == p && c memberOf cuisine)
 end;
+

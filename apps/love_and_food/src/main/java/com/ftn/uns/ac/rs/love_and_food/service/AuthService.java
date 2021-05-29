@@ -40,11 +40,15 @@ public class AuthService {
 			user.setPassword(encoder.encode(user.getPassword()));
 			// postavljanje authorities
 			user.setAuthorities(new ArrayList<>(authorityService.findByName("ROLE_USER")));
+			// cuvanje u bazi zbog id-a
+			user = userRepository.save(user);
+			
 			// ubacivanje u sesiju i odredjivanje licnosti korisnika
 			// kreiramo sesiju za svaku registraciju jer nam nije neophodno da cuvamo sve
 			// odgovore za svakog korisnika
 			this.kieSession.insert(user);
 			for (PersonalityAnswer personalityAnswer : testAnswers) {
+				personalityAnswer.setUserId(user.getId());
 				this.kieSession.insert(personalityAnswer);
 			}
 			this.kieSession.getAgenda().getAgendaGroup("personality-test").setFocus();
