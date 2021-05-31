@@ -65,7 +65,7 @@ public class User extends RegisteredUser {
 	@Column(name = "smoking", nullable = false)
 	private boolean smoking;
 	
-	@Column(name = "personality", nullable = false)
+	@Column(name = "personality", nullable = true)
 	private String personalityTraits;
 	
 	private Age ageGroup;
@@ -257,7 +257,8 @@ public class User extends RegisteredUser {
 
 	@Override
 	public String toString() {
-		return "User [name=" + name + ", surname=" + surname + "]";
+		return "User [name=" + name + ", surname=" + surname + ", getId()=" + getId() + ", getEmail()=" + getEmail()
+				+ "]";
 	}
 	
 }

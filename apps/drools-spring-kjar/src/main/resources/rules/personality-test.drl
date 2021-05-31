@@ -8,13 +8,15 @@ rule "Personality more 0"
 	agenda-group "personality-test"
 	lock-on-active true
 	when
-		$u: User()
+		$u: User($id : id)
 		$qg: QuestionGroup() from QuestionGroup.values()
 		Number($value: intValue >= 3) from accumulate(
-        	PersonalityAnswer($t:this, group == $qg, answer == 0),
+        	PersonalityAnswer($t:this, group == $qg, answer == 0, userId == $id),
         	count($t)
         )
 	then
+		System.out.println($qg);
+		System.out.println($u);
 		System.out.println("Added personality " + $qg.getName().charAt(0) + " because count was " + $value);
 		modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(0));};
 end;
@@ -23,13 +25,15 @@ rule "Personality more 1"
 	agenda-group "personality-test"
 	lock-on-active true
 	when
-		$u: User()
+		$u: User($id : id)
 		$qg: QuestionGroup() from QuestionGroup.values()
 		Number($value: intValue >= 3) from accumulate(
-        	PersonalityAnswer($t:this, group == $qg, answer == 1),
+        	PersonalityAnswer($t:this, group == $qg, answer == 1, userId == $id),
         	count($t)
         )
 	then
+		System.out.println($qg);
+		System.out.println($u);
 		System.out.println("Added personality " + $qg.getName().charAt(1) + " because count was " + $value);
 		modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(1));};
 end;
