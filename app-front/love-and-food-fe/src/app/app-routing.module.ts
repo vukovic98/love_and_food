@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent ,
     canActivate:[RoleGuard],
-    data: {acceptRoles: 'ROLE_USER'}
+    data: {acceptRoles: 'ROLE_USER|ROLE_ADMIN'}
   },
 ];
 
