@@ -13,13 +13,18 @@ import com.ftn.uns.ac.rs.love_and_food.tests.SoulmateTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+	
+//	LOVE TESTS
+	
 	FindPartnersAgeTest.class, 
 	LoveReportLiarsTest.class,
 	LoveReportMVPsTest.class,
 	MatchesByTimeIntervalTemplateTest.class,
 	PartnerRequirementsTest.class,
 	PersonalityTestTest.class,
-	SoulmateTest.class
+	SoulmateTest.class,
+	
+//	FOOD TESTS
 })
-public class LoveSuite {
+public class TestSuite {
 }
