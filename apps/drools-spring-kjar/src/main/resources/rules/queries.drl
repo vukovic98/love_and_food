@@ -7,6 +7,8 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
 
+import java.util.Set;
+
 /* LOVE PART */
 
 query "getAllUsers"
@@ -20,6 +22,53 @@ end
 // dobavi sve po prosledjenom tipu licnosti
 query "getAllUsersByPersonality"(String personalityType)
 	$users: User(personalityTraits.contains(personalityType.toUpperCase()))
+end;
+
+query "getAllUsersWithRatingAbove"(double value)
+	accumulate(
+		User($u: this) and
+		$userRating: Number(doubleValue > value) from accumulate (
+			Match(soulmate == $u, $rating: rating),
+			average($rating)
+		),
+		$users: collectSet($u)
+	)
+end;
+
+query "getAllUsersWithRatingBelow"(double value)
+	accumulate(
+		User($u: this) and
+		$userRating: Number(doubleValue < value) from accumulate (
+			Match(soulmate == $u, $rating: rating),
+			average($rating)
+		),
+		$users: collectSet($u)
+	)
+end;
+
+query "getAllUsersWithRatingInRange"(double min, double max)
+	accumulate(
+		User($u: this) and
+		$userRating: Number(doubleValue < max, doubleValue > min) from accumulate (
+			Match(soulmate == $u, $rating: rating),
+			average($rating)
+		),
+		$users: collectSet($u)
+	)
+end;
+
+query "getAllUsersWhoMatchedAtLeast"(int times)
+	accumulate(
+		User($u1: this) and
+		User($u2: this) and
+		accumulate(
+			Match($m1: this, initiator == $u1, soulmate == $u2) and
+			Match($m2: this, initiator == $u2, soulmate == $u1),
+			$match1: collectList($m1),
+			$match2: collectList($m2)
+		) and eval($match1.size() + $match2.size() >= times),
+		$users: collectSet($u1)
+	)
 end;
 
 

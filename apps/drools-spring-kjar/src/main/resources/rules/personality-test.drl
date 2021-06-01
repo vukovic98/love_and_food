@@ -15,8 +15,6 @@ rule "Personality more 0"
         	count($t)
         )
 	then
-		System.out.println($qg);
-		System.out.println($u);
 		System.out.println("Added personality " + $qg.getName().charAt(0) + " because count was " + $value);
 		modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(0));};
 end;
@@ -32,8 +30,6 @@ rule "Personality more 1"
         	count($t)
         )
 	then
-		System.out.println($qg);
-		System.out.println($u);
 		System.out.println("Added personality " + $qg.getName().charAt(1) + " because count was " + $value);
 		modify($u){setPersonalityTraits($u.getPersonalityTraits() + $qg.getName().charAt(1));};
 end;

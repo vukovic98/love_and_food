@@ -1,0 +1,43 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.event.MateRatingEvent;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.Match;
+
+import java.util.Set;
+
+rule "User rating is below 2.5 and a minimum of 3 users rated the user"
+	agenda-group "user-rating-event"
+	when
+        $re: MateRatingEvent($user: match.soulmate);
+        $average: Number( doubleValue < 2.5) from accumulate(
+            Match(soulmate == $user, $initiator : initiator, $rating: rating),
+            average($rating)
+        );
+        accumulate(
+            Match(soulmate == $user, $initiator : initiator, $rating: rating),
+            $initiators: collectSet( $initiator )
+        );
+        eval($initiators.size() >= 3)
+    then
+    	modify($re){setMessage("WARNING: The rating of the user: " + $user.getEmail()+  " fell bellow 2.5 ( the rating is: " + $average + " )");};
+    	System.out.println("WARNING: The rating of the user: " + $user.getEmail()+  " fell bellow 2.5 ( the rating is: " + $average + " )");
+end;
+
+rule "User rating is above 4.5 and minimum of 5 users rated the user"
+	agenda-group "user-rating-event"
+	when
+		$re: MateRatingEvent($user: match.soulmate);
+        $average: Number( doubleValue > 4.5) from accumulate(
+            Match(soulmate == $user, $initiator : initiator, $rating: rating),
+            average($rating)
+        );
+        accumulate(
+            Match(soulmate == $user, $initiator : initiator, $rating: rating),
+            $initiators: collectSet( $initiator )
+        );
+        eval($initiators.size() >= 5)
+	then
+		modify($re){setMessage("INFO: The rating of the user: " + $user.getEmail()+  " is above 4.5 ( the rating is: " + $average + " )");};
+	    System.out.println("INFO: The rating of the user: " + $user.getEmail()+  " is above 4.5 ( the rating is: " + $average + " )");
+end;

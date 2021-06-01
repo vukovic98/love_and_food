@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
+import com.ftn.uns.ac.rs.love_and_food.event.FindMatchEvent;
 import com.ftn.uns.ac.rs.love_and_food.event.MateRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.exceptions.NonExistingIdException;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
@@ -23,6 +25,10 @@ public class LoveService {
 
 	@Autowired
     private KieSession kieSession;
+	
+	@Autowired
+	@Qualifier(value = "eventsSession")
+	private KieSession eventsSession;
 	
 	@Autowired
 	private KieStatefulSessionService kieService;
@@ -50,6 +56,9 @@ public class LoveService {
 		this.kieSession.fireAllRules();
 		this.kieSession.getAgenda().getAgendaGroup("prepare-soulmate").setFocus();
 		this.kieSession.fireAllRules();
+		
+		FindMatchEvent findMatchEvent = new FindMatchEvent(new Date(), user);
+		this.eventsSession.insert(findMatchEvent);
 		
 		User soulmate = (User) this.kieSession.getGlobal("soulmate");
 		
