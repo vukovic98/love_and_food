@@ -59,12 +59,6 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 	
 	private final UserMapper userMapper = new UserMapper();
-	
-	@GetMapping()
-	public ResponseEntity<String> test() {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return new ResponseEntity<>(encoder.encode("vukovic"), HttpStatus.OK);
-	}
 
 	@PostMapping("/log-in")
 	public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody UserLoginDTO authenticationRequest,

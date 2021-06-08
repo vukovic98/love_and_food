@@ -14,7 +14,6 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.drools.template.ObjectDataCompiler;
 
-
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
@@ -30,26 +29,26 @@ public class MatchService {
 
 	@Autowired
 	private UserMatchRepository matchRepository;
-	
+
 	@Autowired
-    private KieSession kieSession;
-	
+	private KieSession kieSession;
+
 	public Match findByInitiator(Long id) {
 		return this.matchRepository.findByInitiator(id);
 	}
-	
+
 	public List<Match> findAll() {
-		QueryResults results = kieSession.getQueryResults( "getAllMatches" );
+		QueryResults results = kieSession.getQueryResults("getAllMatches");
 		List<Match> matches = new ArrayList<>();
-		
-		for ( QueryResultsRow row : results ) {
-		    Match match = ( Match ) row.get( "$match" );
-		    matches.add(match);
+
+		for (QueryResultsRow row : results) {
+			Match match = (Match) row.get("$match");
+			matches.add(match);
 		}
-		
+
 		return matches;
 	}
-	
+
 	public List<Match> findInRange(DateRangeDTO dateRangeDTO) {
 		try {
 			InputStream template = new FileInputStream(
@@ -62,8 +61,8 @@ public class MatchService {
 			String drl = compiler.compile(arguments, template);
 
 			// Save rule to drl file
-			FileOutputStream drlFile = new FileOutputStream(new File(
-					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\matchesByTimeInterval.drl"));
+			FileOutputStream drlFile = new FileOutputStream(
+					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\matchesByTimeInterval.drl"));
 			drlFile.write(drl.getBytes());
 			drlFile.close();
 
@@ -75,7 +74,7 @@ public class MatchService {
 			Invoker invoker = new DefaultInvoker();
 			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
 			invoker.execute(request);
-			
+
 			// Fire new rule
 			List<Match> matches = new ArrayList<Match>();
 			kieSession.setGlobal("resultMatches", matches);
@@ -86,5 +85,11 @@ public class MatchService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public boolean hasAMatch(long id) {
+		int count = this.matchRepository.hasAMatch(id);
+
+		return count > 0 ? true : false;
 	}
 }
