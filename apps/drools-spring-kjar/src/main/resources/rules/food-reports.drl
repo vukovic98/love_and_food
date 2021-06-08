@@ -19,10 +19,10 @@ rule "Best graded restaurants"
 	when
 		$restaurant: Restaurant($grades: grades)
 		$total : Double() from accumulate(
-	         Grade( $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade, $all: overall_grade ) from  $grades,
+	         Grade( $loc : location_grade, $atm: atmosphere_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade, $all: overall_grade ) from  $grades,
 	         init( double total = 0; ),
-	         action( total = total + $loc + $amb + $hos + $ser + $all; ),
-	         reverse( total = total - ( $loc + $amb + $hos + $ser + $all ); ),
+	         action( total = total + $loc + $amb + $hos + $ser + $atm + $all; ),
+	         reverse( total = total - ( $loc + $amb + $hos + $ser + $atm + $all ); ),
 	         result( new Double( total / ($grades.size() * 6) ) ) )
 	then
 		bestGraded.add($restaurant);
@@ -34,13 +34,14 @@ rule "Restaurants that got more than 3 grades lower than 3 in last two months"
 	when
 		$restaurant: Restaurant($grades: grades)
 		$total : Integer(intValue > 3) from accumulate(
-	         Grade( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))) == true, $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade) from  $grades,
+	         Grade( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))) == true, $atm: atmosphere_grade, $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade) from  $grades,
 	         init( Integer total = 0; ),
 	         action( 
 	         	if($loc < 3) total += 1;
 	         	if($amb < 3) total += 1;
 	         	if($hos < 3) total += 1;
 	         	if($ser < 3) total += 1;
+	         	if($atm < 3) total += 1;
 	          ),
 	         result( new Integer( total ) ) )
 	then
@@ -49,18 +50,19 @@ rule "Restaurants that got more than 3 grades lower than 3 in last two months"
 
 end;
 
-rule "Restaurants that got more than five 5's in last two months"
+rule "Restaurants that got more than (or) five 5's in last two months"
 	agenda-group "rising-rating"
 	when
 		$restaurant: Restaurant($grades: grades)
-		$total : Integer(intValue > 5) from accumulate(
-	         Grade( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))) == true, $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade) from  $grades,
+		$total : Integer(intValue >= 5) from accumulate(
+	         Grade( date.after(java.sql.Date.valueOf(LocalDate.now().minusMonths(2))) == true, $atm: atmosphere_grade, $loc : location_grade, $amb: ambient_grade, $hos: hospitability_grade, $ser: service_grade) from  $grades,
 	         init( Integer total = 0; ),
 	         action( 
 	         	if($loc > 4) total += 1;
 	         	if($amb > 4) total += 1;
 	         	if($hos > 4) total += 1;
 	         	if($ser > 4) total += 1;
+	         	if($atm > 4) total += 1;
 	          ),
 	         result( new Integer( total ) ) )
 	then

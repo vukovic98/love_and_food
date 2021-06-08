@@ -13,21 +13,20 @@ rule "Perfect Restaurant"
 	agenda-group "calculating-score"
 	salience ($ambient + $alcohol + $smoking + $dateTime + $distance + $price + $music + $cuisine + $garden + $parking + $tv + $wifi + $grade)
 	when
-		$rest: RestaurantCompatibility(
-			$rest_id: restaurantId,
-			$ambient: ambientScore,
-			$smoking: smokingScore,
-			$alcohol: alcoholScore,
-			$dateTime: dateTimeScore,
-			$distance: distanceScore,
-			$price: priceRangeScore,
-			$music: musicScore,
-			$cuisine: cuisineScore,
-			$garden: gardenScore,
-			$parking: parkingScore,
-			$tv: tvScore,
-			$wifi: wifiScore,
-			$grade: gradeScore)
+		RestaurantCompatibility( $rest_id: restaurantId )
+		RestaurantAmbient(restaurantId == $rest_id, $ambient: ambientScore)
+		RestaurantSmoking(restaurantId == $rest_id, $smoking: smokingScore)
+		RestaurantAlcohol(restaurantId == $rest_id, $alcohol: alcoholScore)
+		RestaurantTime(restaurantId == $rest_id, $dateTime: dateTimeScore)
+		RestaurantDistance(restaurantId == $rest_id, $distance: distanceScore)
+		RestaurantPriceRange(restaurantId == $rest_id, $price: priceRangeScore)
+		RestaurantMusic(restaurantId == $rest_id, $music: musicScore)
+		RestaurantCuisine(restaurantId == $rest_id, $cuisine: cuisineScore)
+		RestaurantGarden(restaurantId == $rest_id, $garden: gardenScore)
+		RestaurantParking(restaurantId == $rest_id, $parking: parkingScore)
+		RestaurantTV(restaurantId == $rest_id, $tv: tvScore)
+		RestaurantWiFi(restaurantId == $rest_id, $wifi: wifiScore)
+		RestaurantGrade(restaurantId == $rest_id, $grade: gradeScore)
 		$found_restaurant: Restaurant( restaurant_id == $rest_id )
 		not FoundRestaurant( )
 	then

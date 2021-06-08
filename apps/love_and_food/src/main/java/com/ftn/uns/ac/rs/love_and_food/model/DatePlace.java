@@ -39,7 +39,7 @@ public class DatePlace {
 		super();
 	}
 
-	public DatePlace(Long id, Restaurant restaurant, User initiator, User soulmate, java.util.Date date) {
+	public DatePlace(Long id, Restaurant restaurant, User initiator, User soulmate, Date date) {
 		super();
 		this.id = id;
 		this.restaurant = restaurant;

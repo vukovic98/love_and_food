@@ -14,21 +14,71 @@ import java.util.Map;
 global Long loggedInUserId;
 
 declare RestaurantCompatibility
-	@PropertyReactive
-	
+	restaurantId: long
+end
+
+declare RestaurantAmbient
 	restaurantId: long
 	ambientScore: double
+end
+
+declare RestaurantSmoking
+	restaurantId: long
 	smokingScore: double
+end
+
+declare RestaurantAlcohol
+	restaurantId: long
 	alcoholScore: double
+end
+
+declare RestaurantTime
+	restaurantId: long
 	dateTimeScore: double
+end
+
+declare RestaurantDistance
+	restaurantId: long
 	distanceScore: double
+end
+
+declare RestaurantPriceRange
+	restaurantId: long
 	priceRangeScore: double
+end
+
+declare RestaurantMusic
+	restaurantId: long
 	musicScore: double
+end
+
+declare RestaurantCuisine
+	restaurantId: long
 	cuisineScore: double
+end
+
+declare RestaurantGarden
+	restaurantId: long
 	gardenScore: double
+end
+
+declare RestaurantParking
+	restaurantId: long
 	parkingScore: double
+end
+
+declare RestaurantTV
+	restaurantId: long
 	tvScore: double
+end
+
+declare RestaurantWiFi
+	restaurantId: long
 	wifiScore: double
+end
+
+declare RestaurantGrade
+	restaurantId: long
 	gradeScore: double
 end
 
@@ -43,7 +93,7 @@ rule "Compatibility - creating requirement objects"
 		 eval($potential.isOpen($req.getDateTime()) == true )
 	then
 		System.out.println("Compatibile restaurant with id: " + $potential.getRestaurant_id());
-		insert(new RestaurantCompatibility($potential.getRestaurant_id(), -1, -1, -1, 3, -1, -1, -1, -1, -1, 0, 0, 0, 0));
+		insert(new RestaurantCompatibility($potential.getRestaurant_id()));
 end;
 
 rule "Compatibility - ambient"
@@ -53,10 +103,10 @@ rule "Compatibility - ambient"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, $req_ambient: ambient )
 		$restaurant: Restaurant( $rest_id: restaurant_id, ambient == $req_ambient )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!ambientScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for ambient compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setAmbientScore(3);};
+		insert(new RestaurantAmbient($rest_id, 3));
 end;
 
 rule "Compatibility - smoking preference"
@@ -66,10 +116,10 @@ rule "Compatibility - smoking preference"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, $req_smoking: smokingArea )
 		$restaurant: Restaurant( $rest_id: restaurant_id, smokingArea == $req_smoking )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!smokingScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for smoking area compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setSmokingScore(3);};
+		insert(new RestaurantSmoking($rest_id, 3));
 end;
 
 rule "Compatibility - alcohol"
@@ -79,10 +129,10 @@ rule "Compatibility - alcohol"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, $req_alcohol: alcohol )
 		$restaurant: Restaurant( $rest_id: restaurant_id, alcohol == $req_alcohol )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!alcoholScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for alcohol compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setAlcoholScore(3);};
+		insert(new RestaurantSmoking($rest_id, 3));
 end;
 
 rule "Compatibility - price range - CHEEP"
@@ -92,10 +142,10 @@ rule "Compatibility - price range - CHEEP"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, priceRange == PriceRange.CHEEP )
 		$restaurant: Restaurant( $rest_id: restaurant_id, priceRange == PriceRange.CHEEP || priceRange == PriceRange.AFFORDABLE )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setPriceRangeScore(3);};
+		insert(new RestaurantPriceRange($rest_id, 3));
 end;
 
 rule "Compatibility - price range - AFFORDABLE"
@@ -105,10 +155,10 @@ rule "Compatibility - price range - AFFORDABLE"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, priceRange == PriceRange.AFFORDABLE )
 		$restaurant: Restaurant( $rest_id: restaurant_id, priceRange == PriceRange.CHEEP || priceRange == PriceRange.AFFORDABLE )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setPriceRangeScore(3);};
+		insert(new RestaurantPriceRange($rest_id, 3));
 end;
 
 rule "Compatibility - price range - EXPENSIVE"
@@ -118,10 +168,10 @@ rule "Compatibility - price range - EXPENSIVE"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, priceRange == PriceRange.EXPENSIVE )
 		$restaurant: Restaurant( $rest_id: restaurant_id )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!priceRangeScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setPriceRangeScore(3);};
+		insert(new RestaurantPriceRange($rest_id, 3));
 end;
 
 rule "Compatibility - music"
@@ -131,10 +181,10 @@ rule "Compatibility - music"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, $req_music: music )
 		$restaurant: Restaurant( $rest_id: restaurant_id, music == $req_music )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!musicScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for music compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setMusicScore(3);};
+		insert(new RestaurantMusic($rest_id, 3));
 end;
 
 rule "Compatibility - cuisine"
@@ -144,10 +194,10 @@ rule "Compatibility - cuisine"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, $req_cuisine: cuisine )
 		$restaurant: Restaurant( $rest_id: restaurant_id, $req_cuisine memberOf cuisine )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!cuisineScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for cuisine compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setCuisineScore(3);};
+		insert(new RestaurantCuisine($rest_id, 3));
 end;
 
 rule "Compatibility - garden"
@@ -157,10 +207,10 @@ rule "Compatibility - garden"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, $req_garden: garden )
 		$restaurant: Restaurant( $rest_id: restaurant_id, garden == $req_garden )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!gardenScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for garden compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setGardenScore(3);};
+		insert(new RestaurantGarden($rest_id, 3));
 end;
 
 rule "Compatibility - parking"
@@ -170,10 +220,10 @@ rule "Compatibility - parking"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, parking == true )
 		$restaurant: Restaurant( $rest_id: restaurant_id, parking == true )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!parkingScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for parking compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setParkingScore(3);};
+		insert(new RestaurantParking($rest_id, 3));
 end;
 
 rule "Compatibility - tv"
@@ -183,10 +233,10 @@ rule "Compatibility - tv"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, tv == true )
 		$restaurant: Restaurant( $rest_id: restaurant_id, tv == true )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!tvScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for tv compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setTvScore(3);};
+		insert(new RestaurantTV($rest_id, 3));
 end;
 
 rule "Compatibility - WiFi"
@@ -196,10 +246,10 @@ rule "Compatibility - WiFi"
 		$u: User( id == loggedInUserId )
 		$req: RestaurantRequirements( userId == loggedInUserId, wifi == true )
 		$restaurant: Restaurant( $rest_id: restaurant_id, wifi == true )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!wifiScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for WiFi compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setWifiScore(3);};
+		insert(new RestaurantWiFi($rest_id, 3));
 end;
 
 rule "Compatibility - Grade of Restaurant"
@@ -214,10 +264,10 @@ rule "Compatibility - Grade of Restaurant"
          action( total = total + $loc + $amb + $hos + $ser + $all + $all; ),
          reverse( total = total - ( $loc + $amb + $hos + $ser + $all + $all ); ),
          result( new Double( total / 10 ) ) )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!gradeScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for grade compatibility for restaurant: " + $rest_id + ", [ " + new Double($total/2) + " ]");
-		modify($compatibleRest){setGradeScore( new Double($total/2));};
+		insert(new RestaurantGrade($rest_id, new Double($total/2)));
 end;
 
 rule "Compatibility - Extra 3 working hours"
@@ -228,10 +278,10 @@ rule "Compatibility - Extra 3 working hours"
 		$req: RestaurantRequirements( userId == loggedInUserId )
 		$restaurant: Restaurant( $rest_id: restaurant_id )
 			eval($restaurant.isOpenForNext3Hours($req.getDateTime()) == true )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!dateTimeScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for extra 3 working hours compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setDateTimeScore($compatibleRest.getDateTimeScore() + 3);};
+		insert(new RestaurantTime($rest_id, new Double(5)));
 end;
 
 rule "Compatibility - Distance score"
@@ -242,8 +292,153 @@ rule "Compatibility - Distance score"
 		$req: RestaurantRequirements( userId == loggedInUserId, onFoot == true)
 		$places: Map()
 		$restaurant: Restaurant( $rest_id: restaurant_id, location memberOf $places.get($loc) )
-		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id ) @Watch(!distanceScore)
+		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for distance compatibility for restaurant: " + $rest_id);
-		modify($compatibleRest){setDistanceScore(3);};
+		insert(new RestaurantDistance($rest_id, 3));
+end;
+
+// BASE POINTS
+
+rule "Insert base ALCOHOL if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantAlcohol(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for ALCOHOL: 0");
+		insert(new RestaurantAlcohol($rest_id, 0));
+end;
+
+rule "Insert base WiFi if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantWiFi(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for WiFi: 0");
+		insert(new RestaurantWiFi($rest_id, 0));
+end;
+
+rule "Insert base TV if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantTV(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for TV: 0");
+		insert(new RestaurantTV($rest_id, 0));
+end;
+
+rule "Insert base DISTANCE if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantDistance(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for DISTANCE: -2");
+		insert(new RestaurantDistance($rest_id, -2));
+end;
+
+rule "Insert base MUSIC if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantMusic(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for MUSIC: -1");
+		insert(new RestaurantMusic($rest_id, -1));
+end;
+
+rule "Insert base CUISINE if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantCuisine(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for CUISINE: -2");
+		insert(new RestaurantCuisine($rest_id, -2));
+end;
+
+rule "Insert base 3+HOURS if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantTime(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for 3+ HOURS: -1");
+		insert(new RestaurantTime($rest_id, -1));
+end;
+
+rule "Insert base SMOKING AREA if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantSmoking(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for SMOKING: -1");
+		insert(new RestaurantSmoking($rest_id, -1));
+end;
+
+rule "Insert base AMBIENT if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantAmbient(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for AMBIENT: -1");
+		insert(new RestaurantAmbient($rest_id, -1));
+end;
+
+rule "Insert base PRICE RANGE if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantPriceRange(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for PRICE RANGE: -2");
+		insert(new RestaurantPriceRange($rest_id, -2));
+end;
+
+rule "Insert base GARDEN if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantGarden(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for GARDEN: 0");
+		insert(new RestaurantGarden($rest_id, 0));
+end;
+
+rule "Insert base PARKING if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantParking(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for PARKING: -1");
+		insert(new RestaurantParking($rest_id, -1));
+end;
+
+rule "Insert base GRADE if not other"
+	agenda-group "perfect-restaurant"
+	salience 0
+	when
+		$compatibleRest: RestaurantCompatibility( $rest_id: restaurantId )
+		not (RestaurantGrade(restaurantId == $rest_id ))
+	then
+		System.out.println("Base score for GRADE: 0");
+		insert(new RestaurantGrade($rest_id, 0));
 end;
