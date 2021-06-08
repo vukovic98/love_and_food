@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
           title: 'User DISABLED',
           text: 'We encountered some suspicious activities from this account. We sent you an email, please check it in order to continue.',
           confirmButtonColor: '#DC143C'
-        })
+        });
       }
       else {
         Swal.fire({
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           title: 'User not found',
           text: 'Please check your email and password!',
           confirmButtonColor: '#DC143C'
-        })
+        });
       }
     });
   }

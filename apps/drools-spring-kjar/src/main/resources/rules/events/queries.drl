@@ -1,0 +1,10 @@
+package rules;
+
+import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.event.FailedLoginEvent;
+
+/* LOVE PART */
+
+query "getAllFailedLoginEvents"
+    $failedLoginEvent: FailedLoginEvent()
+end

@@ -1,4 +1,4 @@
-package com.ftn.uns.ac.rs.love_and_food.tests;
+package com.ftn.uns.ac.rs.love_and_food.tests.love;
 
 import static org.junit.Assert.assertEquals;
 
@@ -72,7 +72,7 @@ public class StreamLoveQueryTest {
 		List<FailedLoginEvent> result = new ArrayList<>();
 		
 		for ( QueryResultsRow row : results ) {
-			FailedLoginEvent event = ( FailedLoginEvent ) row.get( "$result" );
+			FailedLoginEvent event = ( FailedLoginEvent ) row.get( "$failedLoginEvent" );
 			result.add(event);
 		}
 

@@ -11,5 +11,8 @@ public interface UserMatchRepository extends JpaRepository<Match, Long> {
 
 	@Query(value = "SELECT * FROM user_match WHERE initiator_id = ?1 ORDER BY match_date DESC LIMIT 1", nativeQuery = true)
 	public Match findByInitiator(Long id);
+	
+	@Query(value = "SELECT count(*) FROM user_match where initiator_id = ?1 or soulmate_id = ?1", nativeQuery = true)
+	public int hasAMatch(long id);
 
 }

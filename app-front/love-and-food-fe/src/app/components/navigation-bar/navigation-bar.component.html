@@ -1,25 +1,19 @@
-
-  <nav id="sidebar" class="h-100">
-    <div class="p-4">
-      <img src="assets/img/heart.png" class="logo ml-4 pt-2  mb-5" alt="Security" style="width: 150px; height: 130px;">
-      <ul class="list-unstyled components mb-5">
-        <li>
-          <mat-icon class="float-left mt-2">home</mat-icon>
-          <a routerLink="/admin-panel"><span class="fa fa-home mr-3"></span> Home</a>
-        </li>
-        <li>
-          <mat-icon class="float-left mt-2">fastfood</mat-icon>
-          <a routerLink="/certificate"><span class="fa fa-user mr-3"></span> Find a restaurant</a>
-        </li>
-        <li *ngIf="role==='ROLE_DOCTOR'">
-          <mat-icon class="float-left mt-2"> local_hospital</mat-icon>
-          <a routerLink="/patient"><span class="fa fa-user mr-3"></span> Patients</a>
-        </li>
-        <li class="mt-5" (click)="logout()" style="cursor:pointer;">
-          <mat-icon class="float-left mt-2">close</mat-icon>
-          <a ><span class="fa fa-sticky-note mr-3 mt-5"></span> Sign out</a>
-        </li>
-      </ul>
-
-    </div>
-  </nav>
+<nav id="sidebar" class="h-100">
+  <div class="p-4">
+    <img src="assets/img/heart.png" class="logo ml-4 pt-2  mb-5" alt="Love&Food" style="width: 150px; height: 130px;">
+    <ul class="list-unstyled components mb-5">
+      <li>
+        <mat-icon class="float-left mt-2">home</mat-icon>
+        <a routerLink="/home"><span class="fa fa-home mr-3"></span> Home</a>
+      </li>
+      <li *ngIf="hasAMatch() && role === 'ROLE_USER'">
+        <mat-icon class="float-left mt-2">fastfood</mat-icon>
+        <a routerLink="/restaurant"><span class="fa fa-user mr-3"></span> Find a restaurant</a>
+      </li>
+      <li class="mt-5" (click)="logout()" style="cursor:pointer;">
+        <mat-icon class="float-left mt-2">close</mat-icon>
+        <a ><span class="fa fa-sticky-note mr-3 mt-5"></span> Sign out</a>
+      </li>
+    </ul>
+  </div>
+</nav>

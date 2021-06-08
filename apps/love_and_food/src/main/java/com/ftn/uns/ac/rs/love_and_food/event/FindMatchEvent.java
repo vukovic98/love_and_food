@@ -6,20 +6,20 @@ import org.kie.api.definition.type.Expires;
 import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
 
-import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 
 @Role(Role.Type.EVENT)
 @Timestamp("timestamp")
-@Expires("2h")
-public class MateRatingEvent {
+@Expires("168h")
+// 1 week = 7 * 24h = 168h
+public class FindMatchEvent {
 	
 	private Date timestamp;
-	private Match match;
-	private String message;
+	private User initiator;
 	
-	public MateRatingEvent(Date timestamp, Match match) {
+	public FindMatchEvent(Date timestamp, User initiator) {
 		this.timestamp = timestamp;
-		this.match = match;
+		this.initiator = initiator;
 	}
 	public Date getTimestamp() {
 		return timestamp;
@@ -27,17 +27,10 @@ public class MateRatingEvent {
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	public Match getMatch() {
-		return match;
+	public User getInitiator() {
+		return initiator;
 	}
-	public void setMatch(Match match) {
-		this.match = match;
+	public void setInitiator(User initiator) {
+		this.initiator = initiator;
 	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
 }

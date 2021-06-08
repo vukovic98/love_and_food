@@ -23,6 +23,11 @@ declare PartnerTraits
 	traitsScore: double
 end
 
+declare PartnerPreviousExperience
+	mateId: long
+	previousExperience: double
+end
+
 declare PartnerSmoking
 	mateId: long
 	smokingScore: double
@@ -58,10 +63,11 @@ end
 
 rule "Soulmate"
 	agenda-group "soulmate"
-	salience ($smoking + $alchocol + $education + $trait + $income + $religion + $rating)
+	salience ($smoking + $alchocol + $education + $trait + $income + $religion + $rating + 2*$previousExperience)
 	when
 		PartnerCompatibility( $mateId : mateId )
 		PartnerTraits( mateId == $mateId, $trait : traitsScore )
+		PartnerPreviousExperience( mateId == $mateId, $previousExperience : previousExperience )
 		PartnerSmoking( mateId == $mateId, $smoking : smokingScore )
 		PartnerAlchocol( mateId == $mateId, $alchocol : alchocolScore )
 		PartnerEducation( mateId == $mateId, $education : educationScore )
@@ -72,7 +78,7 @@ rule "Soulmate"
 		$soulmate: User( id == $mateId )
 		$ur: PartnerRequirements( userId == loggedInUserId, active == true )
 	then
-		System.out.println($smoking + $alchocol + $education + $trait + $income + $religion + $rating);
+		System.out.println($smoking + $alchocol + $education + $trait + $income + $religion + $rating + $previousExperience);
 		System.out.println("Found soulmate for " + $u.getId() + " is " + $mateId);
 		System.out.println("Smoking score " + $smoking);
 		System.out.println("Alchocol score " + $alchocol);
@@ -81,6 +87,7 @@ rule "Soulmate"
 		System.out.println("Religion score " + $religion);
 		System.out.println("Traits score " + $trait);
 		System.out.println("Rating score " + $rating);
+		System.out.println("Previous experience score " + $previousExperience);
 		drools.getKnowledgeRuntime().setGlobal("soulmate", $soulmate);
 		modify($ur){setActive(false);};
 end;
@@ -159,6 +166,44 @@ rule "Compatibility - bad rating"
 	then
 		System.out.println("Added score for bad ratings in the past 3 months for mate: " + $mateId);
 		insert(new PartnerRating($mateId, 1 * (-$count)));
+end;
+
+rule "Compatibility - previous matches similarity"
+	agenda-group "prepare-soulmate"
+	salience 1
+	when
+		$u: User( id == loggedInUserId, $userTraits: personalityTraits )
+		$userMate: User( id != loggedInUserId, $mateId : id, $mateTraits: personalityTraits )
+		$compatibleMate: PartnerCompatibility( mateId == $mateId )
+		not ( PartnerPreviousExperience(mateId == $mateId) )
+		// svi mecevi u prethodna tri meseca koje je user ocenio 4 ili 5
+		accumulate(
+			Match(initiator.id == loggedInUserId, rating >= 4, $soulmate: soulmate, 
+			$matchDate: matchDate, $matchDate.isAfter(LocalDate.now().minusMonths(3))),
+			$soulmates: collectSet($soulmate)
+		)
+		$traitsNumber: Number() from accumulate(
+			User($soulmate: this, $personalityTraits: personalityTraits) from $soulmates and 
+			String($trait: this) from $personalityTraits.split("") and
+			String(this == $trait) from $mateTraits.split(""),
+			count($trait)
+		)
+		$educationNumber: Number() from accumulate(
+			User($soulmate: this) from $soulmates and 
+			Education($education: this) from $soulmate.education and
+			Education(this == $education) from $userMate.education,
+			count($education)
+		)
+		$religionNumber: Number() from accumulate(
+			User($soulmate: this) from $soulmates and 
+			Religion($religion: this) from $soulmate.religion and
+			Religion(this == $religion) from $userMate.religion,
+			count($religion)
+		)
+	then
+		System.out.println("Added score for previous matches similarity in the past 3 months for mate: " + $mateId);
+		insert(new PartnerPreviousExperience($mateId, 
+			$traitsNumber.doubleValue() *0.25+ $educationNumber.doubleValue() *0.2 + $religionNumber.doubleValue() * 0.2));
 end;
 
 rule "Compatibility - same education"

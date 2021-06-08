@@ -1,4 +1,4 @@
-package com.ftn.uns.ac.rs.love_and_food.tests;
+package com.ftn.uns.ac.rs.love_and_food.tests.love;
 
 import static org.junit.Assert.assertEquals;
 

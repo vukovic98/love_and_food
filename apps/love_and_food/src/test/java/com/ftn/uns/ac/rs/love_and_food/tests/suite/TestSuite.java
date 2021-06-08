@@ -3,32 +3,32 @@ package com.ftn.uns.ac.rs.love_and_food.tests.suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import com.ftn.uns.ac.rs.love_and_food.tests.FindPartnersAgeTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.LoveReportLiarsTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.LoveReportMVPsTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.MatchesByTimeIntervalTemplateTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.PartnerRequirementsTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.PersonalityTestTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.SoulmateTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.food.BestGradedRestaurantsReportTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.food.DecliningRestaurantsTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.food.MostVisitedRestaurantsInSeasonTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.food.PerfectRestaurantTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.food.RestaurantRequirementsTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.food.RisingRestaurantsTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.FindPartnersAgeTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.InactivityTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveQueryTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveReportLiarsTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveReportMVPsTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.MatchesByTimeIntervalTemplateTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.PartnerRequirementsTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.PersonalityTestTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.SoulmateTest;
+import com.ftn.uns.ac.rs.love_and_food.tests.love.StreamLoveQueryTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	
 //	LOVE TESTS
 	
-//	FindPartnersAgeTest.class, 
-//	LoveReportLiarsTest.class,
-//	LoveReportMVPsTest.class,
-//	MatchesByTimeIntervalTemplateTest.class,
-//	PartnerRequirementsTest.class,
-//	PersonalityTestTest.class,
-//	SoulmateTest.class,
+	FindPartnersAgeTest.class, 
+	InactivityTest.class,
+	LoveQueryTest.class,
+	LoveReportLiarsTest.class,
+	LoveReportMVPsTest.class,
+	MatchesByTimeIntervalTemplateTest.class,
+	PartnerRequirementsTest.class,
+	PersonalityTestTest.class,
+	SoulmateTest.class,
+	StreamLoveQueryTest.class
 	
 //	FOOD TESTS
 //	RestaurantRequirementsTest.class,
