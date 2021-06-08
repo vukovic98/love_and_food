@@ -15,6 +15,8 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +59,12 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 	
 	private final UserMapper userMapper = new UserMapper();
+	
+	@GetMapping()
+	public ResponseEntity<String> test() {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return new ResponseEntity<>(encoder.encode("vukovic"), HttpStatus.OK);
+	}
 
 	@PostMapping("/log-in")
 	public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody UserLoginDTO authenticationRequest,
@@ -91,10 +99,11 @@ public class AuthController {
 				if (fired == 1) {
 					user.setEnabled(false);
 					registeredUserService.save(user);
+					
+					return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 				}
 			}
-			e.printStackTrace();
-			throw new BadCredentialsException("Bad credentials.");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} 
 
 	}

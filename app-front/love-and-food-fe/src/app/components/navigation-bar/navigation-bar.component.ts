@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from "../../services/auth.service";
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -18,7 +18,7 @@ export class NavigationBarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem("accessToken");
-    this.route.navigate(['/'])
+    localStorage.removeItem('accessToken');
+    this.route.navigate(['/']);
   }
 }
