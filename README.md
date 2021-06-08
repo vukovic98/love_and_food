@@ -2,7 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/45330563/115236782-10ec2600-a11c-11eb-8ddd-1986cbb86fcf.png" style="height:400px; width:50%">
 
-### SBNZ projekat 2021, Tim 3:
+### SBNZ projekat 2021:
 * Vladimir Vuković SW3/2017
 * Ksenija Prćić SW10/2017
 
