@@ -8,9 +8,9 @@
         <mat-icon class="float-left mt-2">home</mat-icon>
         <a routerLink="/home"><span class="fa fa-home mr-3"></span> Home</a>
       </li>
-      <li *ngIf="hasMatch && role === 'ROLE_USER'">
+      <li>
         <mat-icon class="float-left mt-2">fastfood</mat-icon>
-        <a routerLink="/restaurant"><span class="fa fa-user mr-3"></span> Find a restaurant</a>
+        <a routerLink="/restaurant"><span class="fa fa-user mr-3"></span> Restaurant</a>
       </li>
       <li class="mt-5" (click)="logout()" style="cursor:pointer;">
         <mat-icon class="float-left mt-2">close</mat-icon>

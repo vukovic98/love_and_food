@@ -1,0 +1,12 @@
+.item-font {
+  font-family: 'Comic Sans MS', serif;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.02);
+  transition: transform .5s ease;
+}

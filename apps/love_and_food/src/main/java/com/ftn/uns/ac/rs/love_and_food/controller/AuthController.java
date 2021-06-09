@@ -82,7 +82,7 @@ public class AuthController {
 
 			// Vrati token kao odgovor na uspesnu autentifikaciju
 			return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn, email, verified));
-		} catch (BadCredentialsException | InternalAuthenticationServiceException e) {
+		} catch (Exception e) {
 			RegisteredUser user = registeredUserService.findByEmail(authenticationRequest.getEmail());
 			if (user != null) {
 				FailedLoginEvent event = new FailedLoginEvent(new Date(), user);

@@ -55,10 +55,7 @@ public class MatchController {
 
 	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
 	@GetMapping(path = "/has-a-match")
-	public ResponseEntity<HttpStatus> userHasAMatch() {
-		System.out.println("Udje");
-		
-		try {
+	public ResponseEntity<HttpStatus> userHasAMatch() {		
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 
 		RegisteredUser user = this.userService.findByEmail(email);
@@ -72,11 +69,6 @@ public class MatchController {
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
 		}
 	}
 }

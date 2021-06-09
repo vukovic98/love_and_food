@@ -1,7 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
 import java.time.LocalTime;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
@@ -28,6 +28,8 @@ public class RestaurantDTO {
 	private boolean alcohol;
 	private boolean parking;
 	private boolean smokingArea;
+	private ArrayList<GradeDTO> grades;
+	private String image;
 
 	public RestaurantDTO() {
 		super();
@@ -36,7 +38,7 @@ public class RestaurantDTO {
 	public RestaurantDTO(Long restaurant_id, String name, Location location, LocalTime startingHours,
 			LocalTime endingHours, Ambient ambient, Music music, Set<Cuisine> cuisine, PriceRange priceRange,
 			boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol, boolean parking,
-			boolean smokingArea) {
+			boolean smokingArea, ArrayList<GradeDTO> grades, String image) {
 		super();
 		this.restaurant_id = restaurant_id;
 		this.name = name;
@@ -54,6 +56,8 @@ public class RestaurantDTO {
 		this.alcohol = alcohol;
 		this.parking = parking;
 		this.smokingArea = smokingArea;
+		this.grades = grades;
+		this.image = image;
 	}
 
 	public Long getRestaurant_id() {
@@ -62,6 +66,14 @@ public class RestaurantDTO {
 
 	public void setRestaurant_id(Long restaurant_id) {
 		this.restaurant_id = restaurant_id;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getName() {
@@ -182,6 +194,14 @@ public class RestaurantDTO {
 
 	public void setSmokingArea(boolean smokingArea) {
 		this.smokingArea = smokingArea;
+	}
+
+	public ArrayList<GradeDTO> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(ArrayList<GradeDTO> grades) {
+		this.grades = grades;
 	}
 
 }
