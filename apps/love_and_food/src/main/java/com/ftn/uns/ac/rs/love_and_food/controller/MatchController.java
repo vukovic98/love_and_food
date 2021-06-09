@@ -54,7 +54,6 @@ public class MatchController {
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/has-a-match")
 	public ResponseEntity<HttpStatus> userHasAMatch() {
 		System.out.println("Udje");

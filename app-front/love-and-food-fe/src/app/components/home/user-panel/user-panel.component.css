@@ -1,0 +1,23 @@
+.user-panel {
+  color: rebeccapurple;
+  border-radius: 3rem;
+  letter-spacing: 2px;
+  background-color: ghostwhite;
+}
+
+.image-container {
+  background-color: rgb(163,155,225);
+  border-radius: 3rem;
+}
+
+.font-cursive {
+  font-family: "Monotype Corsiva", serif;
+}
+
+.find-soulmate-button {
+  letter-spacing: 2px;
+  border-radius: 2rem;
+  height: 50px ;
+  width: 400px;
+  background-color: #6c38dc;
+}

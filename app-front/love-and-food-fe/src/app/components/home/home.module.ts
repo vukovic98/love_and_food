@@ -4,16 +4,20 @@ import {RouterModule} from '@angular/router';
 import {HomeRoutingModule} from "./home-routing.module";
 import {SharedModule} from "../shared/shared.module";
 import {HomeComponent} from "./home/home.component";
+import {MatButtonModule} from "@angular/material/button";
+import { UserPanelComponent } from './user-panel/user-panel.component';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    UserPanelComponent
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     RouterModule,
     SharedModule,
+    MatButtonModule,
   ]
 })
 export class HomeModule { }
