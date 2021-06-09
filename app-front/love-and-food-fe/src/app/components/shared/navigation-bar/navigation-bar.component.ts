@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {MatchService} from "../../../services/match.service";
@@ -18,6 +18,7 @@ export class NavigationBarComponent implements OnInit {
 
   public role: string = '';
   public hasMatch: boolean = false;
+  @Input() public mode: string = "LOVE";
 
   ngOnInit(): void {
     this.role = this.authService.getUserAuthorities()[0].authority;
