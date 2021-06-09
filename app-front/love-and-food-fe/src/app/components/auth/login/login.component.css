@@ -1,6 +1,6 @@
 .background {
   height: 100vh;
-  background-image: url("src/assets/img/back.jpg");
+  background-image: url("../../../../assets/img/back.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
-import {MatchService} from "../../services/match.service";
+import {AuthService} from '../../../services/auth.service';
+import {MatchService} from "../../../services/match.service";
 
 @Component({
   selector: 'app-navigation-bar',
@@ -16,20 +16,16 @@ export class NavigationBarComponent implements OnInit {
     private matchService: MatchService
   ) { }
 
-  role = '';
+  public role: string = '';
+  public hasMatch: boolean = false;
 
   ngOnInit(): void {
     this.role = this.authService.getUserAuthorities()[0].authority;
-  }
-
-  hasAMatch(): boolean {
     this.matchService.userHasAMatch().subscribe((response) => {
-      return true;
+      this.hasMatch = true;
     }, error => {
-      return false;
+      this.hasMatch = false;
     });
-
-    return false;
   }
 
   logout() {
