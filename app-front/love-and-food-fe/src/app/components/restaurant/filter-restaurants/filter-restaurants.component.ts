@@ -7,7 +7,7 @@ import {FilterRestaurantsModel} from "../../../models/filter-restaurants.model";
   templateUrl: './filter-restaurants.component.html',
   styleUrls: ['./filter-restaurants.component.css']
 })
-export class FilterRestaurantsComponent implements OnInit {
+export class FilterRestaurantsComponent {
 
   filterForm = new FormGroup({
     name: new FormControl('', ),
@@ -17,12 +17,6 @@ export class FilterRestaurantsComponent implements OnInit {
   });
 
   @Output() filterRestaurantsEvent = new EventEmitter<FilterRestaurantsModel>();
-
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   filterRestaurants() {
     const dto: FilterRestaurantsModel = {

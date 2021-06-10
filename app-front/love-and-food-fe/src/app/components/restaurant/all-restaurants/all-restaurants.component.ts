@@ -3,6 +3,9 @@ import {RestaurantService} from "../../../services/restaurant.service";
 import {RestaurantModel} from "../../../models/restaurant.model";
 import {PageEvent} from "@angular/material/paginator";
 import {FilterRestaurantsModel} from "../../../models/filter-restaurants.model";
+import {MatchService} from "../../../services/match.service";
+import {Router} from "@angular/router";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-all-restaurants',
@@ -20,13 +23,20 @@ export class AllRestaurantsComponent implements OnInit {
 
   private filterMode = false;
   private filterDto: FilterRestaurantsModel = null;
+  public hasAMatch: boolean = false;
 
   constructor(
-    private restaurantService: RestaurantService
+    private restaurantService: RestaurantService,
+    private matchService: MatchService,
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.getData();
+    this.matchService.userHasAMatch().subscribe((response) => {
+      this.hasAMatch = true;
+    })
   }
 
   getData() {
@@ -61,5 +71,13 @@ export class AllRestaurantsComponent implements OnInit {
       this.filterMode = false;
       this.getData();
     }
+  }
+
+  getRole(): string {
+    return this.authService.getUserAuthorities()[0].authority;
+  }
+
+  findARestaurant() {
+    this.router.navigate(['/restaurant/find-a-place'])
   }
 }

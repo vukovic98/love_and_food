@@ -16,6 +16,7 @@ export class RestaurantDataComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.restaurant.cuisine = this.restaurant.cuisine.filter((c) => c != 'NOT_IMPORTANT');
     this.selectedValue = this.getGrade();
   }
 

@@ -3,7 +3,16 @@
     <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
   </div>
   <div class="jumbotron pt-3 col-md-10 ml-auto mr-auto bg-white row float-left">
-    <div class="col-md-12 ml-auto mr-auto mt-1 mb-1 pb-0 float-left">
+    <div class="col-md-2 mb-1 pt-3 text-center border-bottom">
+      <button *ngIf="getRole() === 'ROLE_USER'" mat-raised-button class="text-white find-restaurant-button"
+              [title]="hasAMatch ? 'Let\'s find you a date place!' : 'Please find your perfect match first!'"
+              [disabled]="!hasAMatch"
+              (click)="findARestaurant()"
+      >
+        FIND A RESTAURANT FOR DATE
+      </button>
+    </div>
+    <div class="col-md-10 ml-auto mr-auto mt-2 mb-1 pb-0 float-right text-right border-bottom">
       <app-filter-restaurants (filterRestaurantsEvent)="filter($event)"></app-filter-restaurants>
     </div>
     <app-restaurant-data class="col-md-6" *ngFor="let r of restaurants" [restaurant]="r"></app-restaurant-data>

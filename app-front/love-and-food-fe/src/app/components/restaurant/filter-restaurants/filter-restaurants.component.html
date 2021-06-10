@@ -1,4 +1,4 @@
-<div class="text-center">
+<div class="text-right">
   <form [formGroup]="filterForm" (ngSubmit)="filterRestaurants()">
     <mat-form-field appearance="standard" class="col-md-2 mr-4">
       <mat-label>Enter Name</mat-label>
@@ -40,6 +40,6 @@
         <mat-option value="SAJMISTE">Sajmiste</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button type="submit" color="primary">Filter</button>
+    <button mat-raised-button type="submit" class="text-white" style="background-color: orange;">Filter</button>
   </form>
 </div>

@@ -1,0 +1,65 @@
+<div class="shadow p-5 mt-5" style="border: 1px solid rebeccapurple; border-radius: 4rem;">
+  <form style="border-radius: 2rem;">
+    <mat-form-field appearance="standard" class="col-md-12">
+      <mat-label>Select the type of music you prefer</mat-label>
+      <mat-select>
+        <mat-option value="FOLK">Folk music</mat-option>
+        <mat-option value="TAMBOURINE">Tambourine</mat-option>
+        <mat-option value="POP">Pop music</mat-option>
+        <mat-option value="ROCK">Rock music</mat-option>
+        <mat-option value="JAZZ">Jazz music</mat-option>
+        <mat-option value="CLASSIC">Classical music</mat-option>
+        <mat-option value="NO_MUSIC">I don't like music</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-md-12 mt-5">
+      <mat-label>Select cuisine you enjoy</mat-label>
+      <mat-select>
+        <mat-option value="NATIVE">Native cuisine</mat-option>
+        <mat-option value="ITALIAN">Italian cuisine</mat-option>
+        <mat-option value="CHINEESE">Chineese food</mat-option>
+        <mat-option value="FAST_FOOD">Fast food</mat-option>
+        <mat-option value="BARBEQUE">Barbeque</mat-option>
+        <mat-option value="NOT_IMPORTANT">Not important</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="col-md-12 mt-5">
+      <label id="example-radio-group-label">How to get there?</label>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group ml-5"
+        color="primary">
+        <mat-radio-button value="ON_FOOT" class="mr-5">
+          On Foot
+        </mat-radio-button>
+        <mat-radio-button value="BY_CAR" class="ml-5">
+          By Car
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="col-md-12 mt-5">
+      <label id="example-radio-group-label2">Do you prefer garden?</label>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group ml-5"
+        color="primary">
+        <mat-radio-button value="true" class="mr-5">
+          Yes
+        </mat-radio-button>
+        <mat-radio-button value="false" class="ml-5">
+          No
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field class="col-md-12 mt-5">
+      <mat-label>When is the Perfect Date?</mat-label>
+      <input matInput type="datetime-local">
+    </mat-form-field>
+
+    <button class="btn-block mt-5 mb-4" style="border-radius: 2rem;" mat-raised-button color="primary">Let's find a date place</button>
+  </form>
+</div>

@@ -15,27 +15,33 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
+import { FindRestaurantComponent } from './find-restaurant/find-restaurant.component';
+import { FindRestaurantFormComponent } from './find-restaurant-form/find-restaurant-form.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
     AllRestaurantsComponent,
     RestaurantDataComponent,
-    FilterRestaurantsComponent
+    FilterRestaurantsComponent,
+    FindRestaurantComponent,
+    FindRestaurantFormComponent
   ],
-  imports: [
-    CommonModule,
-    RestaurantRoutingModule,
-    RouterModule,
-    SharedModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    MatIconModule,
-    RatingModule,
-    NgbRatingModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-  ]
+    imports: [
+        CommonModule,
+        RestaurantRoutingModule,
+        RouterModule,
+        SharedModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        MatIconModule,
+        RatingModule,
+        NgbRatingModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+    ]
 })
 export class RestaurantModule { }
