@@ -10,11 +10,17 @@ import { RestaurantDataComponent } from './restaurant-data/restaurant-data.compo
 import {MatIconModule} from "@angular/material/icon";
 import {RatingModule} from "ng-starrating";
 import {NgbRatingModule} from "@ng-bootstrap/ng-bootstrap";
+import { FilterRestaurantsComponent } from './filter-restaurants/filter-restaurants.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AllRestaurantsComponent,
-    RestaurantDataComponent
+    RestaurantDataComponent,
+    FilterRestaurantsComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +32,10 @@ import {NgbRatingModule} from "@ng-bootstrap/ng-bootstrap";
     MatIconModule,
     RatingModule,
     NgbRatingModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ]
 })
 export class RestaurantModule { }

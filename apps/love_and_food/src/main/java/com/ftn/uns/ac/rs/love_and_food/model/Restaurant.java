@@ -156,9 +156,6 @@ public class Restaurant {
 		this.image = image;
 	}
 
-	public void setGrades(List<Grade> grades) {
-		this.grades = grades;
-	}
 
 	public String getName() {
 		return name;

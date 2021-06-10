@@ -52,14 +52,14 @@ public class RestaurantController {
 	@GetMapping("/by-page/{pageNum}")
 	public ResponseEntity<PageImplementation<RestaurantDTO>> findAll(@PathVariable("pageNum") int pageNum) {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.findAll();
-		
+
 		Pageable pageRequest = PageRequest.of(pageNum, 6);
-		
+
 		Page<RestaurantDTO> page = this.restaurantService.findPaginated(found, pageRequest);
-		
+
 		PageImplementation<RestaurantDTO> pageImpl = new PageImplementation<>();
 		PageImplMapper<RestaurantDTO> mapper = new PageImplMapper<>();
-		
+
 		pageImpl = mapper.toPageImpl(page);
 
 		if (!found.isEmpty())
@@ -90,24 +90,40 @@ public class RestaurantController {
 		}
 	}
 
-	@GetMapping(path = "/filter")
-	public ResponseEntity<ArrayList<RestaurantDTO>> filterRestaurants(@RequestBody RestaurantFilterDTO dto) {
+	@PostMapping(path = "/filter/by-page/{pageNum}")
+	public ResponseEntity<PageImplementation<RestaurantDTO>> filterRestaurants(@PathVariable("pageNum") int pageNum,
+			@RequestBody RestaurantFilterDTO dto) {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.filterRestaurants(dto);
 
+		Pageable pageRequest = PageRequest.of(pageNum, 6);
+
+		Page<RestaurantDTO> page = this.restaurantService.findPaginated(found, pageRequest);
+
+		PageImplementation<RestaurantDTO> pageImpl = new PageImplementation<>();
+		PageImplMapper<RestaurantDTO> mapper = new PageImplMapper<>();
+
+		pageImpl = mapper.toPageImpl(page);
+
 		if (!found.isEmpty())
-			return new ResponseEntity<>(found, HttpStatus.OK);
+			return new ResponseEntity<>(pageImpl, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PostMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant r) {
-		Restaurant saved = this.restaurantService.addRestaurant(r);
+		try {
+			Restaurant saved = this.restaurantService.addRestaurant(r);
 
-		if (saved != null)
-			return new ResponseEntity<>(HttpStatus.OK);
-		else
+			if (saved != null)
+				return new ResponseEntity<>(HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PostMapping(path = "/find-restaurant")

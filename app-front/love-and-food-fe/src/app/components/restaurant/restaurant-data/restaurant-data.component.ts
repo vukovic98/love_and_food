@@ -10,29 +10,27 @@ import {StarRatingComponent} from "ng-starrating";
 export class RestaurantDataComponent implements OnInit {
 
   @Input() restaurant: RestaurantModel;
-  stars: number[] = [1, 2, 3, 4, 5];
-  selectedValue: number = 0;
+  public stars: number[] = [1, 2, 3, 4, 5];
+  public selectedValue: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.selectedValue = this.getGrade();
   }
 
-  onRate($event:{oldValue:number, newValue:number, starRating:StarRatingComponent}) {
-    alert(`Old Value:${$event.oldValue},
-      New Value: ${$event.newValue},
-      Checked Color: ${$event.starRating.checkedcolor},
-      Unchecked Color: ${$event.starRating.uncheckedcolor}`);
-  }
-
-  countStar(star: any) {
-
+  countStar(star) {
     this.selectedValue = star;
-
-
   }
 
-  getGrade() {
-    return 5;
+  getGrade(): number {
+    let total: number = 0;
+    this.restaurant.grades.forEach((g) => {
+      total = total + (g.ambient + g.atmosphere + g.hospitability + g.location + g.overall + g.service);
+    })
+
+    total = total / (6 * this.restaurant.grades.length);
+
+    return Math.ceil(total);
   }
 }
