@@ -1,6 +1,5 @@
 package com.ftn.uns.ac.rs.love_and_food.service;
 
-import java.awt.print.Book;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -213,14 +212,14 @@ public class RestaurantService {
 
 		//TODO COMMENT FOR TESTING
 		
-		DatePlace d = new DatePlace();
-
-		d.setDate(dto.getDateTime());
-		d.setRestaurant(perfect);
-		d.setInitiator(match.getInitiator());
-		d.setSoulmate(match.getSoulmate());
-
-		this.dateRepository.save(d);
+//		DatePlace d = new DatePlace();
+//
+//		d.setDate(dto.getDateTime());
+//		d.setRestaurant(perfect);
+//		d.setInitiator(match.getInitiator());
+//		d.setSoulmate(match.getSoulmate());
+//
+//		this.dateRepository.save(d);
 
 		return perfect;
 	}
