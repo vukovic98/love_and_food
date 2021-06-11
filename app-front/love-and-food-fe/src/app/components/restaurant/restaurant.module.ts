@@ -26,6 +26,8 @@ import {MatCardModule} from "@angular/material/card";
 import { AddRestaurantComponent } from './add-restaurant/add-restaurant.component';
 import { AddRestaurantFormComponent } from './forms/add-restaurant-form/add-restaurant-form.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { RateRestaurantComponent } from './rate-restaurant/rate-restaurant.component';
+import { RateRestaurantItemComponent } from './rate-restaurant-item/rate-restaurant-item.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     FindRestaurantFormComponent,
     ChosenRestaurantComponent,
     AddRestaurantComponent,
-    AddRestaurantFormComponent
+    AddRestaurantFormComponent,
+    RateRestaurantComponent,
+    RateRestaurantItemComponent
   ],
     imports: [
         CommonModule,
