@@ -4,6 +4,7 @@ import {RoleGuard} from "../../guards/role.guard";
 import {AllRestaurantsComponent} from "./all-restaurants/all-restaurants.component";
 import {FindRestaurantComponent} from "./find-restaurant/find-restaurant.component";
 import {AddRestaurantComponent} from "./add-restaurant/add-restaurant.component";
+import {RateRestaurantComponent} from "./rate-restaurant/rate-restaurant.component";
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
     component: AddRestaurantComponent,
     canActivate:[RoleGuard],
     data: {acceptRoles: 'ROLE_ADMIN'}
+  },
+  {
+    path: 'rate-restaurant',
+    component: RateRestaurantComponent,
+    canActivate:[RoleGuard],
+    data: {acceptRoles: 'ROLE_USER'}
   },
 ]
 

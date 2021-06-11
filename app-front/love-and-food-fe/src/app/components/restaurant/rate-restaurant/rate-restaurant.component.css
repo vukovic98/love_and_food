@@ -1,0 +1,13 @@
+.item-font {
+  font-family: 'Comic Sans MS', serif;
+}
+
+.back {
+  background-image: url("src/assets/img/back-opacity.png");
+}
+
+
+.sidebar {
+  max-height: 100vh;
+  overflow-y: scroll;
+}

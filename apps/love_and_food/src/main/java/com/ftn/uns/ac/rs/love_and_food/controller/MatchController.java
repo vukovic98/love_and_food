@@ -66,7 +66,7 @@ public class MatchController {
 			if(has) 
 				return new ResponseEntity<>(HttpStatus.OK);
 			else
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
