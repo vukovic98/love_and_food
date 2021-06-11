@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {RoleGuard} from "../../guards/role.guard";
 import {AllRestaurantsComponent} from "./all-restaurants/all-restaurants.component";
 import {FindRestaurantComponent} from "./find-restaurant/find-restaurant.component";
+import {AddRestaurantComponent} from "./add-restaurant/add-restaurant.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,12 @@ const routes: Routes = [
     component: FindRestaurantComponent,
     canActivate:[RoleGuard],
     data: {acceptRoles: 'ROLE_USER'}
+  },
+  {
+    path: 'add-restaurant',
+    component: AddRestaurantComponent,
+    canActivate:[RoleGuard],
+    data: {acceptRoles: 'ROLE_ADMIN'}
   },
 ]
 

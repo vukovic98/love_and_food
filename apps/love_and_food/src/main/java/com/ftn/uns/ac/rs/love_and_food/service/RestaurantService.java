@@ -211,14 +211,16 @@ public class RestaurantService {
 
 		Restaurant perfect = (Restaurant) this.kieSession.getGlobal("selectedRestaurant");
 
-		DatePlace d = new DatePlace();
-
-		d.setDate(dto.getDateTime());
-		d.setRestaurant(perfect);
-		d.setInitiator(match.getInitiator());
-		d.setSoulmate(match.getSoulmate());
-
-		this.dateRepository.save(d);
+		//TODO COMMENT FOR TESTING
+		
+//		DatePlace d = new DatePlace();
+//
+//		d.setDate(dto.getDateTime());
+//		d.setRestaurant(perfect);
+//		d.setInitiator(match.getInitiator());
+//		d.setSoulmate(match.getSoulmate());
+//
+//		this.dateRepository.save(d);
 
 		return perfect;
 	}

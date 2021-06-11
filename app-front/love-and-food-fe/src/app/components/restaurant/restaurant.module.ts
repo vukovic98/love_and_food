@@ -16,8 +16,16 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {ReactiveFormsModule} from "@angular/forms";
 import { FindRestaurantComponent } from './find-restaurant/find-restaurant.component';
-import { FindRestaurantFormComponent } from './find-restaurant-form/find-restaurant-form.component';
+import { FindRestaurantFormComponent } from './forms/find-restaurant-form/find-restaurant-form.component';
 import {MatRadioModule} from "@angular/material/radio";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import { ChosenRestaurantComponent } from './choosen-restaurant/chosen-restaurant.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatCardModule} from "@angular/material/card";
+import { AddRestaurantComponent } from './add-restaurant/add-restaurant.component';
+import { AddRestaurantFormComponent } from './forms/add-restaurant-form/add-restaurant-form.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -25,7 +33,10 @@ import {MatRadioModule} from "@angular/material/radio";
     RestaurantDataComponent,
     FilterRestaurantsComponent,
     FindRestaurantComponent,
-    FindRestaurantFormComponent
+    FindRestaurantFormComponent,
+    ChosenRestaurantComponent,
+    AddRestaurantComponent,
+    AddRestaurantFormComponent
   ],
     imports: [
         CommonModule,
@@ -42,6 +53,11 @@ import {MatRadioModule} from "@angular/material/radio";
         MatSelectModule,
         ReactiveFormsModule,
         MatRadioModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatProgressBarModule,
+        MatCardModule,
+        MatCheckboxModule,
     ]
 })
 export class RestaurantModule { }

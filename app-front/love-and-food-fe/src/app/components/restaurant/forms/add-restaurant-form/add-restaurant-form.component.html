@@ -1,0 +1,122 @@
+<div class="col-md-12">
+  <form [formGroup]="createForm" (ngSubmit)="createRestaurant()" class="col-md-12">
+    <div class="col-md-12 row">
+      <div class="col-md-6 float-left">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Restaurant Name</mat-label>
+          <input type="text" matInput id="name" name="name" formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 float-right">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Select Location</mat-label>
+          <mat-select id="location" formControlName="location">
+            <mat-option value="LIMAN">Liman (I - IV)</mat-option>
+            <mat-option value="GRBAVICA">Grbavica</mat-option>
+            <mat-option value="TELEP">Telep</mat-option>
+            <mat-option value="STARI_GRAD">Stari Grad</mat-option>
+            <mat-option value="PODBARA">Podbara</mat-option>
+            <mat-option value="DETELINARA">Detelinara</mat-option>
+            <mat-option value="NOVO_NASELJE">Novo Naselje</mat-option>
+            <mat-option value="BANATIC">Banatic</mat-option>
+            <mat-option value="ROTKVARIJA">Rotkvarija</mat-option>
+            <mat-option value="SAJMISTE">Sajmiste</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-6 float-left">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Starting Hours</mat-label>
+          <input type="time" matInput id="startingHours" name="startingHours" formControlName="startingHours">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 float-left">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Ending Hours</mat-label>
+          <input type="time" matInput id="endingHours" name="endingHours" formControlName="endingHours">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-6 float-left">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Select Ambient</mat-label>
+          <mat-select id="ambient" formControlName="ambient">
+            <mat-option value="ETNO">Etno ambient</mat-option>
+            <mat-option value="ROMANTIC">Romantic ambient</mat-option>
+            <mat-option value="LUXORY">Luxory ambient</mat-option>
+            <mat-option value="CASUAL">Causal ambient</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 float-left">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Select Music</mat-label>
+          <mat-select id="music" formControlName="music">
+            <mat-option value="FOLK">Folk music</mat-option>
+            <mat-option value="TAMBOURINE">Tambouring</mat-option>
+            <mat-option value="POP">Pop music</mat-option>
+            <mat-option value="ROCK">Rock music</mat-option>
+            <mat-option value="JAZZ">Jazz music</mat-option>
+            <mat-option value="CLASSIC">Classic music</mat-option>
+            <mat-option value="NO_MUSIC">No music</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-6 float-left">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Select Cuisine</mat-label>
+          <mat-select id="cuisine" formControlName="cuisine" multiple>
+            <mat-option value="NATIVE">Native Cuisine</mat-option>
+            <mat-option value="ITALIAN">Italian Cuisine</mat-option>
+            <mat-option value="CHINEESE">Chineese Cuisine</mat-option>
+            <mat-option value="FAST_FOOD">Fast Food</mat-option>
+            <mat-option value="BARBEQUE">Barbeque</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 float-right">
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Select Price Range</mat-label>
+          <mat-select id="priceRange" formControlName="priceRange">
+            <mat-option value="CHEEP">Cheep Price Range</mat-option>
+            <mat-option value="AFFORDABLE">Affordable Price Range</mat-option>
+            <mat-option value="EXPENSIVE">Expensive Price Range</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="col-md-12 row mt-3">
+      <section class="example-section">
+        <mat-card-subtitle class="col-md-12" >Select additional things that restaurant offers: </mat-card-subtitle>
+        <mat-checkbox class="col-md-3" formControlName="garden">Garden</mat-checkbox>
+        <mat-checkbox class="col-md-3" formControlName="wifi">WiFi Connection</mat-checkbox>
+        <mat-checkbox class="col-md-3" formControlName="tv">TV</mat-checkbox>
+        <mat-checkbox class="col-md-3" formControlName="liveMusic">Live Music</mat-checkbox>
+        <mat-checkbox class="col-md-3" formControlName="alcohol">Alcohol</mat-checkbox>
+        <mat-checkbox class="col-md-3" formControlName="parking">Parking space</mat-checkbox>
+        <mat-checkbox class="col-md-3" formControlName="smokingArea">Smoking Area</mat-checkbox>
+      </section>
+    </div>
+
+    <div class="col-md-12 row pl-4 pr-4">
+      <mat-form-field appearance="standard" class="w-100">
+        <mat-label>Image Address</mat-label>
+        <input type="text" matInput id="image" name="image" formControlName="image">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-12 text-center mt-5">
+      <button mat-raised-button class="text-white add-button" type="submit">ADD RESTAURANT</button>
+    </div>
+  </form>
+
+</div>

@@ -5,3 +5,7 @@
   width: 300px;
   background-color: orange;
 }
+
+.back {
+  background-image: url("src/assets/img/back-opacity.png");
+}
