@@ -11,7 +11,7 @@
           <div class="warn-message">
             <div *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched" class="ml-1 mt-0 mb-0">
               <small *ngIf="loginForm.controls['email'].errors?.required" class="text-danger">*This field is mandatory</small>
-              <small *ngIf="loginForm.controls['email'].errors?.email" class="text-danger">*Email form is not valid</small>
+              <small *ngIf="loginForm.controls['email'].errors?.email" class="text-danger">*Email format is not valid</small>
             </div>
           </div>
         </div>

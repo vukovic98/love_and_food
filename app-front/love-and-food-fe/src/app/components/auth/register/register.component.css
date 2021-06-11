@@ -15,3 +15,7 @@
   opacity: 0.8;
   border-radius: 4rem;
 }
+
+button:disabled {
+  background-color: #788bf5 !important;
+}
