@@ -16,6 +16,7 @@
   border-radius: 4rem;
 }
 
-button:disabled {
-  background-color: #788bf5 !important;
+.mat-step-button { 
+  background-color: rgb(139, 136, 193) !important;
 }
+

@@ -160,7 +160,7 @@ export class RegisterComponent implements OnInit {
 
     this.userService.register(userDTO)
     .subscribe(res => {
-      this.route.navigate(['/login']);
+      this.route.navigate(['/auth/login']);
     },
     error => {
       if (error.status === 403) {

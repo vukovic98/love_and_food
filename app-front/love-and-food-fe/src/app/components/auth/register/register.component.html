@@ -49,7 +49,7 @@
                 </mat-form-field>
               </div>
               <div class="col-md-12 text-right pt-5">
-                <button mat-raised-button color="primary" matStepperNext [disabled]="personalInformation.invalid">Next Step</button>
+                <button mat-raised-button color="primary" class="mat-step-button" matStepperNext [disabled]="personalInformation.invalid">Next Step</button>
               </div>
             </div>
           </form>
@@ -122,10 +122,10 @@
                 </mat-form-field>
               </div>
               <div class="col-md-5 float-left text-left pt-3">
-                <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
               </div>
               <div class="col-md-5 pt-3 float-right text-right">
-                <button mat-raised-button color="primary" matStepperNext [disabled]="datingInformation1.invalid">Next Step</button>
+                <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]="datingInformation1.invalid">Next Step</button>
               </div>
             </div>
           </form>
@@ -167,10 +167,10 @@
               <mat-error *ngIf="datingInformation2.get('smoking')?.invalid">{{getFieldErrorMessage('smoking')}}</mat-error>
             </mat-form-field>
               <div class="col-md-5 float-left text-left pt-3">
-                <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
               </div>
               <div class="col-md-5 pt-3 float-right text-right">
-                <button mat-raised-button color="primary" matStepperNext [disabled]="datingInformation2.invalid">Next Step</button>
+                <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]="datingInformation2.invalid">Next Step</button>
               </div>
             </div>
           </form>
@@ -326,10 +326,10 @@
             </div>
           </form>
           <div class="col-md-5 float-left text-left pt-3">
-            <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
           </div>
           <div class="col-md-5 pt-3 float-right text-right">
-            <button mat-raised-button color="primary" matStepperNext [disabled]="extrovertIntrovert.invalid||sensorsIntuitive.invalid">Next Step</button>
+            <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]="extrovertIntrovert.invalid||sensorsIntuitive.invalid">Next Step</button>
           </div>
         </mat-step>
 
@@ -484,10 +484,10 @@
           </form>
           <div class="col-md-12 w-100 float-left">
             <div class="col-md-5 float-left text-left pt-3">
-              <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+              <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
             </div>
             <div class="col-md-5 pt-3 float-right text-right">
-              <button mat-raised-button color="primary" matStepperNext [disabled]='personalInformation.invalid||datingInformation1.invalid
+              <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]='personalInformation.invalid||datingInformation1.invalid
               ||datingInformation2.invalid||extrovertIntrovert.invalid||sensorsIntuitive.invalid||thinkerFeeler.invalid
               ||judgerPerceiver.invalid' (click)="onSubmit()">Finish</button>
             </div>
