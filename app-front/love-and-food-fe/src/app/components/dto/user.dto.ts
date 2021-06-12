@@ -14,7 +14,7 @@ export interface UserDTO {
     children: string;
     desiredRelationship: string;
     location: string;
-    alchocol: string;
-    smoking: string;
-    //testAnswers: TestAnswerDTO[]
+    alchocol: boolean;
+    smoking: boolean;
+    testAnswers: TestAnswerDTO[]
   }
