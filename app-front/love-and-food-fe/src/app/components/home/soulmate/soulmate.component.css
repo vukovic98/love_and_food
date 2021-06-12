@@ -1,0 +1,20 @@
+.dialog-back {
+    background-image: url('src/assets/img/soulmate-back.png');
+    /*overflow-y: hidden;*/
+    height: 100%;
+    max-height: none !important;
+    /*border-radius: 4rem;*/
+  }
+
+.dialog-text {
+  background-color: rgb(143, 116, 194, 0.7);
+  border-radius: 1rem;
+}
+
+.soulmate-desc {
+  font-size: larger;
+}
+
+.text-love {
+  color: rgb(143, 116, 194);
+}

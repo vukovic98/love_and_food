@@ -1,10 +1,7 @@
-import { TestAnswerDTO } from "./test-answer.dto";
-
-export interface UserDTO {
+export interface SoulmateDTO {
     name: string;
     surname: string;
     email: string;
-    password: string;
     dateOfBirth: string;
     gender: string;
     sexualOrientation: string;
@@ -16,5 +13,5 @@ export interface UserDTO {
     location: string;
     alchocol: boolean;
     smoking: boolean;
-    testAnswers: TestAnswerDTO[]
-  }
+    personalityTraits: string
+}

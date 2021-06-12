@@ -1,12 +1,12 @@
 <nav id="sidebar" class="h-100" [ngClass]="{'sidebar-color-love': mode === 'LOVE', 'sidebar-color-food': mode === 'FOOD'}">
   <div class="p-4">
-    <img *ngIf="mode === 'LOVE'" src="../../../../assets/img/heart.png" class="logo ml-4 pt-2  mb-5" alt="Love&Food" style="width: 150px; height: 130px;">
-    <img *ngIf="mode === 'FOOD'" src="../../../../assets/img/restaurant.png" class="logo ml-4 pt-2  mb-5" alt="Love&Food" style="width: 160px; height: 160px;">
+    <img *ngIf="mode === 'LOVE'" src="../../../../assets/img/heart.png" class="logo ml-4 pt-2  mb-5" alt="Love&Food" style="width: 150px; height: 140px;">
+    <img *ngIf="mode === 'FOOD'" src="../../../../assets/img/restaurant.png" class="logo ml-4 pt-2  mb-5" alt="Love&Food" style="width: 150px; height: 140px;">
 
     <ul class="list-unstyled components mb-5">
       <li>
-        <mat-icon class="float-left mt-2">home</mat-icon>
-        <a routerLink="/home"><span class="fa fa-home mr-3"></span> Home</a>
+        <mat-icon class="float-left mt-2">favorite</mat-icon>
+        <a routerLink="/home"><span class="fa fa-heart mr-3"></span> Soulmate</a>
       </li>
       <li>
         <mat-icon class="float-left mt-2">fastfood</mat-icon>

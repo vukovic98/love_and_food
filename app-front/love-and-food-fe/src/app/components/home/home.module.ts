@@ -6,11 +6,17 @@ import {SharedModule} from "../shared/shared.module";
 import {HomeComponent} from "./home/home.component";
 import {MatButtonModule} from "@angular/material/button";
 import { UserPanelComponent } from './user-panel/user-panel.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { SoulmateComponent } from './soulmate/soulmate.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    UserPanelComponent
+    UserPanelComponent,
+    SoulmateComponent
   ],
   imports: [
     CommonModule,
@@ -18,6 +24,10 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
     RouterModule,
     SharedModule,
     MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatCardModule,
   ]
 })
 export class HomeModule { }

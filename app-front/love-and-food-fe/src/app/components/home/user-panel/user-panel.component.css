@@ -19,5 +19,9 @@
   border-radius: 2rem;
   height: 50px ;
   width: 400px;
-  background-color: #6c38dc;
+  background-color: rgb(143, 116, 194);
+}
+
+.back {
+  background-image: url("src/assets/img/soulmate-back.png");
 }

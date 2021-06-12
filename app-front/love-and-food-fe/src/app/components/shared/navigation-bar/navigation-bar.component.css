@@ -41,7 +41,8 @@
   box-sizing: border-box; }
 
 .sidebar-color-love {
-  background: #6c38dc;
+  /*background: #6c38dc;*/
+  background: rgb(143, 116, 194);
 }
 
 .sidebar-color-food {

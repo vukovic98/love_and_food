@@ -11,6 +11,7 @@ import { AllRestaurantsComponent } from './components/restaurant/all-restaurants
 import {SharedModule} from "./components/shared/shared.module";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SoulmateComponent } from './components/home/soulmate/soulmate.component';
 
 @NgModule({
   declarations: [

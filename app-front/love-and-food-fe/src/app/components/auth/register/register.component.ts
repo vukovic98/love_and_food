@@ -3,8 +3,8 @@ import {FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
-import { TestAnswerDTO } from '../../dto/test-answer.dto';
-import { UserDTO } from '../../dto/user.dto';
+import { TestAnswerDTO } from '../../../dto/test-answer.dto';
+import { UserDTO } from '../../../dto/user.dto';
 
 @Component({
   selector: 'app-register',
