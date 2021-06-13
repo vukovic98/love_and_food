@@ -7,11 +7,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AllRestaurantsComponent } from './components/restaurant/all-restaurants/all-restaurants.component';
 import {SharedModule} from "./components/shared/shared.module";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SoulmateComponent } from './components/home/soulmate/soulmate.component';
 
 @NgModule({
   declarations: [
