@@ -83,10 +83,13 @@ public class Restaurant {
 	@Column(name = "smoking_area", nullable = false)
 	private boolean smokingArea;
 
+	@Column(name = "image")
+	private String image;
+
 	public Restaurant() {
 		super();
 	}
-
+	
 	public Restaurant(Long restaurant_id, String name, Location location, LocalTime startingHours,
 			LocalTime endingHours, ArrayList<Grade> grades, Ambient ambient, Music music, Set<Cuisine> cuisine,
 			PriceRange priceRange, boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol,
@@ -109,6 +112,32 @@ public class Restaurant {
 		this.alcohol = alcohol;
 		this.parking = parking;
 		this.smokingArea = smokingArea;
+		this.image = null;
+	}
+
+	public Restaurant(Long restaurant_id, String name, Location location, LocalTime startingHours,
+			LocalTime endingHours, ArrayList<Grade> grades, Ambient ambient, Music music, Set<Cuisine> cuisine,
+			PriceRange priceRange, boolean garden, boolean wifi, boolean tv, boolean liveMusic, boolean alcohol,
+			boolean parking, boolean smokingArea, String img) {
+		super();
+		this.restaurant_id = restaurant_id;
+		this.name = name;
+		this.location = location;
+		this.startingHours = startingHours;
+		this.endingHours = endingHours;
+		this.grades = grades;
+		this.ambient = ambient;
+		this.music = music;
+		this.cuisine = cuisine;
+		this.priceRange = priceRange;
+		this.garden = garden;
+		this.wifi = wifi;
+		this.tv = tv;
+		this.liveMusic = liveMusic;
+		this.alcohol = alcohol;
+		this.parking = parking;
+		this.smokingArea = smokingArea;
+		this.image = img;
 	}
 
 	public Long getRestaurant_id() {
@@ -118,6 +147,15 @@ public class Restaurant {
 	public void setRestaurant_id(Long restaurant_id) {
 		this.restaurant_id = restaurant_id;
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 
 	public String getName() {
 		return name;
@@ -254,10 +292,10 @@ public class Restaurant {
 			return !time.isBefore(this.startingHours) && !time.isAfter(this.endingHours);
 		}
 	}
-	
+
 	public boolean isOpenForNext3Hours(LocalTime time) {
 		time = time.plusHours(3);
-		
+
 		return this.isOpen(time);
 	}
 

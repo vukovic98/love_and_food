@@ -3,42 +3,30 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
-import { HomeComponent } from './components/home/home.component';
-import { RegisterComponent } from './components/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
-import {NavigationBarComponent} from './components/navigation-bar/navigation-bar.component';
+import { AllRestaurantsComponent } from './components/restaurant/all-restaurants/all-restaurants.component';
+import {SharedModule} from "./components/shared/shared.module";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SoulmateComponent } from './components/home/soulmate/soulmate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    HomeComponent,
-    RegisterComponent,
-    NavigationBarComponent
   ],
-    imports: [
-      BrowserModule,
-      HttpClientModule,
-      AppRoutingModule,
-      ReactiveFormsModule,
-      MatStepperModule,
-      MatButtonModule,
-      BrowserAnimationsModule,
-      MatIconModule,
-      MatInputModule,
-      MatSelectModule,
-      MatRadioModule
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    MatPaginatorModule,
+    NgbModule
+  ],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })

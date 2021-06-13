@@ -1,0 +1,71 @@
+<div class="shadow pl-5 pr-5 pb-5 pt-4 bg-white" style="border: 1px solid orange; border-radius: 4rem;">
+  <form [formGroup]="entryForm" (ngSubmit)="sendEntry()" style="border-radius: 2rem;">
+    <mat-form-field appearance="standard" class="col-md-12">
+      <mat-label>* Select the type of music you prefer</mat-label>
+      <mat-select id="music" formControlName="music">
+        <mat-option value="FOLK">Folk music</mat-option>
+        <mat-option value="TAMBOURINE">Tambourine</mat-option>
+        <mat-option value="POP">Pop music</mat-option>
+        <mat-option value="ROCK">Rock music</mat-option>
+        <mat-option value="JAZZ">Jazz music</mat-option>
+        <mat-option value="CLASSIC">Classical music</mat-option>
+        <mat-option value="NO_MUSIC">I don't like music</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-md-12 mt-3">
+      <mat-label>* Select cuisine you enjoy</mat-label>
+      <mat-select id="cuisine" formControlName="cuisine">
+        <mat-option value="NATIVE">Native cuisine</mat-option>
+        <mat-option value="ITALIAN">Italian cuisine</mat-option>
+        <mat-option value="CHINEESE">Chineese food</mat-option>
+        <mat-option value="FAST_FOOD">Fast food</mat-option>
+        <mat-option value="BARBEQUE">Barbeque</mat-option>
+        <mat-option value="NOT_IMPORTANT">Not important</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="col-md-12 mt-5">
+      <label id="example-radio-group-label">* How to get there?</label>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group ml-5"
+        color="primary"
+        id="onFoot"
+        formControlName="onFoot"
+      >
+        <mat-radio-button value="true" name="onFoot" class="mr-5">
+          On Foot
+        </mat-radio-button>
+        <mat-radio-button value="false" name="onFoot" class="ml-5">
+          By Car
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="col-md-12 mt-5">
+      <label id="example-radio-group-label2">* Do you prefer garden?</label>
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group ml-5"
+        color="primary"
+        id="hasGarden"
+        formControlName="hasGarden"
+      >
+        <mat-radio-button value="true" name="hasGarden" class="mr-5">
+          Yes
+        </mat-radio-button>
+        <mat-radio-button value="false" name="hasGarden" class="ml-5">
+          No
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field class="col-md-12 mt-5">
+      <mat-label>* When is the Perfect Date?</mat-label>
+      <input matInput id="dateTime" name="dateTime" formControlName="dateTime" type="datetime-local">
+    </mat-form-field>
+
+    <button class="btn-block mt-5 mb-4 text-white find-button" mat-raised-button>Let's find a date place</button>
+  </form>
+</div>

@@ -1,0 +1,8 @@
+<div class="wrapper d-flex align-items-stretch back">
+  <div style="height: 100vh;">
+    <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
+  </div>
+  <div class="col-md-3 bg-white pt-4 pb-4 sidebar">
+    <app-rate-restaurant-item *ngFor="let d of datePlaces" [datePlace]="d"></app-rate-restaurant-item>
+  </div>
+</div>

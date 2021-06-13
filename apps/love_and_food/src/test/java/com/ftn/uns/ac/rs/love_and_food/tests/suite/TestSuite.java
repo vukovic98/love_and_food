@@ -16,21 +16,22 @@ import com.ftn.uns.ac.rs.love_and_food.tests.love.StreamLoveQueryTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	
+
 //	LOVE TESTS
-	
-	FindPartnersAgeTest.class, 
-	InactivityTest.class,
-	LoveQueryTest.class,
-	LoveReportLiarsTest.class,
-	LoveReportMVPsTest.class,
-	MatchesByTimeIntervalTemplateTest.class,
-	PartnerRequirementsTest.class,
-	PersonalityTestTest.class,
-	SoulmateTest.class,
-	StreamLoveQueryTest.class
-	
+
+//	FindPartnersAgeTest.class, 
+//	InactivityTest.class,
+//	LoveQueryTest.class,
+//	LoveReportLiarsTest.class,
+//	LoveReportMVPsTest.class,
+//	MatchesByTimeIntervalTemplateTest.class,
+//	PartnerRequirementsTest.class,
+//	PersonalityTestTest.class,
+//	SoulmateTest.class,
+//	StreamLoveQueryTest.class
+
 //	FOOD TESTS
+
 //	RestaurantRequirementsTest.class,
 //	PerfectRestaurantTest.class,
 //	BestGradedRestaurantsReportTest.class,

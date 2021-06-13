@@ -1,0 +1,37 @@
+<mat-dialog-content class="dialog-back">
+  <div *ngIf="!found" class="text-center">
+    <h4 class="mt-2 p-3 text-white dialog-text">We are looking for your perfect date place! Please wait. <mat-icon>tag_faces</mat-icon></h4>
+    <mat-progress-bar class="mt-5 mb-3" mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div *ngIf="found" class="p-4">
+    <mat-card class="example-card" style="background-color: rgba(255, 255, 255, 0.7);">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"><mat-icon>restaurant</mat-icon></div>
+        <mat-card-title>{{restaurant.name}}</mat-card-title>
+        <mat-card-subtitle>{{restaurant.location | titlecase}} <em>( {{restaurant.startingHours.split(':')[0]}}h - {{restaurant.endingHours.split(':')[0]}}h )</em></mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image [src]="restaurant.image" alt="Photo of Restaurant">
+      <mat-card-content>
+        <div>
+          <ul class="list-inline rating-list" *ngFor="let star of stars" >
+            <li [ngClass]="{'selected': (star <= selectedValue)}">
+              <mat-icon>star</mat-icon>
+            </li>
+          </ul>
+        </div>
+        <p>{{restaurant.name | titlecase}} is one of the best restaurants for your first date! It has very {{restaurant.ambient | lowercase}} ambient,
+          and the it is very {{restaurant.priceRange | lowercase}} restaurant. They have the best meals, including {{restaurant.cuisine}} cuisines.
+        You can always relax here with a bit of {{restaurant.music | lowercase}} music.
+        </p>
+        <p>
+          {{hasSomethingElse()}}
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <div mat-dialog-actions>
+      <button mat-raised-button style="background-color: orange" class="mr-3 ml-3 mt-2 btn-block text-white" mat-dialog-close>Close</button>
+    </div>
+  </div>
+
+</mat-dialog-content>

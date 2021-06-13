@@ -1,0 +1,7 @@
+.panel {
+  height: 95vh;
+}
+
+.back {
+  background-image: url('src/assets/img/soulmate-back-opacity.png');
+}

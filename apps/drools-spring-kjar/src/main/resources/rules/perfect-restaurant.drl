@@ -298,7 +298,17 @@ rule "Compatibility - Distance score"
 		insert(new RestaurantDistance($rest_id, 3));
 end;
 
-// BASE POINTS
+
+
+
+
+
+
+// 					******************************************* BASE POINTS *******************************************
+
+
+
+
 
 rule "Insert base ALCOHOL if not other"
 	agenda-group "perfect-restaurant"

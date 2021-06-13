@@ -1,0 +1,18 @@
+<div class="wrapper d-flex align-items-stretch back">
+  <div style="height: 100vh;">
+    <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
+  </div>
+  <div class="jumbotron bg-transparent col-md-6 m-auto bg-white rounded">
+    <mat-card class="shadow">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+          <img src="assets/img/food-icon.png" alt="Food Icon" class="food-icon"/>
+        </div>
+        <mat-card-title>Add New Restaurant</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="p-4">
+        <app-add-restaurant-form (addRestaurantsEvent)="createRestaurant($event)"></app-add-restaurant-form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

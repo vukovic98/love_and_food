@@ -72,6 +72,16 @@ export class AuthService {
     }
   }
 
+  getUserID(): number {
+    let token = this.getToken();
+    if(token) {
+      let model = this.decodeToken(token);
+      return model?.user_id ? Number(model.user_id) : -1;
+    } else {
+      return -1;
+    }
+  }
+
   getToken(): string{
     return <string> localStorage.getItem("accessToken");
   }

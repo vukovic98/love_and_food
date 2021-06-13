@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.orange-snackbar {
+  background-color: orangered;
+  color: white;
+}
+
+.orange-snackbar button {
+  background-color: white;
+  color: orangered;
+}
+
+.custom-dialog-container .mat-dialog-container{
+  padding: 0px;
+  overflow-x: hidden;
+}

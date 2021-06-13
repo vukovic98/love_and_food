@@ -1,0 +1,45 @@
+<div class="text-right">
+  <form [formGroup]="filterForm" (ngSubmit)="filterRestaurants()">
+    <mat-form-field appearance="standard" class="col-md-2 mr-4">
+      <mat-label>Enter Name</mat-label>
+      <input id="name" name="name" formControlName="name" type="text" matInput placeholder="eg. Velvet">
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-md-2 mr-4">
+      <mat-label>Select Price Range</mat-label>
+      <mat-select id="price" formControlName="price">
+        <mat-option value="NONE"></mat-option>
+        <mat-option value="CHEEP">Cheep Restaurants</mat-option>
+        <mat-option value="AFFORDABLE">Affordable Restaurants</mat-option>
+        <mat-option value="EXPENSIVE">Expensive Restaurants</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-md-2 mr-4">
+      <mat-label>Select Cuisine</mat-label>
+      <mat-select id="cuisine" formControlName="cuisine">
+        <mat-option value="NONE"></mat-option>
+        <mat-option value="NATIVE">Native Cuisine</mat-option>
+        <mat-option value="ITALIAN">Italian Cuisine</mat-option>
+        <mat-option value="CHINEESE">Chineese Cuisine</mat-option>
+        <mat-option value="FAST_FOOD">Fast Food</mat-option>
+        <mat-option value="BARBEQUE">Barbeque</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-md-2 mr-4">
+      <mat-label>Select Location</mat-label>
+      <mat-select id="location" formControlName="location">
+        <mat-option value="NONE"></mat-option>
+        <mat-option value="LIMAN">Liman (I - IV)</mat-option>
+        <mat-option value="GRBAVICA">Grbavica</mat-option>
+        <mat-option value="TELEP">Telep</mat-option>
+        <mat-option value="STARI_GRAD">Stari Grad</mat-option>
+        <mat-option value="PODBARA">Podbara</mat-option>
+        <mat-option value="DETELINARA">Detelinara</mat-option>
+        <mat-option value="NOVO_NASELJE">Novo Naselje</mat-option>
+        <mat-option value="BANATIC">Banatic</mat-option>
+        <mat-option value="ROTKVARIJA">Rotkvarija</mat-option>
+        <mat-option value="SAJMISTE">Sajmiste</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button type="submit" class="text-white" style="background-color: orange;">Filter</button>
+  </form>
+</div>

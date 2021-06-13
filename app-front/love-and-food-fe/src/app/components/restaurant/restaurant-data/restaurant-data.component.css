@@ -1,0 +1,33 @@
+.item-font {
+  font-family: 'Comic Sans MS', serif;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.02);
+  transition: transform .5s ease;
+}
+
+.rating-list li {
+  float: right;
+  color: #ddd;
+  padding: 10px 5px;
+
+}
+
+.rating-list li.selected {
+  color: #ffd700;
+}
+
+.rating-list-clickable li:hover,
+.rating-list-clickable li:hover ~ li {
+  color: #ffd700;
+}
+
+.rating-list {
+  display: inline-block;
+  list-style: none;
+}

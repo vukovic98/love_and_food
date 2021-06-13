@@ -1,0 +1,503 @@
+<div class="col-md-12 background pt-3">
+  <div class="login-form bg-light col-md-8 ml-auto mr-auto mt-5 p-0" style="height: 85%;">
+    <div class="image-container">
+      <img style="transform: scale(1); transform-origin: 50% 50%;" class="w-100 h-25" src="https://pd1eu.badoocdn.com/i/v2/-/-/i/hotornot_v2/homepage/header.5b3323a59a6a3b3cb355.svg">
+    </div>
+    <div class="w-100">
+      <mat-horizontal-stepper class="bg-transparent">
+        <mat-step label="Personal Information" [stepControl]="personalInformation">
+          <form [formGroup] = "personalInformation">
+            <div class="mt-3">
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width col-md-6">
+                  <mat-label>Your Email</mat-label>
+                  <input matInput formControlName="email" placeholder="Ex. someone@something.com">
+                  <mat-error *ngIf="personalInformation.get('email')?.invalid">{{getFieldErrorMessage('email')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width col-md-6">
+                  <mat-label>Your Password</mat-label>
+                  <input matInput formControlName="password" type="password">
+                  <mat-error *ngIf="personalInformation.get('password')?.invalid">{{getFieldErrorMessage('password')}}</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width col-md-6">
+                  <mat-label>Your First Name</mat-label>
+                  <input matInput formControlName="firstName" type="text" placeholder="Ex. Jack">
+                  <mat-error *ngIf="personalInformation.get('firstName')?.invalid">{{getFieldErrorMessage('firstName')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width col-md-6">
+                  <mat-label>Your Last Name</mat-label>
+                  <input matInput formControlName = "lastName" type="text" placeholder="Ex. Smith">
+                  <mat-error *ngIf="personalInformation.get('lastName')?.invalid">{{getFieldErrorMessage('lastName')}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width col-md-6">
+                  <mat-label>Your Date Of Birth</mat-label>
+                  <input matInput formControlName="dateOfBirth" type="date">
+                  <mat-error *ngIf="personalInformation.get('dateOfBirth')?.invalid">{{getFieldErrorMessage('dateOfBirth')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Your Gender</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="MALE">Male</mat-option>
+                    <mat-option value="FEMALE">Female</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="personalInformation.get('gender')?.invalid">{{getFieldErrorMessage('gender')}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12 text-right pt-5">
+                <button mat-raised-button color="primary" class="mat-step-button" matStepperNext [disabled]="personalInformation.invalid">Next Step</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step label="Dating Information (1/2)" [stepControl]="datingInformation1">
+          <form [formGroup]="datingInformation1">
+            <div class="mt-3">
+              <div class="col-md-12">
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Your Sexual Orientation</mat-label>
+                  <mat-select formControlName="sexualOrientation">
+                    <mat-option value="HETEROSEXUAL">Heterosexual</mat-option>
+                    <mat-option value="HOMOSEXUAL">Homosexual</mat-option>
+                    <mat-option value="BISEXUAL">Bisexual</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation1.get('sexualOrientation')?.invalid">{{getFieldErrorMessage('sexualOrientation')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Your Education Level</mat-label>
+                  <mat-select formControlName="education">
+                    <mat-option value="HIGH_SCHOOL">High school</mat-option>
+                    <mat-option value="BSC">Bachelor degree</mat-option>
+                    <mat-option value="PHD">PhD</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation1.get('education')?.invalid">{{getFieldErrorMessage('education')}}</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-12">
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Your Income</mat-label>
+                  <mat-select formControlName="income">
+                    <mat-option value="INCOME_NONE">No Income</mat-option>
+                    <mat-option value="INCOME_0_500">0 - 500</mat-option>
+                    <mat-option value="INCOME_500_1000">500 - 1000</mat-option>
+                    <mat-option value="INCOME_2000_PLUS">2000 +</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation1.get('income')?.invalid">{{getFieldErrorMessage('income')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Importance of Religion in Your Life</mat-label>
+                  <mat-select formControlName="religion">
+                    <mat-option value="NOT_IMPORTANT">Not Important</mat-option>
+                    <mat-option value="IMPORTANT">Important</mat-option>
+                    <mat-option value="VERY_IMPORTANT">Very Important</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation1.get('religion')?.invalid">{{getFieldErrorMessage('religion')}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Your Desired Relationship Status</mat-label>
+                  <mat-select formControlName="desiredRelationShipStatus">
+                    <mat-option value="FRIENDSHIP">I want friendship</mat-option>
+                    <mat-option value="SHORT_TERM">I want short term relationship</mat-option>
+                    <mat-option value="LONG_TERM">I want long term relationship</mat-option>
+                    <mat-option value="MARRIAGE">I want marriage</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation1.get('desiredRelationShipStatus')?.invalid">{{getFieldErrorMessage('desiredRelationShipStatus')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="standard" class="col-md-6">
+                  <mat-label>Select Children Preferences</mat-label>
+                  <mat-select formControlName="children">
+                    <mat-option value="HAS_CHILDREN">I have children</mat-option>
+                    <mat-option value="WANT_CHILDREN">I want children</mat-option>
+                    <mat-option value="DOESNT_WANT_CHILDREN">I don't want children</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation1.get('children')?.invalid">{{getFieldErrorMessage('children')}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-5 float-left text-left pt-3">
+                <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
+              </div>
+              <div class="col-md-5 pt-3 float-right text-right">
+                <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]="datingInformation1.invalid">Next Step</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step label="Dating Information (2/2)" [stepControl]="datingInformation2">
+          <form [formGroup]="datingInformation2">
+            <div class="mt-3">
+                <mat-form-field appearance="standard" class="col-md-12">
+                  <mat-label>Select Your Location</mat-label>
+                  <mat-select formControlName="location">
+                    <mat-option value="LIMAN">Liman (I - IV)</mat-option>
+                    <mat-option value="GRBAVICA">Grbavica</mat-option>
+                    <mat-option value="TELEP">Telep</mat-option>
+                    <mat-option value="STARI_GRAD">Stari Grad</mat-option>
+                    <mat-option value="PODBARA">Podbara</mat-option>
+                    <mat-option value="DETELINARA">Detelinara</mat-option>
+                    <mat-option value="NOVO_NASELJE">Novo Naselje</mat-option>
+                    <mat-option value="BANATIC">Banatic</mat-option>
+                    <mat-option value="ROTKVARIJA">Rotkvarija</mat-option>
+                    <mat-option value="SAJMISTE">Sajmiste</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation2.get('location')?.invalid">{{getFieldErrorMessage('location')}}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="standard" class="col-md-12">
+                  <mat-label>Select Your Alcohol Preferences</mat-label>
+                  <mat-select formControlName="alcohol">
+                    <mat-option value="true">I drink alcohol</mat-option>
+                    <mat-option value="false">I don't drink alcohol</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="datingInformation2.get('alcohol')?.invalid">{{getFieldErrorMessage('alcohol')}}</mat-error>
+                </mat-form-field>
+            <mat-form-field appearance="standard" class="col-md-12">
+              <mat-label>Select Your Cigarette Preferences</mat-label>
+              <mat-select formControlName="smoking">
+                <mat-option value="true">I smoke cigarettes</mat-option>
+                <mat-option value="false">I don't smoke cigarettes</mat-option>
+              </mat-select>
+              <mat-error *ngIf="datingInformation2.get('smoking')?.invalid">{{getFieldErrorMessage('smoking')}}</mat-error>
+            </mat-form-field>
+              <div class="col-md-5 float-left text-left pt-3">
+                <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
+              </div>
+              <div class="col-md-5 pt-3 float-right text-right">
+                <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]="datingInformation2.invalid">Next Step</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step label="Personality Quiz (1/2)" [stepControl]="extrovertIntrovert||sensorsIntuitive">
+          <form [formGroup]="extrovertIntrovert">
+            <div class="mt-2" style="background-color: rgb(108, 85, 165);">
+              <div class="col-md-6 p-2 border shadow float-left" style="border-color: rgb(108, 85, 165); background-color: rgb(219, 218, 234); border-radius: 3rem;">
+                <div class="text-center">
+                  <h4 class="ml-3" style="color: rgb(108, 85, 165);">Extrovert VS Introvert</h4>
+                </div>
+                <div class="col-md-12 pt-2">
+                  <div class="col-md-5 mr-2 float-left">
+                    <label id="example-radio-group-label6" class="w-100">1) Are you generally:</label>
+                    <mat-radio-group formControlName="question1" aria-labelledby="example-radio-group-label6">
+                      <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                        sociable
+                      </mat-radio-button>
+                      <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                        quiet
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error *ngIf="extrovertIntrovert.get('question1')?.invalid">{{getFieldErrorMessage('question1')}}</mat-error>
+                  </div>
+                  <div class="col-md-5 float-right">
+                    <label id="example-radio-group-label7" class="w-100">2) Are you focused on the:</label>
+                    <mat-radio-group formControlName="question2" aria-labelledby="example-radio-group-label7">
+                      <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                        outer world
+                      </mat-radio-button>
+                      <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                        inner world
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error *ngIf="extrovertIntrovert.get('question2')?.invalid">{{getFieldErrorMessage('question2')}}</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="col-md-5 mr-2 float-left">
+                    <label id="example-radio-group-label8" class="w-100">3) Do you get energy by:</label>
+                    <mat-radio-group formControlName="question3" aria-labelledby="example-radio-group-label8">
+                      <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                        spending time with others
+                      </mat-radio-button>
+                      <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                        spending time alone
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error *ngIf="extrovertIntrovert.get('question3')?.invalid">{{getFieldErrorMessage('question3')}}</mat-error>
+                  </div>
+                  <div class="col-md-5 float-right">
+                    <label id="example-radio-group-label9" class="w-100">4) Do you:</label>
+                    <mat-radio-group formControlName="question4" aria-labelledby="example-radio-group-label9">
+                      <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                        talk a lot
+                      </mat-radio-button>
+                      <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                        mostly listen
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error *ngIf="extrovertIntrovert.get('question4')?.invalid">{{getFieldErrorMessage('question4')}}</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-12 float-left">
+                  <div class="col-md-5 mr-2 float-left">
+                    <label id="example-radio-group-label10" class="w-100">5) Do you:</label>
+                    <mat-radio-group formControlName="question5" aria-labelledby="example-radio-group-label10">
+                      <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                        speak first, then think
+                      </mat-radio-button>
+                      <mat-radio-button color="primary" value="2" class="w-100 pl-3">
+                        think first, then speak
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error *ngIf="extrovertIntrovert.get('question5')?.invalid">{{getFieldErrorMessage('question5')}}</mat-error>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form [formGroup]="sensorsIntuitive">
+            <div class="col-md-6 p-2 border shadow float-right" style="border-color: rgb(108, 85, 165); background-color: rgb(219, 218, 234); border-radius: 3rem;">
+              <div class="text-center">
+                <h4 class="ml-3" style="color: rgb(108, 85, 165);">Sensors VS Intuitives</h4>
+              </div>
+              <div class="col-md-12 pt-2">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label" class="w-100">1) Do you:</label>
+                  <mat-radio-group formControlName="question6" aria-labelledby="example-radio-group-label">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      pay attention to details
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      see the "big picture"
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="sensorsIntuitive.get('question6')?.invalid">{{getFieldErrorMessage('question6')}}</mat-error>
+                </div>
+                <div class="col-md-5 float-right">
+                  <label id="example-radio-group-label2" class="w-100">2) Do you focus on the:</label>
+                  <mat-radio-group formControlName="question7" aria-labelledby="example-radio-group-label2">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      present
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      future
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="sensorsIntuitive.get('question7')?.invalid">{{getFieldErrorMessage('question7')}}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label3" class="w-100">3) Do you like:</label>
+                  <mat-radio-group formControlName="question8" aria-labelledby="example-radio-group-label3">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      practical things
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      theories
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="sensorsIntuitive.get('question8')?.invalid">{{getFieldErrorMessage('question8')}}</mat-error>
+                </div>
+                <div class="col-md-5 float-right">
+                  <label id="example-radio-group-label4" class="w-100">4) Do you prefer to do things</label>
+                  <mat-radio-group formControlName="question9" aria-labelledby="example-radio-group-label4">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      the established way
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      in new ways
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="sensorsIntuitive.get('question9')?.invalid">{{getFieldErrorMessage('question9')}}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12 float-left">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label5" class="w-100">5) Do you like to:</label>
+                  <mat-radio-group formControlName="question10" aria-labelledby="example-radio-group-label5">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      do
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      dream
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="sensorsIntuitive.get('question10')?.invalid">{{getFieldErrorMessage('question10')}}</mat-error>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="col-md-5 float-left text-left pt-3">
+            <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
+          </div>
+          <div class="col-md-5 pt-3 float-right text-right">
+            <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]="extrovertIntrovert.invalid||sensorsIntuitive.invalid">Next Step</button>
+          </div>
+        </mat-step>
+
+        <mat-step class="row" label="Personality Quiz (2/2)" [stepControl]="thinkerFeeler||judgerPerceiver">
+        <form [formGroup]="thinkerFeeler">
+          <div class="mt-2" style="background-color: rgb(108, 85, 165);">
+            <div class="col-md-6 p-2 border shadow float-left" style="border-color: rgb(108, 85, 165); background-color: rgb(219, 218, 234); border-radius: 3rem;">
+              <div class="text-center">
+                <h4 class="ml-3" style="color: rgb(108, 85, 165);">Thinkers VS Feelers</h4>
+              </div>
+              <div class="col-md-12 pt-2">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label11" class="w-100">1) Do you follow your:</label>
+                  <mat-radio-group formControlName="question11" aria-labelledby="example-radio-group-label11">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      head
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      heart
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="thinkerFeeler.get('question11')?.invalid">{{getFieldErrorMessage('question11')}}</mat-error>
+                </div>
+                <div class="col-md-5 float-right">
+                  <label id="example-radio-group-label12" class="w-100">2) Make decisions based on:</label>
+                  <mat-radio-group formControlName="question12" aria-labelledby="example-radio-group-label12">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      logic
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      emotions
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="thinkerFeeler.get('question12')?.invalid">{{getFieldErrorMessage('question12')}}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label13" class="w-100">3) Do you emphasize:</label>
+                  <mat-radio-group formControlName="question13" aria-labelledby="example-radio-group-label13">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      fairness
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      compassion
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="thinkerFeeler.get('question13')?.invalid">{{getFieldErrorMessage('question13')}}</mat-error>
+                </div>
+                <div class="col-md-5 float-right">
+                  <label id="example-radio-group-label14" class="w-100">4) Are you more:</label>
+                  <mat-radio-group formControlName="question14" aria-labelledby="example-radio-group-label14">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      scientific
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      poetic
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="thinkerFeeler.get('question14')?.invalid">{{getFieldErrorMessage('question14')}}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12 float-left">
+                <div class="col-md-12 float-left">
+                  <label id="example-radio-group-label15" class="w-100">5) Are you more interested in:</label>
+                  <mat-radio-group formControlName="question15" aria-labelledby="example-radio-group-label15">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      things
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      people
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="thinkerFeeler.get('question15')?.invalid">{{getFieldErrorMessage('question15')}}</mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form [formGroup]="judgerPerceiver">
+            <div class="col-md-6 p-2 border shadow float-right" style="border-color: rgb(108, 85, 165); background-color: rgb(219, 218, 234); border-radius: 3rem;">
+              <div class="text-center">
+                <h4 class="ml-3" style="color: rgb(108, 85, 165);">Judgers VS Perceivers</h4>
+              </div>
+              <div class="col-md-12 pt-2">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label16" class="w-100">1) Are you more:</label>
+                  <mat-radio-group formControlName="question16" aria-labelledby="example-radio-group-label16">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      organized and structured
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      casual or relaxed
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="judgerPerceiver.get('question16')?.invalid">{{getFieldErrorMessage('question16')}}</mat-error>
+                </div>
+                <div class="col-md-5 float-right">
+                  <label id="example-radio-group-label17" class="w-100">2) What do you like more:</label>
+                  <mat-radio-group formControlName="question17" aria-labelledby="example-radio-group-label17">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      planning
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      adapting
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="judgerPerceiver.get('question17')?.invalid">{{getFieldErrorMessage('question17')}}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-5 mr-2 float-left">
+                  <label id="example-radio-group-label18" class="w-100">3) Do you like to:</label>
+                  <mat-radio-group formControlName="question18" aria-labelledby="example-radio-group-label18">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      be in control of your life
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      let life happen
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="judgerPerceiver.get('question18')?.invalid">{{getFieldErrorMessage('question18')}}</mat-error>
+                </div>
+                <div class="col-md-5 float-right">
+                  <label id="example-radio-group-label19" class="w-100">4) Do you prefer:</label>
+                  <mat-radio-group formControlName="question19" aria-labelledby="example-radio-group-label19">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      planning
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      going with the flow
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="judgerPerceiver.get('question19')?.invalid">{{getFieldErrorMessage('question19')}}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12 float-left">
+                <div class="col-md-12 float-left">
+                  <label id="example-radio-group-label20" class="w-100">5) Going on vacation:</label>
+                  <mat-radio-group formControlName="question20" aria-labelledby="example-radio-group-label20">
+                    <mat-radio-button color="primary" value="0" class="w-100 pl-3">
+                      with an agency
+                    </mat-radio-button>
+                    <mat-radio-button color="primary" value="1" class="w-100 pl-3">
+                      to a AirBNB
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error *ngIf="judgerPerceiver.get('question20')?.invalid">{{getFieldErrorMessage('question20')}}</mat-error>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="col-md-12 w-100 float-left">
+            <div class="col-md-5 float-left text-left pt-3">
+              <button mat-raised-button color="primary" matStepperPrevious class="mat-step-button">Back</button>
+            </div>
+            <div class="col-md-5 pt-3 float-right text-right">
+              <button mat-raised-button color="primary" matStepperNext class="mat-step-button" [disabled]='personalInformation.invalid||datingInformation1.invalid
+              ||datingInformation2.invalid||extrovertIntrovert.invalid||sensorsIntuitive.invalid||thinkerFeeler.invalid
+              ||judgerPerceiver.invalid' (click)="onSubmit()">Finish</button>
+            </div>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+  <div class="text-center text-white mt-1">
+    If you already have an account you can <button class="m-2 bg-white" mat-raised-button [routerLink]="['/auth/login']">L O G I N</button> here!
+  </div>
+
+</div>

@@ -3,6 +3,9 @@ package com.ftn.uns.ac.rs.love_and_food.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +30,8 @@ import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
 import com.ftn.uns.ac.rs.love_and_food.service.RestaurantService;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
+import com.ftn.uns.ac.rs.love_and_food.util.PageImplMapper;
+import com.ftn.uns.ac.rs.love_and_food.util.PageImplementation;
 
 @RestController
 @RequestMapping(path = "/restaurant")
@@ -44,12 +49,21 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantMapper restaurantMapper;
 
-	@GetMapping()
-	public ResponseEntity<ArrayList<RestaurantDTO>> findAll() {
+	@GetMapping("/by-page/{pageNum}")
+	public ResponseEntity<PageImplementation<RestaurantDTO>> findAll(@PathVariable("pageNum") int pageNum) {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.findAll();
 
+		Pageable pageRequest = PageRequest.of(pageNum, 6);
+
+		Page<RestaurantDTO> page = this.restaurantService.findPaginated(found, pageRequest);
+
+		PageImplementation<RestaurantDTO> pageImpl = new PageImplementation<>();
+		PageImplMapper<RestaurantDTO> mapper = new PageImplMapper<>();
+
+		pageImpl = mapper.toPageImpl(page);
+
 		if (!found.isEmpty())
-			return new ResponseEntity<>(found, HttpStatus.OK);
+			return new ResponseEntity<>(pageImpl, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
@@ -76,24 +90,40 @@ public class RestaurantController {
 		}
 	}
 
-	@GetMapping(path = "/filter")
-	public ResponseEntity<ArrayList<RestaurantDTO>> filterRestaurants(@RequestBody RestaurantFilterDTO dto) {
+	@PostMapping(path = "/filter/by-page/{pageNum}")
+	public ResponseEntity<PageImplementation<RestaurantDTO>> filterRestaurants(@PathVariable("pageNum") int pageNum,
+			@RequestBody RestaurantFilterDTO dto) {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.filterRestaurants(dto);
 
+		Pageable pageRequest = PageRequest.of(pageNum, 6);
+
+		Page<RestaurantDTO> page = this.restaurantService.findPaginated(found, pageRequest);
+
+		PageImplementation<RestaurantDTO> pageImpl = new PageImplementation<>();
+		PageImplMapper<RestaurantDTO> mapper = new PageImplMapper<>();
+
+		pageImpl = mapper.toPageImpl(page);
+
 		if (!found.isEmpty())
-			return new ResponseEntity<>(found, HttpStatus.OK);
+			return new ResponseEntity<>(pageImpl, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PostMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant r) {
-		Restaurant saved = this.restaurantService.addRestaurant(r);
+		try {
+			Restaurant saved = this.restaurantService.addRestaurant(r);
 
-		if (saved != null)
-			return new ResponseEntity<>(HttpStatus.OK);
-		else
+			if (saved != null)
+				return new ResponseEntity<>(HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PostMapping(path = "/find-restaurant")

@@ -16,8 +16,10 @@ import com.ftn.uns.ac.rs.love_and_food.dto.DateRangeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.MatchDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.MatchMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
+import com.ftn.uns.ac.rs.love_and_food.service.RegisteredUserService;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
 
 @RestController
@@ -28,7 +30,7 @@ public class MatchController {
 	private MatchService matchService;
 	
 	@Autowired
-	private UserService userService;
+	private RegisteredUserService userService;
 
 	private final MatchMapper matchMapper = new MatchMapper();
 
@@ -53,10 +55,10 @@ public class MatchController {
 
 	@PreAuthorize("hasAnyRole('ROLE_USER,ROLE_ADMIN')")
 	@GetMapping(path = "/has-a-match")
-	public ResponseEntity<HttpStatus> userHasAMatch() {
+	public ResponseEntity<HttpStatus> userHasAMatch() {		
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 
-		User user = this.userService.findByEmail(email);
+		RegisteredUser user = this.userService.findByEmail(email);
 		
 		if(user != null) {
 			boolean has = this.matchService.hasAMatch(user.getId());
@@ -64,7 +66,7 @@ public class MatchController {
 			if(has) 
 				return new ResponseEntity<>(HttpStatus.OK);
 			else
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

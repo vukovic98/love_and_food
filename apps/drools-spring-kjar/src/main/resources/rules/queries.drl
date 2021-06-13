@@ -79,7 +79,7 @@ query "getAllRestaurants"
 end;
 
 query "getRestaurantsByName"(String restName)
-	$restaurant: Restaurant(name == restName)
+	$restaurant: Restaurant(name.toLowerCase().contains(restName.toLowerCase()))
 end;
 
 query "getRestaurantsByLocation"(Location loc)

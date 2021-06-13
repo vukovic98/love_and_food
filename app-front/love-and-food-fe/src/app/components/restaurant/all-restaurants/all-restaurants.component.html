@@ -1,0 +1,33 @@
+<div class="wrapper d-flex align-items-stretch">
+  <div style="height: 100vh;">
+    <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
+  </div>
+  <div class="jumbotron pt-3 col-md-10 ml-auto mr-auto bg-transparent row float-left ">
+    <div class="col-md-2 mb-1 pt-3 text-center border-bottom">
+      <button *ngIf="getRole() === 'ROLE_USER'" mat-raised-button class="text-white find-restaurant-button"
+              [title]="hasAMatch ? 'Let\'s find you a date place!' : 'Please find your perfect match first!'"
+              [disabled]="!hasAMatch"
+              (click)="findARestaurant()"
+      >
+        FIND A RESTAURANT FOR DATE
+      </button>
+    </div>
+    <div class="col-md-10 ml-auto mr-auto mt-2 mb-1 pb-0 float-right text-right border-bottom">
+      <app-filter-restaurants (filterRestaurantsEvent)="filter($event)"></app-filter-restaurants>
+    </div>
+    <div class="col-md-12 row">
+      <app-restaurant-data class="col-md-6" *ngFor="let r of restaurants" [restaurant]="r"></app-restaurant-data>
+      <div *ngIf="restaurants.length === 0" class="text-center col-md-12 text-danger">There are no restaurants!</div>
+    </div>
+  </div>
+  <div class="mb-0" style="position: absolute; bottom: 0; right: 0;">
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageIndex]="pageIndex">
+    </mat-paginator>
+  </div>
+
+</div>

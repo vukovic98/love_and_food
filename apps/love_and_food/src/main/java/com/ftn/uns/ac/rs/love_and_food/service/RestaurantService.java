@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,10 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
@@ -60,6 +65,25 @@ public class RestaurantService {
 
 	@Autowired
 	private RestaurantMapper restaurantMapper;
+	
+	public Page<RestaurantDTO> findPaginated(ArrayList<RestaurantDTO> restaurants, Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<RestaurantDTO> list;
+
+        if (restaurants.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, restaurants.size());
+            list = restaurants.subList(startItem, toIndex);
+        }
+
+        Page<RestaurantDTO> restaurantPage
+          = new PageImpl<RestaurantDTO>(list, PageRequest.of(currentPage, pageSize), restaurants.size());
+
+        return restaurantPage;
+    }
 
 	@SuppressWarnings("serial")
 	public HashMap<Location, ArrayList<Location>> distanceMap = new HashMap<Location, ArrayList<Location>>() {
@@ -186,6 +210,8 @@ public class RestaurantService {
 
 		Restaurant perfect = (Restaurant) this.kieSession.getGlobal("selectedRestaurant");
 
+		//TODO COMMENT FOR TESTING
+		
 		DatePlace d = new DatePlace();
 
 		d.setDate(dto.getDateTime());

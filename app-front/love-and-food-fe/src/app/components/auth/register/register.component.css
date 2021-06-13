@@ -1,0 +1,22 @@
+.background {
+  height: 100vh;
+  background-image: url("../../../../assets/img/back.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.image-container {
+  background-color: rgb(163,155,225);
+  border-radius: 4rem; opacity: 0.9;
+}
+
+.login-form {
+  opacity: 0.8;
+  border-radius: 4rem;
+}
+
+.mat-step-button { 
+  background-color: rgb(139, 136, 193) !important;
+}
+

@@ -1,0 +1,28 @@
+<mat-dialog-content class="dialog-back">
+    <div *ngIf="!found" class="text-center">
+      <h4 class="mt-2 p-3 text-white dialog-text">We are looking for your soulmate! Please wait. <mat-icon>tag_faces</mat-icon></h4>
+      <mat-progress-bar class="mt-5 mb-3" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="found" class="pl-3 pr-3 pt-2 m-3">
+      <mat-card class="example-card" style="background-color: rgba(255, 255, 255, 0.95);">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"><mat-icon class="text-love">favorite</mat-icon></div>
+          <mat-card-title class="text-love">Congratulations!</mat-card-title>
+          <mat-card-subtitle>We have found the perfect person for you!</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="soulmate-desc">
+            <b class="text-love">{{soulmate.name}} {{soulmate.surname}}</b> is your soulmate!<br/>
+            With {{pronounPos}} combination of {{getPersonalityFirstHalf()}} personality and {{pronounPos}} {{getPersonalitySecondHalf()}} view of the world, {{pronoun}} perfectly fits with what you're searching for.
+            Your soulmate was born on {{soulmate.dateOfBirth | date}}, and since then {{pronoun}} has {{soulmate.education}}. <br/>
+            Just like you, {{pronoun}} is also looking for {{soulmate.desiredRelationship}}! <br/>
+            Don't forget to send {{pronounKs}} a message, at <i class="text-love">{{soulmate.email}}</i> !
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <div mat-dialog-actions>
+        <button mat-raised-button style="background-color: rgb(105, 76, 160)" class="mr-3 ml-3 mt-2 btn-block text-white" (click)="findRestaurant()">Find perfect restaurant</button>
+        <button mat-raised-button style="background-color: rgb(143, 116, 194)" class="mr-3 ml-3 mt-2 btn-block text-white" mat-dialog-close>Find later</button>
+      </div>
+    </div>
+</mat-dialog-content>

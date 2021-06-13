@@ -1,0 +1,9 @@
+<div class="wrapper d-flex align-items-stretch back">
+  <div style="height: 100vh;" class="col-md-2 pl-0">
+    <app-navigation-bar [mode]="'LOVE'"></app-navigation-bar>
+  </div>
+
+  <div class="col-md-9 mt-0 ml-auto mr-auto justify-content-center align-items-center row panel">
+    <app-user-panel *ngIf="role === 'ROLE_USER'"></app-user-panel>
+  </div>
+</div>
