@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DatePlaceService} from "../../../services/date-place.service";
 import {AuthService} from "../../../services/auth.service";
 import {DatePlaceModel} from "../../../models/date-place.model";
+import {RestaurantModel} from '../../../models/restaurant.model';
 
 @Component({
   selector: 'app-rate-restaurant',
@@ -12,6 +13,8 @@ export class RateRestaurantComponent implements OnInit {
 
   private userId: number = -1;
   public datePlaces: Array<DatePlaceModel> = [];
+  public ratingInProgress: boolean = false;
+  public ratingRestaurant: RestaurantModel;
 
   constructor(
     private datePlaceService: DatePlaceService,
@@ -25,4 +28,8 @@ export class RateRestaurantComponent implements OnInit {
     })
   }
 
+  rateRestaurant(data: RestaurantModel) {
+    this.ratingRestaurant = data;
+    this.ratingInProgress = true;
+  }
 }

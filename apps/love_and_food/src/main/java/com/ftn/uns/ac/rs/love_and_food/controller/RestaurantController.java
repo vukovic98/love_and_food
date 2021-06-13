@@ -23,7 +23,9 @@ import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
+import com.ftn.uns.ac.rs.love_and_food.mapper.GradeMapper;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
@@ -49,6 +51,9 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantMapper restaurantMapper;
 
+	@Autowired
+	private GradeMapper gradeMapper;
+
 	@GetMapping("/by-page/{pageNum}")
 	public ResponseEntity<PageImplementation<RestaurantDTO>> findAll(@PathVariable("pageNum") int pageNum) {
 		ArrayList<RestaurantDTO> found = (ArrayList<RestaurantDTO>) this.restaurantService.findAll();
@@ -64,6 +69,16 @@ public class RestaurantController {
 
 		if (!found.isEmpty())
 			return new ResponseEntity<>(pageImpl, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<RestaurantDTO> findById(@PathVariable("id") long id) {
+		Restaurant r = this.restaurantService.findById(id);
+
+		if (r != null)
+			return new ResponseEntity<>(this.restaurantMapper.toDTO(r), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
@@ -213,6 +228,28 @@ public class RestaurantController {
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@GetMapping(path = "/has-graded/{restaurant_id}")
+	public ResponseEntity<GradeDTO> hasGradedRestaurant(@PathVariable("restaurant_id") long restaurantID) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = userDetails.getUsername();
+
+		User user = this.userService.findByEmail(username);
+
+		if (user != null) {
+
+			Grade grade = this.restaurantService.hasGraded(restaurantID, user.getId());
+
+			if (grade != null)
+				return new ResponseEntity<>(this.gradeMapper.toDTO(grade), HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

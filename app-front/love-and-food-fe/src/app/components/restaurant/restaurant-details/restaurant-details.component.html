@@ -1,0 +1,45 @@
+<div class="wrapper d-flex align-items-stretch back">
+  <div style="height: 100vh;">
+    <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
+  </div>
+  <div class="jumbotron pt-3 col-md-9 ml-auto mr-auto mt-2 shadow row float-left bg-white" style="border-radius: 2rem;">
+    <div class="col-md-7 text-left mt-5 h-50">
+        <div class="mat-card-title">
+          <h1 class="col-md-5 float-left" style="font-family: -webkit-pictograph,serif;">{{restaurant.name}}</h1>
+          <ul class="list-inline rating-list" *ngFor="let star of stars" >
+            <li [ngClass]="{'selected': (star <= selectedValue)}">
+              <mat-icon style="font-size: 40px;">star</mat-icon>
+            </li>
+          </ul>
+        </div>
+      <hr/>
+      <h3 class="text-muted font-weight-light">
+        <mat-icon> location_on</mat-icon>
+        {{restaurant.location | titlecase }}
+      </h3>
+      <h4 class="text-muted font-weight-light mt-3">
+        <mat-icon>access_time</mat-icon>
+        With you every day from <b>{{restaurant.startingHours.split(':')[0]}}h</b> to <b>{{restaurant.endingHours.split(':')[0]}}h</b>
+      </h4>
+      <h4 class="text-muted font-weight-light mt-3">
+        <mat-icon><mat-icon> fastfood</mat-icon></mat-icon>
+        We offer: {{restaurant.cuisine}}
+      </h4>
+    </div>
+    <div class="col-md-5 pl-0 float-right h-50">
+      <img class="card-img-top pt-3" style="height: 200px;" [alt]="restaurant.name" *ngIf="restaurant.image === null" src="assets/img/predefined-restaurant.png">
+      <img class="card-img-top rounded" style="height: 400px;" [alt]="restaurant.name" *ngIf="restaurant.image !== null" [src]="restaurant.image">
+    </div>
+    <div class="col-md-12 text-center">
+      <h3 class="text-muted font-weight-light mb-4">
+        We want to welcome you to <b style="color: orange;">{{restaurant.name}}</b>! <br>
+      </h3>
+      <h4 class="text-muted m-auto font-weight-light w-75">
+        {{restaurant.name}} is a restaurant with {{restaurant.ambient | lowercase}} ambient, intertwined with some good
+        {{restaurant.music | lowercase}} music. We consider {{restaurant.name}} very {{restaurant.priceRange.replace("_", " ") | lowercase}}
+        place, and we hope that that's what you are looking for. <br>
+        {{hasSomethingElse()}}
+      </h4>
+    </div>
+  </div>
+</div>

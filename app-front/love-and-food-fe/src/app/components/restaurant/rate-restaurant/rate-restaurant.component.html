@@ -3,6 +3,9 @@
     <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
   </div>
   <div class="col-md-3 bg-white pt-4 pb-4 sidebar">
-    <app-rate-restaurant-item *ngFor="let d of datePlaces" [datePlace]="d"></app-rate-restaurant-item>
+    <app-rate-restaurant-item *ngFor="let d of datePlaces" [datePlace]="d" (rateRestaurantEvent)="rateRestaurant($event)"></app-rate-restaurant-item>
+  </div>
+  <div *ngIf="ratingInProgress" class="col-md-4 bg-white pt-4 pb-4 m-auto shadow" style="border-radius: 2rem;">
+    <app-rate-restaurant-form [restaurant]="ratingRestaurant"></app-rate-restaurant-form>
   </div>
 </div>

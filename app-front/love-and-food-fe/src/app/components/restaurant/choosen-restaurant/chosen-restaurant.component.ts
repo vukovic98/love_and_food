@@ -12,6 +12,7 @@ import {RestaurantModel} from "../../../models/restaurant.model";
 export class ChosenRestaurantComponent implements OnInit {
 
   public found: boolean = false;
+  public exists: boolean = true;
   public restaurant: RestaurantModel;
   public stars: number[] = [1, 2, 3, 4, 5];
   public selectedValue: number = 3;
@@ -27,7 +28,10 @@ export class ChosenRestaurantComponent implements OnInit {
       this.restaurant = response;
       this.restaurant.cuisine = this.restaurant.cuisine.filter((c) => c != 'NOT_IMPORTANT');
       this.found = true;
+      this.exists = true;
       this.restaurant.cuisine = this.restaurant.cuisine.map((c) => c.toLowerCase());
+    }, error => {
+      this.exists = false;
     });
   }
 

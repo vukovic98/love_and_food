@@ -1,0 +1,25 @@
+.rating-list li {
+  float: right;
+  color: #ddd;
+  padding: 10px 5px;
+  cursor: pointer;
+}
+
+.rating-list li.selected {
+  color: #ffd700;
+}
+
+.rating-list-clickable li:hover,
+.rating-list-clickable li:hover ~ li {
+  color: #ffd700;
+}
+
+.rating-list {
+  display: inline-block;
+  list-style: none;
+}
+
+.rate-button {
+  background-color: orange;
+  color: white
+}

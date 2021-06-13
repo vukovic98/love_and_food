@@ -26,7 +26,7 @@ export class AddRestaurantComponent implements OnInit {
           panelClass: ['orange-snackbar']
         });
       }, error => {
-        this._snackBar.open("* Something went wrong!", "Close", {
+        this._snackBar.open("* Restaurant with this name already exists!", "Close", {
           duration: 2000,
           panelClass: ['orange-snackbar']
         })

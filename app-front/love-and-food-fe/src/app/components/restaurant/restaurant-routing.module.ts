@@ -5,12 +5,19 @@ import {AllRestaurantsComponent} from "./all-restaurants/all-restaurants.compone
 import {FindRestaurantComponent} from "./find-restaurant/find-restaurant.component";
 import {AddRestaurantComponent} from "./add-restaurant/add-restaurant.component";
 import {RateRestaurantComponent} from "./rate-restaurant/rate-restaurant.component";
+import {RestaurantDetailsComponent} from './restaurant-details/restaurant-details.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     component: AllRestaurantsComponent,
+    canActivate:[RoleGuard],
+    data: {acceptRoles: 'ROLE_USER|ROLE_ADMIN'}
+  },
+  {
+    path: 'details/:id',
+    component: RestaurantDetailsComponent,
     canActivate:[RoleGuard],
     data: {acceptRoles: 'ROLE_USER|ROLE_ADMIN'}
   },

@@ -7,7 +7,7 @@
     <p class="w-50 float-left">
       Soulmate: <em class="font-weight-bolder">{{datePlace.soulmate}}</em>
     </p>
-    <button class="float-right text-white" style="background-color: orange;" mat-raised-button>
+    <button class="float-right text-white" style="background-color: orange;" (click)="rateRestaurant(datePlace.restaurant)" mat-raised-button>
       <mat-icon class="mr-2">star</mat-icon>
       Rate {{datePlace.restaurant.name}}
     </button>

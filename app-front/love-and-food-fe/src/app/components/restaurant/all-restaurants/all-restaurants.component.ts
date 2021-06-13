@@ -80,4 +80,8 @@ export class AllRestaurantsComponent implements OnInit {
   findARestaurant() {
     this.router.navigate(['/restaurant/find-a-place'])
   }
+
+  restaurantDetails(restaurant_id: number) {
+    this.router.navigate(['/restaurant/details/' + restaurant_id])
+  }
 }

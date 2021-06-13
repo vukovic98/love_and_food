@@ -65,25 +65,29 @@ public class RestaurantService {
 
 	@Autowired
 	private RestaurantMapper restaurantMapper;
+
+	public Restaurant findById(long id) {
+		return this.restaurantRepository.findById(id).orElse(null);
+	}
 	
 	public Page<RestaurantDTO> findPaginated(ArrayList<RestaurantDTO> restaurants, Pageable pageable) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<RestaurantDTO> list;
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<RestaurantDTO> list;
 
-        if (restaurants.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, restaurants.size());
-            list = restaurants.subList(startItem, toIndex);
-        }
+		if (restaurants.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, restaurants.size());
+			list = restaurants.subList(startItem, toIndex);
+		}
 
-        Page<RestaurantDTO> restaurantPage
-          = new PageImpl<RestaurantDTO>(list, PageRequest.of(currentPage, pageSize), restaurants.size());
+		Page<RestaurantDTO> restaurantPage = new PageImpl<RestaurantDTO>(list, PageRequest.of(currentPage, pageSize),
+				restaurants.size());
 
-        return restaurantPage;
-    }
+		return restaurantPage;
+	}
 
 	@SuppressWarnings("serial")
 	public HashMap<Location, ArrayList<Location>> distanceMap = new HashMap<Location, ArrayList<Location>>() {
@@ -182,7 +186,13 @@ public class RestaurantService {
 	}
 
 	public Restaurant addRestaurant(Restaurant r) {
-		return this.restaurantRepository.save(r);
+		ArrayList<Restaurant> found = this.restaurantRepository.findByName(r.getName());
+
+		if (found.isEmpty()) {
+			return this.restaurantRepository.save(r);
+		} else {
+			return null;
+		}
 	}
 
 	public Restaurant findRestaurant(RestaurantEntryDTO dto, Match match) {
@@ -210,24 +220,24 @@ public class RestaurantService {
 
 		Restaurant perfect = (Restaurant) this.kieSession.getGlobal("selectedRestaurant");
 
-		//TODO COMMENT FOR TESTING
-		
-		DatePlace d = new DatePlace();
+		// TODO COMMENT FOR TESTING
 
-		d.setDate(dto.getDateTime());
-		d.setRestaurant(perfect);
-		d.setInitiator(match.getInitiator());
-		d.setSoulmate(match.getSoulmate());
-
-		this.dateRepository.save(d);
+//		DatePlace d = new DatePlace();
+//
+//		d.setDate(dto.getDateTime());
+//		d.setRestaurant(perfect);
+//		d.setInitiator(match.getInitiator());
+//		d.setSoulmate(match.getSoulmate());
+//
+//		this.dateRepository.save(d);
 
 		return perfect;
 	}
-	
+
 	public ArrayList<RestaurantDTO> findRestaurantsByHours() {
 
 		ArrayList<Restaurant> result = new ArrayList<>();
-		
+
 		this.kieSession.setGlobal("resultHours", result);
 
 		this.kieSession.getAgenda().getAgendaGroup("working-hours").setFocus();
@@ -318,6 +328,10 @@ public class RestaurantService {
 		this.kieSession.fireAllRules();
 
 		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(risingRestaurants);
+	}
+	
+	public Grade hasGraded(long restaurantID, long userID) {
+		return this.gradeRepository.hasGraded(restaurantID, userID);
 	}
 
 	public ArrayList<RestaurantDTO> mostVisitedRestaurantsReport(String season) {
@@ -504,8 +518,8 @@ public class RestaurantService {
 			String drl = compiler.compile(arguments, template);
 
 			// Save rule to drl file
-			FileOutputStream drlFile = new FileOutputStream(new File(
-					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\restaurantsByWorkingHours.drl"));
+			FileOutputStream drlFile = new FileOutputStream(
+					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\restaurantsByWorkingHours.drl"));
 			drlFile.write(drl.getBytes());
 			drlFile.close();
 

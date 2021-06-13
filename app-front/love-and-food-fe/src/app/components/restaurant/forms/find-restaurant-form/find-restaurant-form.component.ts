@@ -52,7 +52,7 @@ export class FindRestaurantFormComponent implements OnInit {
   private openDialog(dto: RestaurantEntryModel) {
     const dialogRef = this.dialog.open(ChosenRestaurantComponent, {
       width: '600px',
-      height: '85%',
+      height: '95%',
       data: dto,
       disableClose: true,
       panelClass: 'custom-dialog-container'
