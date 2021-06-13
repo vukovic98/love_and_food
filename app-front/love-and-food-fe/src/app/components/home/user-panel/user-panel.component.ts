@@ -23,6 +23,7 @@ export class UserPanelComponent implements OnInit {
       width: '520px',
       height: '540px',
       disableClose: true,
+      panelClass: 'custom-dialog-container'
     });
   }
 

@@ -1,5 +1,5 @@
 .dialog-back {
-    background-image: url('src/assets/img/soulmate-back.png');
+    background-image: url('src/assets/img/soulmate-back-opacity.png');
     /*overflow-y: hidden;*/
     height: 100%;
     max-height: none !important;
@@ -9,6 +9,10 @@
 .dialog-text {
   background-color: rgb(143, 116, 194, 0.7);
   border-radius: 1rem;
+}
+
+mat-dialog-container {
+  padding: 0px!important;
 }
 
 .soulmate-desc {

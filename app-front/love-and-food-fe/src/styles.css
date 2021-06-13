@@ -12,3 +12,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: white;
   color: orangered;
 }
+
+.custom-dialog-container .mat-dialog-container{
+  padding: 0px;
+  overflow-x: hidden;
+}

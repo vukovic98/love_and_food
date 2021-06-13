@@ -55,6 +55,7 @@ export class FindRestaurantFormComponent implements OnInit {
       height: '85%',
       data: dto,
       disableClose: true,
+      panelClass: 'custom-dialog-container'
     });
   }
 }
