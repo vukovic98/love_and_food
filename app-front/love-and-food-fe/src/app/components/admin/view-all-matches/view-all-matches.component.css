@@ -17,7 +17,7 @@ table {
 }
 
 td, th  {
-    width: 15%;
+    width: 20%;
 }
 
 .divide {
@@ -35,4 +35,8 @@ td, th  {
         
 .mat-row:nth-child(odd){
     background-color: white;
+}
+
+.couple-column {
+    width: 10% !important;
 }

@@ -7,10 +7,13 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { ViewAllMatchesComponent } from './view-all-matches/view-all-matches.component';
 
 @NgModule({
   declarations: [
-    ViewUsersComponent
+    ViewUsersComponent,
+    ViewAllMatchesComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +23,8 @@ import {MatIconModule} from '@angular/material/icon';
     RouterModule,
     SharedModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule
   ]
 })
 export class AdminModule { }

@@ -5,7 +5,7 @@
   
     <div class="col-md-9 mt-0 ml-auto mr-auto row panel">
         <div class="col-md-11 mt-5">
-            <table mat-table [dataSource]="dataSource" class="shadow">
+            <table mat-table [dataSource]="dataSource.content"  class="shadow">
                 <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-design"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 <ng-container matColumnDef="email">
@@ -21,7 +21,7 @@
                 <ng-container matColumnDef="gender">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-white"> Gender </th>
                     <td mat-cell *matCellDef="let row">
-                        <img *ngIf="row.gender==='MALE'" class="png-icon" src="assets/img/tie.png" style="width: 30px; height: 30px;"> 
+                        <img *ngIf="row.gender==='MALE'" class="png-icon" src="assets/img/top-hat.png" style="width: 30px; height: 30px;"> 
                         <img *ngIf="row.gender==='FEMALE'" class="png-icon" src="assets/img/high-heels.png" style="width: 30px; height: 30px;"> 
                     </td>
                 </ng-container>
@@ -32,5 +32,13 @@
                 </ng-container>
             </table>
         </div>
+    </div>
+    <div class="mb-0" style="position: absolute; bottom: 0; right: 0;">
+        <mat-paginator 
+            showFirstLastButtons
+            [length]="dataSource.totalElements"
+            [pageSize]="dataSource.size"
+            (page)="pageEvent = $event; onPaginateChange($event)">
+        </mat-paginator>
     </div>
   </div>

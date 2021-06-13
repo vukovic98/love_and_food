@@ -1,0 +1,53 @@
+<div class="wrapper d-flex align-items-stretch back">
+    <div style="height: 100vh;" class="col-md-2 pl-0">
+      <app-navigation-bar [mode]="'LOVE'"></app-navigation-bar>
+    </div>
+
+    <div class="col-md-9 mt-0 ml-auto mr-auto row panel">
+      <div class="col-md-11 mt-5">
+          <table mat-table [dataSource]="dataSource.content"  class="shadow">
+              <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-design"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              <ng-container matColumnDef="couple" class="couple-column">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-white" class="couple-column"> &nbsp; </th>
+                <td mat-cell *matCellDef="let row" class="couple-column text-center" >
+                    <img *ngIf="row.coupleImage==='LESBIAN'" src="assets/img/homosexual.png" style="width: 30px; height: 30px;">
+                    <img *ngIf="row.coupleImage==='GAY'" src="assets/img/gay.png" style="width: 30px; height: 30px;">
+                    <img *ngIf="row.coupleImage==='STRAIGHT'" src="assets/img/love.png" style="width: 30px; height: 30px;">
+                </td>
+            </ng-container>
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-white"> Match ID </th>
+                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                </ng-container>
+
+              <ng-container matColumnDef="initiatorEmail">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-white"> Initiator Email </th>
+                  <td mat-cell *matCellDef="let row"> {{row.initiatorEmail}} </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="soulmateEmail">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-white"> Soulmate Email </th>
+                  <td mat-cell *matCellDef="let row"> {{row.soulmateEmail}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="matchDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-white"> Match Date </th>
+                  <td mat-cell *matCellDef="let row"> {{row.matchDate | date}} </td>
+              </ng-container>
+          </table>
+      </div>
+  </div>
+
+  <div class="mb-0" style="position: absolute; bottom: 0; right: 0;">
+      <mat-paginator 
+          showFirstLastButtons
+          [length]="dataSource.totalElements"
+          [pageSize]="dataSource.size"
+          (page)="pageEvent = $event; onPaginateChange($event)">
+      </mat-paginator>
+  </div>
+
+</div>

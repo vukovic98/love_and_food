@@ -1,31 +1,31 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { UserPage } from 'src/app/models/user-page.model';
-import { UserService } from 'src/app/services/user.service';
+import { MatchPage } from 'src/app/models/match-page.model';
+import { MatchService } from 'src/app/services/match.service';
 
 @Component({
-  selector: 'app-view-users',
-  templateUrl: './view-users.component.html',
-  styleUrls: ['./view-users.component.css']
+  selector: 'app-view-all-matches',
+  templateUrl: './view-all-matches.component.html',
+  styleUrls: ['./view-all-matches.component.css']
 })
-export class ViewUsersComponent implements OnInit {
+export class ViewAllMatchesComponent implements OnInit {
 
-  displayedColumns: string[] = ['email', 'name', 'gender', 'dateOfBirth'];
+  displayedColumns: string[] = ['couple', 'id', 'initiatorEmail', 'soulmateEmail', 'matchDate'];
 
-  dataSource: UserPage = { content: [], totalElements: 0, totalPages: 0, size: 0 };
+  dataSource: MatchPage = { content: [], totalElements: 0, totalPages: 0, size: 0 };
   pageEvent: PageEvent = new PageEvent();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private userService: UserService) { }
+  constructor(private matchService: MatchService) { }
 
   ngOnInit(): void {
     this.getAllUsers()
   }
 
   getAllUsers() {
-    this.userService
-      .findAllUsers(0)
+    this.matchService
+      .findAllMatches(0)
       .subscribe(
         res => {
           this.dataSource = res
@@ -39,8 +39,8 @@ export class ViewUsersComponent implements OnInit {
   }
 
   getNewPage(index: number, size: number): void {
-    this.userService
-      .findAllUsers(index)
+    this.matchService
+      .findAllMatches(index)
       .subscribe(
         res => {
           this.dataSource = res

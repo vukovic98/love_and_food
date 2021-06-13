@@ -8,6 +8,7 @@ public class MatchDTO {
 	private String initiatorEmail;
 	private String soulmateEmail;
 	private LocalDate matchDate;
+	private String coupleImage;
 	
 	public MatchDTO() {}
 	
@@ -41,7 +42,10 @@ public class MatchDTO {
 	public void setMatchDate(LocalDate matchDate) {
 		this.matchDate = matchDate;
 	}
-	
-	
-
+	public String getCoupleImage() {
+		return coupleImage;
+	}
+	public void setCoupleImage(String coupleImage) {
+		this.coupleImage = coupleImage;
+	}
 }

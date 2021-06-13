@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.MatchDTO;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.Gender;
 
 public class MatchMapper implements MapperInterface<Match, MatchDTO>{
 
@@ -16,8 +17,17 @@ public class MatchMapper implements MapperInterface<Match, MatchDTO>{
 
 	@Override
 	public MatchDTO toDTO(Match entity) {
-		return new MatchDTO(entity.getId(), entity.getInitiator().getEmail(),
+		MatchDTO matchDTO =  new MatchDTO(entity.getId(), entity.getInitiator().getEmail(),
 				entity.getSoulmate().getEmail(), entity.getMatchDate());
+		if(entity.getInitiator().getGender() == Gender.FEMALE && entity.getSoulmate().getGender() == Gender.FEMALE) {
+			matchDTO.setCoupleImage("LESBIAN");
+		} else if (entity.getInitiator().getGender() == Gender.MALE && entity.getSoulmate().getGender() == Gender.MALE) {
+			matchDTO.setCoupleImage("GAY");
+		} else {
+			matchDTO.setCoupleImage("STRAIGHT");
+		}
+		
+		return matchDTO;
 	}
 
 	@Override

@@ -10,7 +10,11 @@
       </li>
       <li *ngIf="role === 'ROLE_ADMIN'">
         <mat-icon class="float-left mt-2">table_chart</mat-icon>
-        <a routerLink="/admin/view-users"><span class="fa fa-heart mr-3"></span> Admin Panel</a>
+        <a routerLink="/admin/view-users"><span class="fa fa-heart mr-3"></span> Users</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">favorite</mat-icon>
+        <a routerLink="/admin/view-all-matches"><span class="fa fa-heart mr-3"></span> Matches</a>
       </li>
       <li>
         <mat-icon class="float-left mt-2">fastfood</mat-icon>
