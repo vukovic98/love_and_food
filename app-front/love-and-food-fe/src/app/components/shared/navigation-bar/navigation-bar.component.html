@@ -4,9 +4,13 @@
     <img *ngIf="mode === 'FOOD'" src="../../../../assets/img/restaurant.png" class="logo ml-4 pt-2  mb-5" alt="Love&Food" style="width: 150px; height: 140px;">
 
     <ul class="list-unstyled components mb-5">
-      <li>
+      <li *ngIf="role === 'ROLE_USER'">
         <mat-icon class="float-left mt-2">favorite</mat-icon>
         <a routerLink="/home"><span class="fa fa-heart mr-3"></span> Soulmate</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">table_chart</mat-icon>
+        <a routerLink="/admin/view-users"><span class="fa fa-heart mr-3"></span> Admin Panel</a>
       </li>
       <li>
         <mat-icon class="float-left mt-2">fastfood</mat-icon>

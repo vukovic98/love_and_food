@@ -1,0 +1,37 @@
+.back {
+    background-image: url("src/assets/img/soulmate-back-opacity.png");
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 90%;
+}
+
+.form-field {
+  min-width: 90% !important;
+}
+
+td, th  {
+    width: 15%;
+}
+
+.divide {
+    margin-bottom: 20px !important;
+}
+
+.header-design {
+    background-color:rgb(143, 116, 194);
+    color: white !important;
+}
+
+.mat-row:nth-child(even){
+    background-color: rgb(143, 116, 194, 0.1);
+}
+        
+.mat-row:nth-child(odd){
+    background-color: white;
+}
