@@ -188,33 +188,40 @@ public class RestaurantController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/best-graded")
 	public ResponseEntity<ArrayList<RestaurantDTO>> bestGradedReport() {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.bestGradedReport();
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService.bestGradedReport();
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
+
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/declining-restaurant")
 	public ResponseEntity<ArrayList<RestaurantDTO>> decliningRestaurantsReport() {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.decliningRestaurantsReport();
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService.decliningRestaurantsReport();
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/rising-restaurant")
 	public ResponseEntity<ArrayList<RestaurantDTO>> risingRestaurantsReport() {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.risingRestaurantsReport();
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService.risingRestaurantsReport();
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
@@ -222,11 +229,14 @@ public class RestaurantController {
 	@GetMapping(path = "/report/most-visited/{season}")
 	public ResponseEntity<ArrayList<RestaurantDTO>> mostVisitedRestaurantsReport(
 			@PathVariable("season") String season) {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.mostVisitedRestaurantsReport(season);
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService
+				.mostVisitedRestaurantsReport(season);
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

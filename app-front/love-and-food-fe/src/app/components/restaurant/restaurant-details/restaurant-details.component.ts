@@ -41,6 +41,39 @@ export class RestaurantDetailsComponent implements OnInit {
     return Math.ceil(total);
   }
 
+  getAmbientGrade(): number {
+    let total: number = 0;
+    this.restaurant.grades.forEach((g) => {
+      total = total + g.ambient;
+    })
+
+    total = total / this.restaurant.grades.length;
+
+    return Math.ceil(total) ? Math.ceil(total) : 0;
+  }
+
+  getServiceGrade(): number {
+    let total: number = 0;
+    this.restaurant.grades.forEach((g) => {
+      total = total + g.service;
+    })
+
+    total = total / this.restaurant.grades.length;
+
+    return Math.ceil(total) ? Math.ceil(total) : 0;
+  }
+
+  getHospitabilityGrade(): number {
+    let total: number = 0;
+    this.restaurant.grades.forEach((g) => {
+      total = total + g.hospitability;
+    })
+
+    total = total / this.restaurant.grades.length;
+
+    return Math.ceil(total) ? Math.ceil(total) : 0;
+  }
+
   hasSomethingElse(): string {
     let s: string = 'We also offer you these things: ';
     s += this.restaurant.alcohol ? 'various alcohol drinks, ' : '';

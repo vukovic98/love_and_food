@@ -6,6 +6,11 @@
   background-color: orange;
 }
 
+.jumbotron-border {
+  border-bottom: 3px solid orange;
+  border-top: 3px solid orange;
+}
+
 .back {
   background-image: url("src/assets/img/back-opacity.png");
 }

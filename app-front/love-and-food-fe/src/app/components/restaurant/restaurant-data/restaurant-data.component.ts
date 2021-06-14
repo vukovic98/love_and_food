@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RestaurantModel} from "../../../models/restaurant.model";
-import {StarRatingComponent} from "ng-starrating";
 
 @Component({
   selector: 'app-restaurant-data',

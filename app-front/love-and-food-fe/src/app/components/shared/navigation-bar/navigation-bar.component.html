@@ -29,6 +29,13 @@
       <li *ngIf="role === 'ROLE_USER' && hasMatch">
         <a routerLink="/restaurant/rate-restaurant"><span class="fa fa-briefcase mr-5"></span> Rate Restaurant</a>
       </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">trending_up</mat-icon>
+        <a><span class="fa fa-user mr-3"></span> Reports</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <a routerLink="/restaurant/reports"><span class="fa fa-briefcase mr-5"></span> Restaurant Reports</a>
+      </li>
       <li class="mt-5" (click)="logout()" style="cursor:pointer;">
         <mat-icon class="float-left mt-2">close</mat-icon>
         <a ><span class="fa fa-sticky-note mr-3 mt-5"></span> Sign out</a>
