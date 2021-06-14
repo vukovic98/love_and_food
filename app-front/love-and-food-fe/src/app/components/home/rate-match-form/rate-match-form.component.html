@@ -1,0 +1,20 @@
+<div class="row p-4 justify-content-center align-items-center" style="border-top: 5px solid rgb(143, 116, 194); border-bottom: 5px solid rgb(143, 116, 194);">
+    <h3 *ngIf="!hasGraded" class="col-md-12 pb-3 text-center" style="color: rgb(143, 116, 194);">Let's rate your date with {{match.soulmateName}}!</h3>
+    <h3 *ngIf="hasGraded" class="col-md-12 pb-3 text-center" style="color: rgb(143, 116, 194);">You have already rated your date with {{match.soulmateName}}!</h3>
+    <div class="col-md-12 row">
+      <h5 class="col-md-3 mr-5 row justify-content-center align-items-center text-muted">Rating</h5>
+      <div class="col-md-6 ml-5 pt-3">
+        <ul class="list-inline rating-list" [ngClass]="{'rating-list-clickable': !hasGraded}" *ngFor="let star of stars" >
+          <li (click)="!hasGraded ? countStar(star) : null" [ngClass]="{'selected': (star <= rating)}">
+            <mat-icon>star</mat-icon>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-12 mt-5">
+      <button mat-raised-button class="btn-block rate-button" [disabled]="hasGraded" (click)="rateTheDate()">
+        Rate the date
+      </button>
+    </div>
+  </div>
+  

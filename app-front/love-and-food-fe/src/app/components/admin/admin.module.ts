@@ -9,6 +9,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ViewAllMatchesComponent } from './view-all-matches/view-all-matches.component';
+import { MatSortModule } from '@angular/material/sort';
 import { FoodReportsComponent } from './food-reports/food-reports.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -31,6 +32,7 @@ import {MatButtonModule} from "@angular/material/button";
     MatTableModule,
     MatIconModule,
     MatPaginatorModule,
+    MatSortModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

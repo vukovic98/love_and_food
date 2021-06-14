@@ -76,8 +76,8 @@ public class LoveService {
 		return null;
 	}
 	
-	public Match rateDate(Long matchId, int rating) throws NonExistingIdException {
-		Match match = matchRepository.findById(matchId).orElse(null);
+	public Match rateDate(int matchId, int rating) throws NonExistingIdException {
+		Match match = matchRepository.findById((long) matchId).orElse(null);
 		if ( match != null) {
 			match.setRating(rating);
 			MateRatingEvent event = new MateRatingEvent(new Date(), match);

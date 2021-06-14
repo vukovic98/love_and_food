@@ -5,11 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {SharedModule} from "./components/shared/shared.module";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatPaginatorModule,
     NgbModule
   ],
-  providers: [AuthService],
+  providers: [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    // ako multi nije true ovo bi bio jedini interceptor i pregazio bi sve defaultne interceptore
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

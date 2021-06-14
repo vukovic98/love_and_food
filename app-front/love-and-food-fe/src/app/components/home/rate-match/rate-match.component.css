@@ -1,0 +1,9 @@
+.back {
+    background-image: url("src/assets/img/soulmate-back-opacity.png");
+  }
+  
+  .sidebar {
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
+  
