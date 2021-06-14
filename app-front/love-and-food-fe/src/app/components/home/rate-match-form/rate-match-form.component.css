@@ -1,0 +1,26 @@
+.rating-list li {
+    float: right;
+    color: #ddd;
+    padding: 10px 5px;
+    cursor: pointer;
+  }
+  
+  .rating-list li.selected {
+    color: rgb(143, 116, 194);
+  }
+  
+  .rating-list-clickable li:hover,
+  .rating-list-clickable li:hover ~ li {
+    color: rgb(143, 116, 194);
+  }
+  
+  .rating-list {
+    display: inline-block;
+    list-style: none;
+  }
+  
+  .rate-button {
+    background-color: rgb(143, 116, 194);
+    color: white
+  }
+  

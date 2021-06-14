@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {loginResponse} from "../models/auth.model";
 import {environment} from "../../environments/environment";
-import {AuthService} from "./auth.service";
 import { MatchPage } from '../models/match-page.model';
+import { MatchDTO } from '../dto/match.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
 
-  private readonly MATCH_API: string = "match/"
+  private readonly MATCH_API: string = "match"
 
   private readonly HAS_A_MATCH_API: string = "match/has-a-match"
 
@@ -19,24 +18,25 @@ export class MatchService {
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + this.authService.getToken()
   });
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
   ) { }
 
-  userHasAMatch(): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.authService.getToken()
-    });
+  findById(matchId: number) {
+    return this.http.get<MatchDTO>(environment.SERVER_APP + this.MATCH_API + '/' + matchId )
+  }
 
-    return this.http.get(environment.SERVER_APP + this.HAS_A_MATCH_API, { headers: headers });
+  userHasAMatch(): Observable<any> {
+    return this.http.get(environment.SERVER_APP + this.HAS_A_MATCH_API, { headers: this.headers });
   }
 
   findAllMatches(page: number) {
     return this.http.get<MatchPage>(environment.SERVER_APP + this.ENDPOINT_VIEW_MATCHES + page, {headers: this.headers})
+  }
+
+  findAllMatchesForUser() {
+    return this.http.get<MatchDTO[]>(environment.SERVER_APP + this.MATCH_API, {headers: this.headers})
   }
 }

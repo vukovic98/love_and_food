@@ -16,10 +16,9 @@ import { AuthService } from "./auth.service";
 
     private headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.authService.getToken()
     });
 
-    constructor(private http: HttpClient, private authService: AuthService) {
+    constructor(private http: HttpClient) {
 
     }
 

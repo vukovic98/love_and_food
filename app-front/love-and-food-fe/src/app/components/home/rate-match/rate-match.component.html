@@ -1,0 +1,11 @@
+<div class="wrapper d-flex align-items-stretch back">
+    <div style="height: 100vh;">
+      <app-navigation-bar [mode]="'LOVE'"></app-navigation-bar>
+    </div>
+    <div class="col-md-3 bg-white pt-4 pb-4 sidebar">
+      <app-rate-match-item *ngFor="let match of matches" [match]="match"></app-rate-match-item>
+    </div>
+    <div *ngIf="ratingInProgress" class="col-md-4 bg-white pt-4 pb-4 m-auto shadow" style="border-radius: 2rem;">
+      <app-rate-match-form></app-rate-match-form>
+    </div>
+  </div>

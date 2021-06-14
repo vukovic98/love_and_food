@@ -19,6 +19,10 @@ query "getAllMatches"
     $match: Match()
 end
 
+query "getAllMatchesForUser"(String email)
+    $match: Match(initiator.email == email)
+end
+
 // dobavi sve po prosledjenom tipu licnosti
 query "getAllUsersByPersonality"(String personalityType)
 	$users: User(personalityTraits.contains(personalityType.toUpperCase()))

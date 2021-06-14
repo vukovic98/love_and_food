@@ -40,9 +40,26 @@ public class MatchService {
 	private KieSession kieSession;
 	
 	private final MatchMapper matchMapper = new MatchMapper();
+	
+	public Match findById(Long id) {
+		return this.matchRepository.findById(id).orElse(null);
+	}
 
 	public Match findByInitiator(Long id) {
 		return this.matchRepository.findByInitiator(id);
+	}
+	
+	public List<Match> findAllForUser(String email) {
+		
+		QueryResults results = kieSession.getQueryResults("getAllMatchesForUser", email);
+		List<Match> matches = new ArrayList<>();
+
+		for (QueryResultsRow row : results) {
+			Match match = (Match) row.get("$match");
+			matches.add(match);
+		}
+
+		return matches;
 	}
 
 	public Page<MatchDTO> findAll(int pageNum) {

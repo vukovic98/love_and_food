@@ -9,6 +9,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ViewAllMatchesComponent } from './view-all-matches/view-all-matches.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ViewAllMatchesComponent } from './view-all-matches/view-all-matches.com
     SharedModule,
     MatTableModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class AdminModule { }

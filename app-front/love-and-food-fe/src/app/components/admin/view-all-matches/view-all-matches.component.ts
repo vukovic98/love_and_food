@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { MatchPage } from 'src/app/models/match-page.model';
 import { MatchService } from 'src/app/services/match.service';
 
@@ -48,4 +49,24 @@ export class ViewAllMatchesComponent implements OnInit {
       );
   }
 
+  sortData(sort: Sort) {
+    const data = this.dataSource.content.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSource.content = data
+      return;
+    }
+
+    let newData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name': return compare(a.id, b.id, isAsc);
+        default: return 0;
+      }
+    });
+    this.dataSource.content = newData
+  }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

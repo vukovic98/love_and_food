@@ -7,16 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.LoveService;
 
@@ -41,8 +44,8 @@ public class LoveController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@PutMapping( value = "/rate-date/{matchId}/{rating}")
-	public ResponseEntity<Void> rateDate(@PathVariable("matchId") Long matchId,
+	@GetMapping( value = "/rate-date/{matchId}/{rating}")
+	public ResponseEntity<Void> rateDate(@PathVariable("matchId") int matchId,
 			@PathVariable("rating") int rating) {
 		try {
 			loveService.rateDate(matchId, rating);
@@ -50,7 +53,6 @@ public class LoveController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
