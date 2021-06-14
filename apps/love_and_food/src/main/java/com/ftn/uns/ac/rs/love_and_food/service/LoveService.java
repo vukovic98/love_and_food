@@ -3,7 +3,9 @@ package com.ftn.uns.ac.rs.love_and_food.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,14 +100,16 @@ public class LoveService {
 	
 	public List<User> reportLiars() {
 		
-		List<User> liars = new ArrayList<User>();
+		Set<User> liars = new HashSet<User>();
 		
 		this.kieSession.setGlobal("liars", liars);
 		
 		this.kieSession.getAgenda().getAgendaGroup("liars-report").setFocus();
 		this.kieSession.fireAllRules();
 		
-		return liars;
+		List<User> listLiars = new ArrayList<>(liars);
+		
+		return listLiars;
 	}
 	
 	public List<UserRatingDTO> reportMVPs() {

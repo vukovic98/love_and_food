@@ -1,0 +1,62 @@
+.back {
+    background-image: url("src/assets/img/soulmate-back-opacity.png");
+  }
+  
+  .jumbotron-border {
+    border-bottom: 3px solid rgb(143, 116, 194);
+    border-top: 3px solid rgb(143, 116, 194);
+  }
+  
+  h-80 {
+    height: 80%;
+  }
+  
+  .report-btn {
+    background-color: rgb(143, 116, 194);
+    letter-spacing: 2px;
+  }
+  
+  .w-33 {
+    width: 33%;
+  }
+  
+  .sorry-message {
+    color: rgb(143, 116, 194);
+    background-color: rgba(255, 165, 0, 0.2);
+    border-radius: 2rem;
+  }
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 90%;
+}
+
+.form-field {
+  min-width: 90% !important;
+}
+
+td, th  {
+    width: 15%;
+}
+
+.divide {
+    margin-bottom: 20px !important;
+}
+
+.header-design {
+    background-color:rgb(143, 116, 194);
+    color: white !important;
+}
+
+.mat-row:nth-child(even){
+    background-color: rgb(143, 116, 194, 0.1);
+}
+        
+.mat-row:nth-child(odd){
+    background-color: white;
+}
+  

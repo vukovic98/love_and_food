@@ -15,12 +15,14 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
+import { UserReportsComponent } from './user-reports/user-reports.component';
 
 @NgModule({
   declarations: [
     ViewUsersComponent,
     ViewAllMatchesComponent,
-    FoodReportsComponent
+    FoodReportsComponent,
+    UserReportsComponent
   ],
   imports: [
     CommonModule,

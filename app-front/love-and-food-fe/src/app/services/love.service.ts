@@ -17,6 +17,8 @@ export class LoveService {
 
   private readonly ENDPOINT_RATE: string = "love/rate-date/"
 
+  private readonly ENDPOINT_LIARS: string = "love/report/liars"
+
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -29,5 +31,9 @@ export class LoveService {
 
   rateDate(matchId: number, rating: number) {
     return this.http.get<void>(environment.SERVER_APP + this.ENDPOINT_RATE + matchId + '/' + rating);
+  }
+
+  reportLiars() {
+    return this.http.get<UserDTO[]>(environment.SERVER_APP + this.ENDPOINT_LIARS)
   }
 }
