@@ -14,7 +14,7 @@
     The application will be running on port 8080.
 
 #### Angular App
-    Run npm install in folder containing application and then 'ng serve'. 
+    Run 'npm install' in folder containing application and then 'ng serve'. 
     The application will be running on port 4200.
 
 ### Licence
