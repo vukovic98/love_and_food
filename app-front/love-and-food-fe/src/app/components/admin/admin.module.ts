@@ -9,11 +9,17 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ViewAllMatchesComponent } from './view-all-matches/view-all-matches.component';
+import { FoodReportsComponent } from './food-reports/food-reports.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
     ViewUsersComponent,
-    ViewAllMatchesComponent
+    ViewAllMatchesComponent,
+    FoodReportsComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,11 @@ import { ViewAllMatchesComponent } from './view-all-matches/view-all-matches.com
     SharedModule,
     MatTableModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule
   ]
 })
 export class AdminModule { }
