@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { MatchDTO } from "../dto/match.dto";
+import { UserMVPDTO } from "../dto/user-mvp.dto";
 import { UserDTO } from "../dto/user.dto";
 
 @Injectable({
@@ -14,10 +15,9 @@ export class LoveService {
   public ratingInProgress: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private readonly ENDPOINT_LOVE: string = "love"
-
   private readonly ENDPOINT_RATE: string = "love/rate-date/"
-
   private readonly ENDPOINT_LIARS: string = "love/report/liars"
+  private readonly ENDPOINT_MVPS: string = "love/report/mvps"
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -35,5 +35,9 @@ export class LoveService {
 
   reportLiars() {
     return this.http.get<UserDTO[]>(environment.SERVER_APP + this.ENDPOINT_LIARS)
+  }
+
+  reportMVPs() {
+    return this.http.get<UserMVPDTO[]>(environment.SERVER_APP + this.ENDPOINT_MVPS)
   }
 }

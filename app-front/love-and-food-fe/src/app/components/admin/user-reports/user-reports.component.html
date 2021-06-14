@@ -8,18 +8,19 @@
         <mat-form-field appearance="outline" class="col-md-5">
           <mat-label>Select Report</mat-label>
           <mat-select formControlName="report">
-            <mat-option value="LIARS">  <img class="png-icon" src="assets/img/theater.png" style="width: 30px; height: 30px;">&nbsp;&nbsp;&nbsp;Potential liars accounts </mat-option>
+            <mat-option value="LIARS">  <img class="png-icon" src="assets/img/theater.png" style="width: 30px; height: 30px;">&nbsp;&nbsp;&nbsp;Potential liar accounts </mat-option>
+            <mat-option value="MVPS">  <img class="png-icon" src="assets/img/best.png" style="width: 30px; height: 30px;">&nbsp;&nbsp;&nbsp;Best rated users </mat-option>
           </mat-select>
         </mat-form-field>
         <button [disabled]="reportForm.invalid" mat-raised-button class="report-btn text-white">GET REPORT</button>
       </form>
 
-      <!--Liars table-->
         <div class="col-md-11 mt-0 ml-auto mr-auto row panel">
             <div class="col-md-11 mt-5">
-                <table *ngIf="show" mat-table [dataSource]="liars"  class="shadow">
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-design"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <!--Liars table-->
+                <table *ngIf="showLiars" mat-table [dataSource]="liars"  class="shadow">
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsLiars" class="header-design"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsLiars;"></tr>
 
                     <ng-container matColumnDef="email">
                         <th mat-header-cell *matHeaderCellDef class="text-white"> Email </th>
@@ -44,8 +45,49 @@
                         <td mat-cell *matCellDef="let row"> {{row.dateOfBirth | date}} </td>
                     </ng-container>
                 </table>
+
+                <!--MVPs table-->
+                <table *ngIf="showMVPs" mat-table [dataSource]="mvps"  class="shadow">
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsMvps" class="header-design"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsMvps;"></tr>
+
+                  <ng-container matColumnDef="medal">
+                    <th mat-header-cell *matHeaderCellDef class="text-white"> &nbsp; </th>
+                    <td mat-cell *matCellDef="let row">
+                      <img alt="Bronze medal" *ngIf="mvps.indexOf(row) === 2" class="" src="assets/img/bronze-medal.png" style="height: 40px; width: 40px;">
+                      <img alt="Silver medal" *ngIf="mvps.indexOf(row) === 1" class="" src="assets/img/silver-medal.png" style="height: 40px; width: 40px;">
+                      <img alt="Gold medal" *ngIf="mvps.indexOf(row) === 0" class="" src="assets/img/gold-medal.png" style="height: 40px; width: 40px;">
+                    </td>
+                  </ng-container>
+
+                <ng-container matColumnDef="rating">
+                    <th mat-header-cell *matHeaderCellDef class="text-white"> Rating </th>
+                    <td mat-cell *matCellDef="let row"> {{row.rating | number : '1.2'}} </td>
+                </ng-container>
+
+                  <ng-container matColumnDef="email">
+                      <th mat-header-cell *matHeaderCellDef class="text-white"> Email </th>
+                      <td mat-cell *matCellDef="let row"> {{row.userDTO.email}} </td>
+                  </ng-container>
+      
+                  <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef   class="text-white"> Name </th>
+                      <td mat-cell *matCellDef="let row"> {{row.userDTO.name}} {{row.userDTO.surname}} </td>
+                  </ng-container>
+      
+                  <ng-container matColumnDef="gender">
+                      <th mat-header-cell *matHeaderCellDef   class="text-white"> Gender </th>
+                      <td mat-cell *matCellDef="let row">
+                          <img *ngIf="row.userDTO.gender==='MALE'" class="png-icon" src="assets/img/top-hat.png" style="width: 30px; height: 30px;"> 
+                          <img *ngIf="row.userDTO.gender==='FEMALE'" class="png-icon" src="assets/img/high-heels.png" style="width: 30px; height: 30px;"> 
+                      </td>
+                  </ng-container>
+              </table>
             </div>
         </div>
 
+        <div class="text-center mt-5 pt-5" *ngIf="(liars.length == 0 && !showMVPs) || (mvps.length == 0 && !showLiars)">
+          <h3 class="w-25 m-auto p-3 sorry-message">Sorry, there are no users that fill the criteria of this report.</h3>
+        </div>
     </div>
 </div>
