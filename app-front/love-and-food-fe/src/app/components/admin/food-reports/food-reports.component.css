@@ -2,6 +2,15 @@
   background-image: url("src/assets/img/back-opacity.png");
 }
 
+.jumbotron-border {
+  border-bottom: 3px solid orange;
+  border-top: 3px solid orange;
+}
+
+h-80 {
+  height: 80%;
+}
+
 .report-btn {
   background-color: orange;
   letter-spacing: 2px;
