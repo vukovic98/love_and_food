@@ -3,6 +3,10 @@ package rules;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
+
+import com.ftn.uns.ac.rs.love_and_food.enums.AlarmType;
+import java.util.Date;
 
 rule "The restaurant rating is below 2.5 a minimum of 3 users rated it"
 	agenda-group "restaurant-rating-event"
