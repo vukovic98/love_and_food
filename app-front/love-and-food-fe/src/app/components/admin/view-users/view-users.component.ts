@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ViewUsersComponent implements OnInit {
 
-  displayedColumns: string[] = ['email', 'name', 'gender', 'dateOfBirth', 'rating'];
+  displayedColumns: string[] = ['email', 'name', 'gender', 'personalityType', 'dateOfBirth', 'rating'];
 
   dataSource: UserPage = { content: [], totalElements: 0, totalPages: 0, size: 0 };
   pageEvent: PageEvent = new PageEvent();
@@ -66,11 +66,11 @@ export class ViewUsersComponent implements OnInit {
 
   getFilterData(): FilterUserDTO {
     let lowerRating = this.filterForm.value.lowerRating;
-    if (lowerRating === "") {
+    if (lowerRating === "" || lowerRating === null) {
       lowerRating = -1;
     }
     let upperRating = this.filterForm.value.upperRating;
-    if (upperRating === "") {
+    if (upperRating === "" || upperRating === null) {
       upperRating = -1;
     }
 
