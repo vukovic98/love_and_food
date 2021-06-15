@@ -22,6 +22,8 @@ export class RestaurantService {
   private readonly GRADE_RESTAURANT_API: string = "restaurant/grade-restaurant";
   private readonly HAS_GRADED_API: string = "restaurant/has-graded/";
   private readonly CONFIGURE_RESTAURANT_API: string = "restaurant/configure-restaurant-points";
+  private readonly GET_CONFIG_API: string = "restaurant/restaurant-config";
+
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -61,5 +63,9 @@ export class RestaurantService {
 
   configureRestaurant(data: ConfigureRestaurantModel): Observable<any> {
     return this.http.post(environment.SERVER_APP + this.CONFIGURE_RESTAURANT_API, data, { headers: this.headers });
+  }
+
+  getLastConfig(): Observable<ConfigureRestaurantModel> {
+    return this.http.get<ConfigureRestaurantModel>(environment.SERVER_APP + this.GET_CONFIG_API, { headers: this.headers });
   }
 }

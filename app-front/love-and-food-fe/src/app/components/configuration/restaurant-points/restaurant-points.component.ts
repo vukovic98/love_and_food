@@ -12,6 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class RestaurantPointsComponent implements OnInit {
 
   public working: boolean = false;
+  public lastConfig: ConfigureRestaurantModel = null;
   public data: Array<[string, string]> = [
     ["ambientPoints", "baseAmbientPoints"],
   ["smokingPoints", "baseSmokingPoints"],
@@ -27,31 +28,31 @@ export class RestaurantPointsComponent implements OnInit {
   ["wifiPoints", "baseWifiPoints"]];
 
   configForm = new FormGroup({
-    ambientPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    smokingPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    alcoholPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    dateTimePoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    distancePoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    priceRangePoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    musicPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    cuisinePoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    gardenPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    parkingPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    tvPoints: new FormControl('', [Validators.required, Validators.min(0)]),
-    wifiPoints: new FormControl('', [Validators.required, Validators.min(0)]),
+    ambientPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.ambientPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    smokingPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.smokingPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    alcoholPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.alcoholPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    dateTimePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.dateTimePoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    distancePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.distancePoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    priceRangePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.priceRangePoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    musicPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.musicPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    cuisinePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.cuisinePoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    gardenPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.gardenPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    parkingPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.parkingPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    tvPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.tvPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
+    wifiPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.wifiPoints : 0, disabled: false }, [Validators.required, Validators.min(0)]),
 
-    baseAmbientPoints: new FormControl('', [Validators.required]),
-    baseSmokingPoints: new FormControl('', [Validators.required]),
-    baseAlcoholPoints: new FormControl('', [Validators.required]),
-    baseDateTimePoints: new FormControl('', [Validators.required]),
-    baseDistancePoints: new FormControl('', [Validators.required]),
-    basePriceRangePoints: new FormControl('', [Validators.required]),
-    baseMusicPoints: new FormControl('', [Validators.required]),
-    baseCuisinePoints: new FormControl('', [Validators.required]),
-    baseGardenPoints: new FormControl('', [Validators.required]),
-    baseParkingPoints: new FormControl('', [Validators.required]),
-    baseTvPoints: new FormControl('', [Validators.required]),
-    baseWifiPoints: new FormControl('', [Validators.required])
+    baseAmbientPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseAmbientPoints : 0, disabled: false }, [Validators.required]),
+    baseSmokingPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseSmokingPoints : 0, disabled: false }, [Validators.required]),
+    baseAlcoholPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseAlcoholPoints : 0, disabled: false }, [Validators.required]),
+    baseDateTimePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseDateTimePoints : 0, disabled: false }, [Validators.required]),
+    baseDistancePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseDistancePoints : 0, disabled: false }, [Validators.required]),
+    basePriceRangePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.basePriceRangePoints : 0, disabled: false }, [Validators.required]),
+    baseMusicPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseMusicPoints : 0, disabled: false }, [Validators.required]),
+    baseCuisinePoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseCuisinePoints : 0, disabled: false }, [Validators.required]),
+    baseGardenPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseGardenPoints : 0, disabled: false }, [Validators.required]),
+    baseParkingPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseParkingPoints : 0, disabled: false }, [Validators.required]),
+    baseTvPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseTvPoints : 0, disabled: false }, [Validators.required]),
+    baseWifiPoints: new FormControl({ value: this.lastConfig ? this.lastConfig.baseWifiPoints : 0, disabled: false }, [Validators.required])
   });
 
   constructor(
@@ -60,6 +61,10 @@ export class RestaurantPointsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.restaurantService.getLastConfig().subscribe((response) => {
+      this.lastConfig = response;
+      this.configForm.reset(this.lastConfig);
+    })
   }
 
   submitConfiguration() {
@@ -68,12 +73,12 @@ export class RestaurantPointsComponent implements OnInit {
 
     this.restaurantService.configureRestaurant(data).subscribe((response) => {
       this.working = false;
-      this.configForm.reset();
       this._snackBar.open("Restaurant configuration successfully changed!", "Close", {
         duration: 2000,
         panelClass: ['orange-snackbar']
       });
     }, error => {
+      this.working = false;
       this._snackBar.open("* Something went wrong!", "Close", {
         duration: 2000,
         panelClass: ['orange-snackbar']

@@ -1,31 +1,97 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "restaurant_config")
 public class RestaurantConfigDTO {
 
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
+
+	@Column(name = "ambient", nullable = false)
 	private double ambientPoints;
+
+	@Column(name = "smoking", nullable = false)
 	private double smokingPoints;
+
+	@Column(name = "alcohol", nullable = false)
 	private double alcoholPoints;
+
+	@Column(name = "date_time", nullable = false)
 	private double dateTimePoints;
+
+	@Column(name = "distance", nullable = false)
 	private double distancePoints;
+
+	@Column(name = "price_range", nullable = false)
 	private double priceRangePoints;
+
+	@Column(name = "music", nullable = false)
 	private double musicPoints;
+
+	@Column(name = "cuisine", nullable = false)
 	private double cuisinePoints;
+
+	@Column(name = "garden", nullable = false)
 	private double gardenPoints;
+
+	@Column(name = "parking", nullable = false)
 	private double parkingPoints;
+
+	@Column(name = "tv", nullable = false)
 	private double tvPoints;
+
+	@Column(name = "wifi", nullable = false)
 	private double wifiPoints;
+
+	@Column(name = "base_ambient", nullable = false)
 	private double baseAmbientPoints;
+
+	@Column(name = "base_smoking", nullable = false)
 	private double baseSmokingPoints;
+
+	@Column(name = "base_alcohol", nullable = false)
 	private double baseAlcoholPoints;
+
+	@Column(name = "base_date_time", nullable = false)
 	private double baseDateTimePoints;
+
+	@Column(name = "base_distance", nullable = false)
 	private double baseDistancePoints;
+
+	@Column(name = "base_price_range", nullable = false)
 	private double basePriceRangePoints;
+
+	@Column(name = "base_music", nullable = false)
 	private double baseMusicPoints;
+
+	@Column(name = "base_cuisine", nullable = false)
 	private double baseCuisinePoints;
+
+	@Column(name = "base_garden", nullable = false)
 	private double baseGardenPoints;
+
+	@Column(name = "base_parking", nullable = false)
 	private double baseParkingPoints;
+
+	@Column(name = "base_tv", nullable = false)
 	private double baseTvPoints;
+
+	@Column(name = "base_wifi", nullable = false)
 	private double baseWifiPoints;
+
+	@Column(name = "date", nullable = false)
+	private Date date;
 
 	public RestaurantConfigDTO() {
 		super();
@@ -62,6 +128,7 @@ public class RestaurantConfigDTO {
 		this.baseParkingPoints = baseParkingPoints;
 		this.baseTvPoints = baseTvPoints;
 		this.baseWifiPoints = baseWifiPoints;
+		this.date = new Date();
 	}
 
 	public double getAmbientPoints() {
@@ -254,6 +321,22 @@ public class RestaurantConfigDTO {
 
 	public void setBaseWifiPoints(double baseWifiPoints) {
 		this.baseWifiPoints = baseWifiPoints;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

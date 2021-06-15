@@ -1,6 +1,7 @@
 package com.ftn.uns.ac.rs.love_and_food.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantConfigRepository;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
 import com.ftn.uns.ac.rs.love_and_food.service.RestaurantService;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
@@ -53,6 +55,9 @@ public class RestaurantController {
 
 	@Autowired
 	private GradeMapper gradeMapper;
+	
+	@Autowired
+	private RestaurantConfigRepository restaurantConfigRepository;
 
 	@GetMapping("/by-page/{pageNum}")
 	public ResponseEntity<PageImplementation<RestaurantDTO>> findAll(@PathVariable("pageNum") int pageNum) {
@@ -87,10 +92,23 @@ public class RestaurantController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ArrayList<RestaurantDTO>> filterByHours(@RequestBody RestaurantConfigDTO dto) {
 
+		dto.setDate(new Date());
 		boolean ok = this.restaurantService.createRestaurantConfiguration(dto);
 
 		if (ok) {
 			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping(path = "/restaurant-config")
+	public ResponseEntity<RestaurantConfigDTO> getLastConfig() {
+
+		RestaurantConfigDTO dto = this.restaurantConfigRepository.findLastOne();
+
+		if (dto != null) {
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

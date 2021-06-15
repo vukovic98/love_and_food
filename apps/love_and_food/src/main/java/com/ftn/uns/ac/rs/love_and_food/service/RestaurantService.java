@@ -43,6 +43,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.repository.DatePlaceRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.GradeRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantConfigRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantRepository;
 
 @Service
@@ -65,6 +66,9 @@ public class RestaurantService {
 
 	@Autowired
 	private RestaurantMapper restaurantMapper;
+	
+	@Autowired
+	private RestaurantConfigRepository restaurantConfigRepository;
 
 	public Restaurant findById(long id) {
 		return this.restaurantRepository.findById(id).orElse(null);
@@ -518,6 +522,8 @@ public class RestaurantService {
 			Invoker invoker = new DefaultInvoker();
 			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
 			invoker.execute(request);
+			
+			this.restaurantConfigRepository.save(configDTO);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
