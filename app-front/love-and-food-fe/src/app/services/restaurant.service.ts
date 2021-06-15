@@ -8,6 +8,7 @@ import {AuthService} from "./auth.service";
 import {FilterRestaurantsModel} from "../models/filter-restaurants.model";
 import {RestaurantEntryModel} from "../models/restaurant-entry.model";
 import {GradeModel} from '../models/grade.model';
+import {ConfigureRestaurantModel} from "../models/configure.restaurant.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class RestaurantService {
   private readonly RESTAURANT_FILTER_API: string = "restaurant/filter/by-page/";
   private readonly GRADE_RESTAURANT_API: string = "restaurant/grade-restaurant";
   private readonly HAS_GRADED_API: string = "restaurant/has-graded/";
+  private readonly CONFIGURE_RESTAURANT_API: string = "restaurant/configure-restaurant-points";
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -55,5 +57,9 @@ export class RestaurantService {
 
   filterRestaurants(data: FilterRestaurantsModel, page: number): Observable<PageObject<RestaurantModel>> {
     return this.http.post<PageObject<RestaurantModel>>(environment.SERVER_APP + this.RESTAURANT_FILTER_API + page, data, { headers: this.headers });
+  }
+
+  configureRestaurant(data: ConfigureRestaurantModel): Observable<any> {
+    return this.http.post(environment.SERVER_APP + this.CONFIGURE_RESTAURANT_API, data, { headers: this.headers });
   }
 }

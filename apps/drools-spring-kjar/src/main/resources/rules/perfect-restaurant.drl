@@ -86,7 +86,7 @@ rule "Compatibility - ambient"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for ambient compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantAmbient($rest_id, 7.0));
+		insert(new RestaurantAmbient($rest_id, 3.0));
 end;
 rule "Compatibility - smoking preference"
 	agenda-group "perfect-restaurant"
@@ -98,7 +98,7 @@ rule "Compatibility - smoking preference"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for smoking area compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantSmoking($rest_id, 7.0));
+		insert(new RestaurantSmoking($rest_id, 3.0));
 end;
 rule "Compatibility - alcohol"
 	agenda-group "perfect-restaurant"
@@ -110,7 +110,7 @@ rule "Compatibility - alcohol"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for alcohol compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantAlcohol($rest_id, 7.0));
+		insert(new RestaurantAlcohol($rest_id, 3.0));
 end;
 rule "Compatibility - price range - CHEEP"
 	agenda-group "perfect-restaurant"
@@ -122,7 +122,7 @@ rule "Compatibility - price range - CHEEP"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantPriceRange($rest_id, 7.0));
+		insert(new RestaurantPriceRange($rest_id, 3.0));
 end;
 rule "Compatibility - price range - AFFORDABLE"
 	agenda-group "perfect-restaurant"
@@ -134,7 +134,7 @@ rule "Compatibility - price range - AFFORDABLE"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantPriceRange($rest_id, 7.0));
+		insert(new RestaurantPriceRange($rest_id, 3.0));
 end;
 rule "Compatibility - price range - EXPENSIVE"
 	agenda-group "perfect-restaurant"
@@ -146,7 +146,7 @@ rule "Compatibility - price range - EXPENSIVE"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for price range compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantPriceRange($rest_id, 7.0));
+		insert(new RestaurantPriceRange($rest_id, 3.0));
 end;
 rule "Compatibility - music"
 	agenda-group "perfect-restaurant"
@@ -158,7 +158,7 @@ rule "Compatibility - music"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for music compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantMusic($rest_id, 7.0));
+		insert(new RestaurantMusic($rest_id, 3.0));
 end;
 rule "Compatibility - cuisine"
 	agenda-group "perfect-restaurant"
@@ -170,7 +170,7 @@ rule "Compatibility - cuisine"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for cuisine compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantCuisine($rest_id, 7.0));
+		insert(new RestaurantCuisine($rest_id, 3.0));
 end;
 rule "Compatibility - garden"
 	agenda-group "perfect-restaurant"
@@ -182,7 +182,7 @@ rule "Compatibility - garden"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for garden compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantGarden($rest_id, 7.0));
+		insert(new RestaurantGarden($rest_id, 3.0));
 end;
 rule "Compatibility - parking"
 	agenda-group "perfect-restaurant"
@@ -194,7 +194,7 @@ rule "Compatibility - parking"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for parking compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantParking($rest_id, 7.0));
+		insert(new RestaurantParking($rest_id, 3.0));
 end;
 rule "Compatibility - tv"
 	agenda-group "perfect-restaurant"
@@ -206,7 +206,7 @@ rule "Compatibility - tv"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for tv compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantTV($rest_id, 7.0));
+		insert(new RestaurantTV($rest_id, 3.0));
 end;
 rule "Compatibility - WiFi"
 	agenda-group "perfect-restaurant"
@@ -218,7 +218,7 @@ rule "Compatibility - WiFi"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for WiFi compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantWiFi($rest_id, 7.0));
+		insert(new RestaurantWiFi($rest_id, 3.0));
 end;
 rule "Compatibility - Grade of Restaurant"
 	agenda-group "perfect-restaurant"
@@ -248,7 +248,7 @@ rule "Compatibility - Extra 3 working hours"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for extra 3 working hours compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantTime($rest_id, 7.0));
+		insert(new RestaurantTime($rest_id, 5.0));
 end;
 rule "Compatibility - Distance score"
 	agenda-group "perfect-restaurant"
@@ -261,7 +261,7 @@ rule "Compatibility - Distance score"
 		$compatibleRest: RestaurantCompatibility( restaurantId == $rest_id )
 	then
 		System.out.println("Added score for distance compatibility for restaurant: " + $rest_id);
-		insert(new RestaurantDistance($rest_id, 7.0));
+		insert(new RestaurantDistance($rest_id, 3.0));
 end;
 
 rule "Insert base ALCOHOL if not other"
@@ -272,7 +272,7 @@ rule "Insert base ALCOHOL if not other"
 		not (RestaurantAlcohol(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for ALCOHOL");
-		insert(new RestaurantAlcohol($rest_id, 4.0));
+		insert(new RestaurantAlcohol($rest_id, 0.0));
 end;
 rule "Insert base WiFi if not other"
 	agenda-group "perfect-restaurant"
@@ -282,7 +282,7 @@ rule "Insert base WiFi if not other"
 		not (RestaurantWiFi(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for WiFi");
-		insert(new RestaurantWiFi($rest_id, 4.0));
+		insert(new RestaurantWiFi($rest_id, 0.0));
 end;
 rule "Insert base TV if not other"
 	agenda-group "perfect-restaurant"
@@ -292,7 +292,7 @@ rule "Insert base TV if not other"
 		not (RestaurantTV(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for TV");
-		insert(new RestaurantTV($rest_id, 4.0));
+		insert(new RestaurantTV($rest_id, 0.0));
 end;
 rule "Insert base DISTANCE if not other"
 	agenda-group "perfect-restaurant"
@@ -302,7 +302,7 @@ rule "Insert base DISTANCE if not other"
 		not (RestaurantDistance(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for DISTANCE");
-		insert(new RestaurantDistance($rest_id, 4.0));
+		insert(new RestaurantDistance($rest_id, -2.0));
 end;
 rule "Insert base MUSIC if not other"
 	agenda-group "perfect-restaurant"
@@ -312,7 +312,7 @@ rule "Insert base MUSIC if not other"
 		not (RestaurantMusic(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for MUSIC");
-		insert(new RestaurantMusic($rest_id, 4.0));
+		insert(new RestaurantMusic($rest_id, -1.0));
 end;
 rule "Insert base CUISINE if not other"
 	agenda-group "perfect-restaurant"
@@ -322,7 +322,7 @@ rule "Insert base CUISINE if not other"
 		not (RestaurantCuisine(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for CUISINE");
-		insert(new RestaurantCuisine($rest_id, 4.0));
+		insert(new RestaurantCuisine($rest_id, -2.0));
 end;
 rule "Insert base 3+HOURS if not other"
 	agenda-group "perfect-restaurant"
@@ -332,7 +332,7 @@ rule "Insert base 3+HOURS if not other"
 		not (RestaurantTime(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for 3+ HOURS");
-		insert(new RestaurantTime($rest_id, 4.0));
+		insert(new RestaurantTime($rest_id, -1.0));
 end;
 rule "Insert base SMOKING AREA if not other"
 	agenda-group "perfect-restaurant"
@@ -342,7 +342,7 @@ rule "Insert base SMOKING AREA if not other"
 		not (RestaurantSmoking(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for SMOKING");
-		insert(new RestaurantSmoking($rest_id, 4.0));
+		insert(new RestaurantSmoking($rest_id, -1.0));
 end;
 rule "Insert base AMBIENT if not other"
 	agenda-group "perfect-restaurant"
@@ -352,7 +352,7 @@ rule "Insert base AMBIENT if not other"
 		not (RestaurantAmbient(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for AMBIENT");
-		insert(new RestaurantAmbient($rest_id, 4.0));
+		insert(new RestaurantAmbient($rest_id, -1.0));
 end;
 rule "Insert base PRICE RANGE if not other"
 	agenda-group "perfect-restaurant"
@@ -362,7 +362,7 @@ rule "Insert base PRICE RANGE if not other"
 		not (RestaurantPriceRange(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for PRICE RANGE");
-		insert(new RestaurantPriceRange($rest_id, 4.0));
+		insert(new RestaurantPriceRange($rest_id, -2.0));
 end;
 rule "Insert base GARDEN if not other"
 	agenda-group "perfect-restaurant"
@@ -372,7 +372,7 @@ rule "Insert base GARDEN if not other"
 		not (RestaurantGarden(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for GARDEN");
-		insert(new RestaurantGarden($rest_id, 4.0));
+		insert(new RestaurantGarden($rest_id, 0.0));
 end;
 rule "Insert base PARKING if not other"
 	agenda-group "perfect-restaurant"
@@ -382,7 +382,7 @@ rule "Insert base PARKING if not other"
 		not (RestaurantParking(restaurantId == $rest_id ))
 	then
 		System.out.println("Base score for PARKING");
-		insert(new RestaurantParking($rest_id, 4.0));
+		insert(new RestaurantParking($rest_id, -1.0));
 end;
 rule "Insert base GRADE if not other"
 	agenda-group "perfect-restaurant"

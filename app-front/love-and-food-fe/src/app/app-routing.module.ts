@@ -20,7 +20,11 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule)
   },
-  {path: '**', component: NotFoundComponent}
+  {
+    path: 'configuration',
+    loadChildren: () => import('./components/configuration/configuration.module').then(m => m.ConfigurationModule)
+  },
+  { path: '**', component: NotFoundComponent  }
 ];
 
 @NgModule({

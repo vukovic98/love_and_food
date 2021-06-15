@@ -1,0 +1,38 @@
+<div class="wrapper d-flex align-items-stretch back">
+  <div style="height: 100vh;">
+    <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
+  </div>
+  <div class="jumbotron pt-3 pb-4 col-md-7 justify-content-center align-self-center ml-auto bg-white mr-auto  float-left ">
+    <h4 class="text-muted font-weight-light">
+      <mat-icon>keyboard</mat-icon>
+      Please enter points
+    </h4>
+    <mat-progress-bar mode="indeterminate" *ngIf="working"></mat-progress-bar>
+    <form [formGroup]="configForm" (ngSubmit)="submitConfiguration()">
+      <div class="col-md-12 row m-0 p-0" *ngFor="let d of data">
+        <div class="col-md-6 float-left pt-0 mt-0">
+          <mat-form-field appearance="standard" class="w-100 pt-0">
+            <mat-label>
+              <mat-icon>edit</mat-icon>
+              {{d[0].replace("Points", " Points") | titlecase}}
+            </mat-label>
+            <input type="number" min="0" matInput [id]="d[0]" [name]="d[0]" [formControlName]="d[0]">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 float-right pt-0 mt-0">
+          <mat-form-field appearance="standard" class="w-100 pt-0">
+            <mat-label>
+              <mat-icon>edit</mat-icon>
+              {{d[1].replace("base", "Base ").replace("Points", " Points") }}
+            </mat-label>
+            <input type="number" matInput [id]="d[1]" [name]="d[1]" [formControlName]="d[1]">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-12 text-right mt-3">
+        <button type="submit" mat-raised-button class="text-white" style="background-color: orange; letter-spacing: 2px">Submit configuration</button>
+      </div>
+    </form>
+  </div>
+
+</div>
