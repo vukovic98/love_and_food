@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { UserPage } from 'src/app/models/user-page.model';
 import { UserService } from 'src/app/services/user.service';
@@ -10,10 +11,14 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ViewUsersComponent implements OnInit {
 
-  displayedColumns: string[] = ['email', 'name', 'gender', 'dateOfBirth'];
+  displayedColumns: string[] = ['email', 'name', 'gender', 'dateOfBirth', 'rating'];
 
   dataSource: UserPage = { content: [], totalElements: 0, totalPages: 0, size: 0 };
   pageEvent: PageEvent = new PageEvent();
+
+  filterForm = new FormGroup({
+    name: new FormControl('', ),
+  });
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -46,6 +51,10 @@ export class ViewUsersComponent implements OnInit {
           this.dataSource = res
         }
       );
+  }
+
+  filterUsers() {
+    
   }
 
 }

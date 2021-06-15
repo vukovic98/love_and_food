@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
 
 @RestController
@@ -22,11 +22,11 @@ public class UserController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/by-page/{pageNum}")
-	public ResponseEntity<Page<UserDTO>> findAll(@PathVariable("pageNum") int pageNum) {
+	public ResponseEntity<Page<UserMVPDTO>> findAll(@PathVariable("pageNum") int pageNum) {
 		
-		Page<UserDTO> users= userService.findAll(pageNum);
+		Page<UserMVPDTO> users= userService.findAll(pageNum);
 		
-		return new ResponseEntity<Page<UserDTO>>( users, HttpStatus.OK);
+		return new ResponseEntity<Page<UserMVPDTO>>( users, HttpStatus.OK);
 	}
 
 }

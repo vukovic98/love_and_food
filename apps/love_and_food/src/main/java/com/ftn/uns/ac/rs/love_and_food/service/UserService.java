@@ -14,7 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
@@ -34,13 +35,14 @@ public class UserService {
 		return this.userRepository.findByEmail(email);
 	}
 	
-	public Page<UserDTO> findAll(int pageNum) {
+	public Page<UserMVPDTO> findAll(int pageNum) {
 		QueryResults results = kieSession.getQueryResults( "getAllUsers" );
-		List<User> users = new ArrayList<>();
+		List<UserRatingDTO> users = new ArrayList<>();
 		
 		for ( QueryResultsRow row : results ) {
 		    User user = ( User ) row.get( "$user" );
-		    users.add(user);
+		    double rating = (double) row.get("$averageRating");
+		    users.add(new UserRatingDTO(user, rating));
 		}
 		
 		Pageable pageable = PageRequest.of(pageNum, 10);
@@ -48,7 +50,7 @@ public class UserService {
 		int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<User> list;
+        List<UserRatingDTO> list;
         
         if (users.size() < startItem) {
             list = Collections.emptyList();
@@ -56,11 +58,10 @@ public class UserService {
             int toIndex = Math.min(startItem + pageSize, users.size());
             list = users.subList(startItem, toIndex);
         }
-        
-        List<UserDTO> userDTOs = userMapper.toDTOList(list);
+        List<UserMVPDTO> userDTOs = userMapper.toUserMVPDTOlist(list);
 
-        Page<UserDTO> usersPage
-          = new PageImpl<UserDTO>(userDTOs, PageRequest.of(currentPage, pageSize), users.size());
+        Page<UserMVPDTO> usersPage
+          = new PageImpl<UserMVPDTO>(userDTOs, PageRequest.of(currentPage, pageSize), users.size());
 		
 		return usersPage;
 	}

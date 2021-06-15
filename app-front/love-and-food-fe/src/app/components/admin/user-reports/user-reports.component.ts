@@ -38,11 +38,9 @@ export class UserReportsComponent implements OnInit {
         .subscribe(
           res => {
             this.liars = res
-            if(res.length !=0) {
-              this.showLiars = true
-            }
           }
         )
+      this.showLiars = true
       this.showMVPs = false
     }
 
@@ -52,11 +50,9 @@ export class UserReportsComponent implements OnInit {
         .subscribe(
           res => {
             this.mvps = res
-            if(res.length !=0) {
-              this.showMVPs = true
-            }
           }
         )
+      this.showMVPs = true
       this.showLiars = false
     }
   }
