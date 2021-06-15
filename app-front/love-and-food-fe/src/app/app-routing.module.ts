@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {NotFoundComponent} from "./components/shared/not-found/not-found.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule)
   },
+  {path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
