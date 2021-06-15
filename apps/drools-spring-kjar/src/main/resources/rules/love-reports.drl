@@ -33,14 +33,14 @@ rule "Liars"
 		liars.addAll($liars);
 		System.out.println("Liars report created.");
 end;
-
+/*
 rule "MVPs of the year"
 	agenda-group "MVPs"
 	salience $averageRating
 	when
 		$user: User()
 		$averageRating: Double(doubleValue > 3.0) from accumulate(
-			Match(soulmate == $user,
+			Match(soulmate == $user, rating > 0,
 			$rating: rating, $matchDate: matchDate,
 			$matchDate.isAfter(LocalDate.now().minusMonths(12))),
 			average($rating)
@@ -48,4 +48,4 @@ rule "MVPs of the year"
 	then
 		mvps.add(new UserRatingDTO($user, $averageRating));
 		System.out.println("Added user to MVPs of the year report.");
-end
+end*/

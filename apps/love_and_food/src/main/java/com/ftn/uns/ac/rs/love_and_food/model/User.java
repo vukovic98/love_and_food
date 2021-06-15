@@ -245,14 +245,12 @@ public class User extends RegisteredUser {
 
 		User other = (User) obj;
 
-		if (other.getId() == null || this.getId() == null) {
-			if (other.getEmail().equals(getEmail())) {
-				return true;
-			}
-			return false;
-		}
 		return Objects.equals(this.getId(), other.getId());
-
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.getId().intValue();
 	}
 
 	@Override

@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.FilterUserDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
 
@@ -25,6 +28,15 @@ public class UserController {
 	public ResponseEntity<Page<UserMVPDTO>> findAll(@PathVariable("pageNum") int pageNum) {
 		
 		Page<UserMVPDTO> users= userService.findAll(pageNum);
+		
+		return new ResponseEntity<Page<UserMVPDTO>>( users, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping(value = "/filter/by-page/{pageNum}")
+	public ResponseEntity<Page<UserMVPDTO>> filterAll(@PathVariable("pageNum") int pageNum, @RequestBody FilterUserDTO filterUserDTO) {
+		
+		Page<UserMVPDTO> users= userService.filterAll(pageNum, filterUserDTO);
 		
 		return new ResponseEntity<Page<UserMVPDTO>>( users, HttpStatus.OK);
 	}
