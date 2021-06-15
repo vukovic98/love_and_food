@@ -3,21 +3,47 @@
       <app-navigation-bar [mode]="'LOVE'"></app-navigation-bar>
     </div>
 
-    <!--<form [formGroup]="filterForm" (ngSubmit)="filterUsers()">
-        <div class="row">
-            <div class="col-md-1.5">
-                <div class="form-group">
-                    <mat-form-field appearance="standard" class="col-md-2 mr-4">
-                        <mat-label>Enter Name</mat-label>
-                        <input id="name" name="name" formControlName="name" type="text" matInput placeholder="eg. Velvet">
-                    </mat-form-field>
+    <div class="col-md-9 mt-0 ml-auto mr-auto row panel">
+        <div class="col-md-12 mt-5">
+            <div class="col-md-10 ml-auto mr-auto mt-2 mb-1 pb-0 float-right text-right">
+                <div class="text-right">
+                    <form [formGroup]="filterForm" (ngSubmit)="filterUsers()">
+                            <div class="form-group">
+                                <mat-form-field appearance="standard" class="col-md-2 mr-4">
+                                    <mat-label>Enter Email</mat-label>
+                                    <input formControlName="email" type="text" matInput placeholder="eg. someone@something.com">
+                                </mat-form-field>
+                                <mat-form-field appearance="standard" class="col-md-2 mr-4">
+                                    <mat-label>Enter Name</mat-label>
+                                    <input formControlName="name" type="text" matInput placeholder="eg. John Smith">
+                                </mat-form-field>
+                                <mat-form-field appearance="standard" class="col-md-2 mr-4">
+                                    <mat-label>Select Personality Trait</mat-label>
+                                    <mat-select formControlName="trait">
+                                        <mat-option value="NONE"></mat-option>
+                                        <mat-option value="E">Extroverted</mat-option>
+                                        <mat-option value="I">Introverted</mat-option>
+                                        <mat-option value="S">Sensory</mat-option>
+                                        <mat-option value="N">Intuitive</mat-option>
+                                        <mat-option value="T">Thinker</mat-option>
+                                        <mat-option value="F">Feeler</mat-option>
+                                        <mat-option value="J">Judger</mat-option>
+                                        <mat-option value="P">Perceiver</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="standard" class="col-md-2 mr-4">
+                                    <mat-label>Enter Lower Rating</mat-label>
+                                    <input formControlName="lowerRating" type="number" min="0" max="5" step="0.1" matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="standard" class="col-md-2 mr-4">
+                                    <mat-label>Enter Upper Rating</mat-label>
+                                    <input formControlName="upperRating" type="number" min="0" max="5" step="0.1" matInput>
+                                </mat-form-field>
+                                <button mat-raised-button type="submit" class="text-white" style="background-color: purple;">Filter</button>
+                            </div>
+                    </form>
                 </div>
             </div>
-            <button mat-raised-button type="submit" class="text-white" style="background-color: orange;">Filter</button>
-        </div>
-    </form>-->
-    <div class="col-md-9 mt-0 ml-auto mr-auto row panel">
-        <div class="col-md-11 mt-5">
             <table mat-table [dataSource]="dataSource.content"  class="shadow">
                 <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-design"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

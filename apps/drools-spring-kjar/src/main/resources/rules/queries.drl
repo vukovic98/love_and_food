@@ -9,39 +9,69 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
 
 import java.util.Set;
+import java.util.List;
 
 /* LOVE PART */
-
+/*
 query "getAllUsers"
     $user: User()
 	$averageRating: Double(doubleValue >= 0.0) from accumulate(
-		Match(soulmate == $user,
+		Match(soulmate == $user, rating > 0,
+		$rating: rating),
+		average($rating)
+	)
+end
+*/
+query "getAllMatches"
+    $match: Match()
+end
+/*
+query "getAllMatchesForUser"(String email)
+    $match: Match(initiator.email == email)
+    $averageRating: Double(doubleValue >= 0.0) from accumulate(
+		Match(soulmate == $user, rating > 0,
 		$rating: rating),
 		average($rating)
 	)
 end
 
-query "getAllMatches"
-    $match: Match()
-end
-
-query "getAllMatchesForUser"(String email)
-    $match: Match(initiator.email == email)
-end
-
 // dobavi sve po prosledjenom tipu licnosti
+/*query "getAllUsersByEmail"(String emailInput)
+	$user: User(email.toLowerCase().contains(emailInput.toLowerCase()))
+	$averageRating: Double(doubleValue >= 0.0) from accumulate(
+		Match(soulmate == $user, rating > 0,
+		$rating: rating),
+		average($rating)
+	)
+end;
+
+query "getAllUsersByName"(String nameInput)
+	$user: User(name.toLowerCase().contains(nameInput.toLowerCase()))
+	$averageRating: Double(doubleValue >= 0.0) from accumulate(
+		Match(soulmate == $user, rating > 0,
+		$rating: rating),
+		average($rating)
+	)
+end;
+
 query "getAllUsersByPersonality"(String personalityType)
-	$users: User(personalityTraits.contains(personalityType.toUpperCase()))
+	$user: User(personalityTraits.contains(personalityType.toUpperCase()))
+	$averageRating: Double(doubleValue >= 0.0) from accumulate(
+		Match(soulmate == $user, rating > 0,
+		$rating: rating),
+		average($rating)
+	)
 end;
 
 query "getAllUsersWithRatingAbove"(double value)
 	accumulate(
 		User($u: this) and
 		$userRating: Number(doubleValue > value) from accumulate (
-			Match(soulmate == $u, $rating: rating),
+			Match(soulmate == $u, rating > 0, $rating: rating),
 			average($rating)
 		),
-		$users: collectSet($u)
+		$users: collectList($u),
+		$userRatings: collectList($userRating)
 	)
 end;
 
@@ -49,24 +79,27 @@ query "getAllUsersWithRatingBelow"(double value)
 	accumulate(
 		User($u: this) and
 		$userRating: Number(doubleValue < value) from accumulate (
-			Match(soulmate == $u, $rating: rating),
+			Match(soulmate == $u, rating > 0, $rating: rating),
 			average($rating)
 		),
-		$users: collectSet($u)
+		$users: collectList($u),
+		$userRatings: collectList($userRating)
 	)
-end;
-
+end;*/
+/*
 query "getAllUsersWithRatingInRange"(double min, double max)
 	accumulate(
 		User($u: this) and
 		$userRating: Number(doubleValue < max, doubleValue > min) from accumulate (
-			Match(soulmate == $u, $rating: rating),
+			Match(soulmate == $u, rating > 0, $rating: rating),
 			average($rating)
 		),
-		$users: collectSet($u)
+		$users: collectList($u),
+		$userRatings: collectList($userRating)
 	)
-end;
-
+end;*/
+/*
+# report
 query "getAllUsersWhoMatchedAtLeast"(int times)
 	accumulate(
 		User($u1: this) and
@@ -83,7 +116,7 @@ end;
 
 
 /*	FOOD PART	*/
-
+/*
 query "getAllRestaurants"
 	$restaurant: Restaurant()
 end;
