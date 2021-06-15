@@ -35,6 +35,7 @@ export class ViewUsersComponent implements OnInit {
         res => {
           this.dataSource = res
         }
+
       )
   }
 
@@ -54,7 +55,7 @@ export class ViewUsersComponent implements OnInit {
   }
 
   filterUsers() {
-    
+
   }
 
 }

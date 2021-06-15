@@ -226,14 +226,14 @@ public class RestaurantService {
 
 		// TODO COMMENT FOR TESTING
 
-//		DatePlace d = new DatePlace();
-//
-//		d.setDate(dto.getDateTime());
-//		d.setRestaurant(perfect);
-//		d.setInitiator(match.getInitiator());
-//		d.setSoulmate(match.getSoulmate());
-//
-//		this.dateRepository.save(d);
+		DatePlace d = new DatePlace();
+
+		d.setDate(dto.getDateTime());
+		d.setRestaurant(perfect);
+		d.setInitiator(match.getInitiator());
+		d.setSoulmate(match.getSoulmate());
+
+		this.dateRepository.save(d);
 
 		return perfect;
 	}
