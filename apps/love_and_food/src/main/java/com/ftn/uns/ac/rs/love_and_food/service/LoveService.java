@@ -2,20 +2,30 @@ package com.ftn.uns.ac.rs.love_and_food.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.CoupleDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.FindMatchEvent;
 import com.ftn.uns.ac.rs.love_and_food.event.MateRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.exceptions.NonExistingIdException;
+import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
@@ -40,6 +50,8 @@ public class LoveService {
 	
 	@Autowired
 	private MatchRepository matchRepository;
+	
+	private UserMapper userMapper = new UserMapper();
 	
 	public User findMatch(String email) {
 		// dobavljanje ulogovanog korisnika
@@ -122,6 +134,28 @@ public class LoveService {
 		this.kieSession.fireAllRules();
 		
 		return mvps;
+	}
+	
+	public Set<CoupleDTO> reportCouples(int matchedTimes) {
+		QueryResults results = kieSession.getQueryResults( "getAllUsersWhoMatchedAtLeast", matchedTimes);
+		
+		List<User> users1 = new ArrayList<>();
+		List<User> users2 = new ArrayList<>();
+		
+		Set<CoupleDTO> couples = new HashSet<>();
+		
+		for ( QueryResultsRow row : results ) {
+			users1 = (List<User>) row.get( "$users1" );
+			users2 = (List<User>) row.get( "$users2" );
+		}
+		for (int i = 0; i < users1.size(); i++) {
+			User user1 = users1.get(i);
+			User user2 = users2.get(i);
+			CoupleDTO couple = new CoupleDTO(userMapper.toDTO(user1), userMapper.toDTO(user2));
+			couples.add(couple);
+		}
+		
+		return couples;
 	}
 	
 }

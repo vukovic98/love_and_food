@@ -95,14 +95,15 @@ end;
 query "getAllUsersWhoMatchedAtLeast"(int times)
 	accumulate(
 		User($u1: this) and
-		User($u2: this) and
+		User($u2: this, id != $u1.id) and
 		accumulate(
-			Match($m1: this, initiator == $u1, soulmate == $u2) and
-			Match($m2: this, initiator == $u2, soulmate == $u1),
-			$match1: collectList($m1),
-			$match2: collectList($m2)
+			Match($m1: this, initiator.id == $u1.id, soulmate.id == $u2.id) and
+			Match($m2: this, initiator.id == $u2.id, soulmate.id == $u1.id),
+			$match1: collectSet($m1),
+			$match2: collectSet($m2)
 		) and eval($match1.size() + $match2.size() >= times),
-		$users: collectSet($u1)
+		$users1: collectList($u1),
+		$users2: collectList($u2)
 	)
 end;
 
