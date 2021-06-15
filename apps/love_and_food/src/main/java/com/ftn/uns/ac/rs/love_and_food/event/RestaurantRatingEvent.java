@@ -18,6 +18,7 @@ public class RestaurantRatingEvent implements Serializable {
 	private Date timestamp;
 	private Grade grade;
 	private String message;
+	private boolean happened;
 
 	public RestaurantRatingEvent() {
 		super();
@@ -28,6 +29,7 @@ public class RestaurantRatingEvent implements Serializable {
 		this.message = m;
 		this.timestamp = timestamp;
 		this.grade = grade;
+		this.happened = false;
 	}
 
 	public Date getTimestamp() {
@@ -56,6 +58,14 @@ public class RestaurantRatingEvent implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public boolean isHappened() {
+		return happened;
+	}
+
+	public void setHappened(boolean happened) {
+		this.happened = happened;
 	}
 
 }

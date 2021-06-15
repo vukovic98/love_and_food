@@ -265,7 +265,7 @@ public class RestaurantController {
 			if (grade != null)
 				return new ResponseEntity<>(this.gradeMapper.toDTO(grade), HttpStatus.OK);
 			else
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

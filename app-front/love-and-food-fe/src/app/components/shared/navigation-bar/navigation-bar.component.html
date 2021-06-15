@@ -40,6 +40,13 @@
         <a routerLink="/admin/user-reports"><span class="fa fa-briefcase mr-5"></span> User Reports</a>
       </li>
       <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">alarm</mat-icon>
+        <a><span class="fa fa-user mr-3"></span> Alarms</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <a routerLink="/admin/alarms"><span class="fa fa-briefcase mr-5"></span> All Alarms</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
         <mat-icon class="float-left mt-2">settings</mat-icon>
         <a><span class="fa fa-user mr-3"></span> Configuration</a>
       </li>

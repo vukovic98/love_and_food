@@ -34,13 +34,16 @@ import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
+import com.ftn.uns.ac.rs.love_and_food.repository.AlarmRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.DatePlaceRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.GradeRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantConfigRepository;
@@ -66,6 +69,9 @@ public class RestaurantService {
 
 	@Autowired
 	private RestaurantMapper restaurantMapper;
+	
+	@Autowired
+	private AlarmRepository alarmRepository;
 	
 	@Autowired
 	private RestaurantConfigRepository restaurantConfigRepository;
@@ -274,6 +280,10 @@ public class RestaurantService {
 				session.getAgenda().getAgendaGroup("restaurant-rating-event").setFocus();
 				session.fireAllRules();
 
+				if(event.isHappened()) {
+					this.alarmRepository.save(new Alarm(0L, AlarmType.RESTAURANT_ALARM, event.getMessage(), new Date()));
+				}
+				
 				if (saved != null)
 					return true;
 				else

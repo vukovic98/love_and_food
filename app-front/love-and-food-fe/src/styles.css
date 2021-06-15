@@ -28,7 +28,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   overflow-x: hidden;
 }
 
-.mat-table{    
+.mat-table{
   border-radius: 1rem !important;
   overflow:hidden !important;
 }
