@@ -20,14 +20,14 @@ export class AuthInterceptorService implements HttpInterceptor {
 
       this.authService.logout();
 
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/login']).then(r => null);
 
       Swal.fire({
         icon: 'error',
         title: 'Your token has expired. Please login again.',
         showConfirmButton: false,
         timer: 3000
-      })
+      }).then(r => null)
 
       return of(err.message);
     }
