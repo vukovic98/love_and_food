@@ -4,6 +4,25 @@
   </div>
   <div class="col-md-9 mt-0 ml-auto mr-auto row panel">
     <div class="col-md-12 mt-5">
+      <div class="col-md-10 ml-auto mr-auto mt-2 mb-1 pb-0 float-right text-right">
+        <div class="text-right">
+            <form [formGroup]="filterForm" (ngSubmit)="filterAlarms(0)">
+                    <div class="form-group">
+                        <mat-form-field appearance="standard" class="col-md-3 mr-4">
+                            <mat-label>Select Alarm Type</mat-label>
+                            <mat-select formControlName="alarmType">
+                                <mat-option value=""></mat-option>
+                                <mat-option value="FAILED_LOGIN">Failed login</mat-option>
+                                <mat-option value="BAD_RATING_USER_ALARM">Bad user rating alarm</mat-option>
+                                <mat-option value="GOOD_RATING_USER_ALARM">Good user rating alarm</mat-option>
+                                <mat-option value="RESTAURANT_ALARM">Restaurant alarm</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-raised-button type="submit" class="text-white" style="background-color: purple;">Filter</button>
+                    </div>
+              </form>
+          </div>
+      </div>
       <table mat-table [dataSource]="alarms.content"  class="shadow">
         <!-- No data row -->
         <tr class="mat-row" *matNoDataRow>
@@ -33,5 +52,13 @@
         </ng-container>
       </table>
     </div>
+  </div>
+  <div class="mb-0" style="position: absolute; bottom: 0; right: 0;">
+    <mat-paginator 
+        showFirstLastButtons
+        [length]="alarms.totalElements"
+        [pageSize]="alarms.size"
+        (page)="pageEvent = $event; onPaginateChange($event)">
+    </mat-paginator>
   </div>
 </div>

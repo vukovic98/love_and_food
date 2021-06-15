@@ -2,15 +2,18 @@ package rules;
 
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.event.FailedLoginEvent;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
 
 import java.util.Set;
 import java.util.List;
 
+/*LOVE QUERIES*/
 query "getAllUsers"
     $user: User()
 	$averageRating: Double(doubleValue >= 0.0) from accumulate(
@@ -79,19 +82,7 @@ query "getAllUsersWithRatingBelow"(double value)
 	)
 end;
 
-query "getAllUsersWithRatingInRange"(double min, double max)
-	accumulate(
-		User($u: this) and
-		$userRating: Number(doubleValue < max, doubleValue > min) from accumulate (
-			Match(soulmate == $u, rating > 0, $rating: rating),
-			average($rating)
-		),
-		$users: collectList($u),
-		$userRatings: collectList($userRating)
-	)
-end;
-
-// report
+/*LOVE REPORT*/
 query "getAllUsersWhoMatchedAtLeast"(int times)
 	accumulate(
 		User($u1: this) and
@@ -107,7 +98,17 @@ query "getAllUsersWhoMatchedAtLeast"(int times)
 	)
 end;
 
+/*ALARM QUERIES*/
+query "getAllAlarms"
+	$alarm: Alarm()
+end;
 
+query "getAllAlarmsByAlarmType"(AlarmType alarmTypeInput)
+	$alarm: Alarm(alarmType == alarmTypeInput)
+end;
+
+
+/*FOOD QUERIES*/
 query "getAllRestaurants"
 	$restaurant: Restaurant()
 end;
