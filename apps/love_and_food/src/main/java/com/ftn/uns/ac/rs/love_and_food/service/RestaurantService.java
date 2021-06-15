@@ -28,10 +28,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantConfigDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
-import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
@@ -232,18 +232,6 @@ public class RestaurantService {
 //		this.dateRepository.save(d);
 
 		return perfect;
-	}
-
-	public ArrayList<RestaurantDTO> findRestaurantsByHours() {
-
-		ArrayList<Restaurant> result = new ArrayList<>();
-
-		this.kieSession.setGlobal("resultHours", result);
-
-		this.kieSession.getAgenda().getAgendaGroup("working-hours").setFocus();
-		this.kieSession.fireAllRules();
-
-		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(result);
 	}
 
 	public boolean gradeRestaurant(GradeDTO dto, User user) {
@@ -505,21 +493,20 @@ public class RestaurantService {
 			return new ArrayList<>();
 	}
 
-	public boolean createRuleForWorkingHours(WorkingHoursDTO hoursRange) {
-		System.out.println(hoursRange.getStartTime() + ": " + hoursRange.getEndTime());
+	public boolean createRestaurantConfiguration(RestaurantConfigDTO configDTO) {
 		try {
 			InputStream template = new FileInputStream(
-					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\templates\\restaurantsByWorkingHours.drt");
+					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\templates\\restaurantConfiguration.drt");
 
 			// Compile template to generate new rules
-			List<WorkingHoursDTO> arguments = new ArrayList<>();
-			arguments.add(hoursRange);
+			List<RestaurantConfigDTO> arguments = new ArrayList<>();
+			arguments.add(configDTO);
 			ObjectDataCompiler compiler = new ObjectDataCompiler();
 			String drl = compiler.compile(arguments, template);
 
 			// Save rule to drl file
 			FileOutputStream drlFile = new FileOutputStream(
-					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\restaurantsByWorkingHours.drl"));
+					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\perfect-restaurant.drl"));
 			drlFile.write(drl.getBytes());
 			drlFile.close();
 

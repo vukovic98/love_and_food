@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantConfigDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
-import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.GradeMapper;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
@@ -83,20 +83,11 @@ public class RestaurantController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping(path = "/filter-by-hours")
-	public ResponseEntity<ArrayList<RestaurantDTO>> test(WorkingHoursDTO dto) {
-		ArrayList<RestaurantDTO> result = this.restaurantService.findRestaurantsByHours();
+	@PostMapping(path = "/configure-restaurant-points")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<ArrayList<RestaurantDTO>> filterByHours(@RequestBody RestaurantConfigDTO dto) {
 
-		if (!result.isEmpty())
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		else
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
-
-	@GetMapping(path = "/create-filter-by-hours")
-	public ResponseEntity<ArrayList<RestaurantDTO>> filterByHours(@RequestBody WorkingHoursDTO dto) {
-
-		boolean ok = this.restaurantService.createRuleForWorkingHours(dto);
+		boolean ok = this.restaurantService.createRestaurantConfiguration(dto);
 
 		if (ok) {
 			return new ResponseEntity<>(HttpStatus.OK);
