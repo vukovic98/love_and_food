@@ -2,7 +2,6 @@ package com.ftn.uns.ac.rs.love_and_food.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -13,22 +12,19 @@ import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.CoupleDTO;
-import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
-import com.ftn.uns.ac.rs.love_and_food.event.FindMatchEvent;
 import com.ftn.uns.ac.rs.love_and_food.event.MateRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.exceptions.NonExistingIdException;
 import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
+import com.ftn.uns.ac.rs.love_and_food.repository.AlarmRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.MatchRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
@@ -43,13 +39,13 @@ public class LoveService {
 	private KieSession eventsSession;
 	
 	@Autowired
-	private KieStatefulSessionService kieService;
-	
-	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private MatchRepository matchRepository;
+	
+	@Autowired
+	private AlarmRepository alarmRepository;
 	
 	private UserMapper userMapper = new UserMapper();
 	
@@ -70,9 +66,6 @@ public class LoveService {
 		this.kieSession.fireAllRules();
 		this.kieSession.getAgenda().getAgendaGroup("prepare-soulmate").setFocus();
 		this.kieSession.fireAllRules();
-		
-		FindMatchEvent findMatchEvent = new FindMatchEvent(new Date(), user);
-		this.eventsSession.insert(findMatchEvent);
 		
 		User soulmate = (User) this.kieSession.getGlobal("soulmate");
 		
@@ -95,15 +88,18 @@ public class LoveService {
 		if ( match != null) {
 			match.setRating(rating);
 			MateRatingEvent event = new MateRatingEvent(new Date(), match);
-			KieSession session = kieService.getEventsSession();
-			session.insert(event);
+			this.eventsSession.insert(event);
 			match = matchRepository.save(match);
-			List<Match> allMatches = matchRepository.findAll();
-			for (Match match1 : allMatches) {
-				session.insert(match1);
+			this.eventsSession.insert(match);
+			
+			this.eventsSession.getAgenda().getAgendaGroup("user-rating-event").setFocus();
+			this.eventsSession.fireAllRules();
+			
+			if(event.isHappened() && event.getMessage().contains("WARNING")) {
+				this.alarmRepository.save(new Alarm(AlarmType.BAD_RATING_USER_ALARM, event.getMessage(), new Date()));
+			} else if(event.isHappened() && event.getMessage().contains("INFO") ) {
+				this.alarmRepository.save(new Alarm(AlarmType.GOOD_RATING_USER_ALARM, event.getMessage(), new Date()));
 			}
-			session.getAgenda().getAgendaGroup("user-rating-event").setFocus();
-			session.fireAllRules();
 			return match;
 		}
 		

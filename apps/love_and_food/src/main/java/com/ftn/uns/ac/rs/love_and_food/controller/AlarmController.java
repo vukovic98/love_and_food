@@ -22,15 +22,10 @@ public class AlarmController {
 	private AlarmService alarmService;
 	
 	@GetMapping(path = "/by-page/{pageNum}")
-	public ResponseEntity<PageImplementation<Alarm>> findAllByPage(@PathVariable("pageNum") int pageNum) {
+	public ResponseEntity<Page<Alarm>> findAllByPage(@PathVariable("pageNum") int pageNum) {
 		Page<Alarm> alarmPage = this.alarmService.findAllByPage(pageNum);
 		
-		PageImplementation<Alarm> pageImpl = new PageImplementation<>();
-		PageImplMapper<Alarm> mapper = new PageImplMapper<>();
-
-		pageImpl = mapper.toPageImpl(alarmPage);
-		
-		return new ResponseEntity<>(pageImpl, HttpStatus.OK);
+		return new ResponseEntity<>(alarmPage, HttpStatus.OK);
 	}
 	
 }
