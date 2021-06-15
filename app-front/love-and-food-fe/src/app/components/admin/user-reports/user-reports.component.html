@@ -8,8 +8,8 @@
         <mat-form-field appearance="outline" class="col-md-5">
           <mat-label>Select Report</mat-label>
           <mat-select formControlName="report">
-            <mat-option value="LIARS">  <img class="png-icon" src="assets/img/theater.png" style="width: 30px; height: 30px;">&nbsp;&nbsp;&nbsp;Potential liar accounts </mat-option>
-            <mat-option value="MVPS">  <img class="png-icon" src="assets/img/best.png" style="width: 30px; height: 30px;">&nbsp;&nbsp;&nbsp;Best rated users </mat-option>
+            <mat-option value="LIARS">Potential liar accounts </mat-option>
+            <mat-option value="MVPS">Best rated users </mat-option>
           </mat-select>
         </mat-form-field>
         <button [disabled]="reportForm.invalid" mat-raised-button class="report-btn text-white">GET REPORT</button>
@@ -18,7 +18,7 @@
         <div class="col-md-11 mt-0 ml-auto mr-auto row panel">
             <div class="col-md-11 mt-5">
                 <!--Liars table-->
-                <table *ngIf="showLiars" mat-table [dataSource]="liars"  class="shadow">
+                <table *ngIf="showLiars && liars.length !== 0" mat-table [dataSource]="liars"  class="shadow">
                     <tr mat-header-row *matHeaderRowDef="displayedColumnsLiars" class="header-design"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumnsLiars;"></tr>
 
@@ -47,7 +47,7 @@
                 </table>
 
                 <!--MVPs table-->
-                <table *ngIf="showMVPs" mat-table [dataSource]="mvps"  class="shadow">
+                <table *ngIf="showMVPs && mvps.length!=0" mat-table [dataSource]="mvps"  class="shadow">
                   <tr mat-header-row *matHeaderRowDef="displayedColumnsMvps" class="header-design"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumnsMvps;"></tr>
 
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div class="text-center mt-5 pt-5" *ngIf="(liars.length == 0 && !showMVPs) || (mvps.length == 0 && !showLiars)">
+        <div class="text-center mt-5 pt-5" *ngIf="(liars.length == 0 && !showMVPs && showLiars) || (mvps.length == 0 && !showLiars && showMVPs)">
           <h3 class="w-25 m-auto p-3 sorry-message">Sorry, there are no users that fill the criteria of this report.</h3>
         </div>
     </div>

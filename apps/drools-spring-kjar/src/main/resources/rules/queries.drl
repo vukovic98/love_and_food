@@ -1,6 +1,7 @@
 package rules;
 
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.event.FailedLoginEvent;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
@@ -13,6 +14,11 @@ import java.util.Set;
 
 query "getAllUsers"
     $user: User()
+	$averageRating: Double(doubleValue >= 0.0) from accumulate(
+		Match(soulmate == $user,
+		$rating: rating),
+		average($rating)
+	)
 end
 
 query "getAllMatches"

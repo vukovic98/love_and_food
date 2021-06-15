@@ -1,10 +1,10 @@
 .back {
-    background-image: url("src/assets/img/soulmate-back-opacity.png");
+    background-image: url('src/assets/img/try-opacity.png');
   }
   
   .jumbotron-border {
-    border-bottom: 3px solid rgb(143, 116, 194);
-    border-top: 3px solid rgb(143, 116, 194);
+    border-bottom: 3px solid purple;
+    border-top: 3px solid purple;
   }
   
   h-80 {
@@ -24,15 +24,12 @@
     color: rgb(143, 116, 194);
     background-color: rgb(143, 116, 194, 0.2);
     border-radius: 2rem;
+    border-top: 2px solid purple;
+    border-bottom: 2px solid purple;
   }
 
 table {
     width: 100%;
-}
-
-.mat-form-field {
-    font-size: 14px;
-    width: 90%;
 }
 
 .form-field {
