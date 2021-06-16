@@ -34,6 +34,12 @@ public class Alarm {
 	public Alarm() {
 		super();
 	}
+	
+	public Alarm(AlarmType alarmType, String message, Date date) {
+		this.alarmType = alarmType;
+		this.message = message;
+		this.date = date;
+	}
 
 	public Alarm(Long id, AlarmType alarmType, String message, Date date) {
 		super();

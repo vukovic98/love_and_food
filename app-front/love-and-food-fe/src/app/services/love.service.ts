@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { environment } from "src/environments/environment";
+import { CoupleDTO } from "../dto/couples.dto";
 import { MatchDTO } from "../dto/match.dto";
 import { UserMVPDTO } from "../dto/user-mvp.dto";
 import { UserDTO } from "../dto/user.dto";
@@ -18,6 +19,7 @@ export class LoveService {
   private readonly ENDPOINT_RATE: string = "love/rate-date/"
   private readonly ENDPOINT_LIARS: string = "love/report/liars"
   private readonly ENDPOINT_MVPS: string = "love/report/mvps"
+  private readonly ENDPOINT_COUPLES: string = "love/report/couples/"
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -39,5 +41,9 @@ export class LoveService {
 
   reportMVPs() {
     return this.http.get<UserMVPDTO[]>(environment.SERVER_APP + this.ENDPOINT_MVPS)
+  }
+
+  reportCouples(matchedTimes: number) {
+    return this.http.get<CoupleDTO[]>(environment.SERVER_APP + this.ENDPOINT_COUPLES +  matchedTimes)
   }
 }

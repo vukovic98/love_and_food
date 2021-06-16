@@ -20,9 +20,9 @@ rule "5 failed login attempts in 2 minutes from one user account"
 			count($fle2)
 		)
 		not (SuspiciousUserEvent(user.getId() == $id, 
-        	reason == "More than 5 unsuccessful login attempts in 1 minute from one user account."))
+        	reason == "More than 5 unsuccessful login attempts in 2 minute from one user account."))
 	then
-    	String reason = "More than 5 unsuccessful login attempts in 1 minute from one user account.";
+    	String reason = "More than 5 unsuccessful login attempts in 2 minute from one user account.";
         insert(new SuspiciousUserEvent($user, reason));
-        System.out.println("More than 5 unsuccessful login attempts in 1 minute from " + $user.getEmail());
+        System.out.println("More than 5 unsuccessful login attempts in 2 minute from " + $user.getEmail());
 end;

@@ -10,13 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +24,11 @@ import com.ftn.uns.ac.rs.love_and_food.dto.UserLoginDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserTokenStateDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.FailedLoginEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
+import com.ftn.uns.ac.rs.love_and_food.repository.AlarmRepository;
 import com.ftn.uns.ac.rs.love_and_food.security.TokenUtils;
 import com.ftn.uns.ac.rs.love_and_food.service.AuthService;
 import com.ftn.uns.ac.rs.love_and_food.service.CustomUserDetailsService;
@@ -57,6 +56,9 @@ public class AuthController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private AlarmRepository alarmRepository;
 	
 	private final UserMapper userMapper = new UserMapper();
 
@@ -93,6 +95,9 @@ public class AuthController {
 				if (fired == 1) {
 					user.setEnabled(false);
 					registeredUserService.save(user);
+					
+					//create alarm
+					this.alarmRepository.save(new Alarm(AlarmType.FAILED_LOGIN, "More than 5 unsuccessful login attempts in 2 minute from " + user.getEmail(), new Date()));
 					
 					return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 				}

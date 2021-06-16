@@ -11,9 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.repository.AlarmRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.MatchRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
@@ -33,6 +35,9 @@ public class KieConfiguration {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
+	@Autowired
+	private AlarmRepository alarmRepository;
+	
 	@Bean
 	public KieContainer kieContainer() {
 		KieServices ks = KieServices.Factory.get();
@@ -47,6 +52,10 @@ public class KieConfiguration {
 	public KieSession eventsSession() {
 		KieSession kieSession = this.kieContainer().newKieSession("eventsSession");
 		System.out.println("Creating new events kie session");
+		List<Match> allMatches = matchRepository.findAll();
+		for (Match match : allMatches) {
+			kieSession.insert(match);
+		}
 		return kieSession;
 	}
 	
@@ -66,6 +75,10 @@ public class KieConfiguration {
 		List<Restaurant> allRestaurants = restaurantRepository.findAll();
 		for (Restaurant r : allRestaurants) {
 			kieSession.insert(r);
+		}
+		List<Alarm> allAlarms = alarmRepository.findAll();
+		for (Alarm a : allAlarms) {
+			kieSession.insert(a);
 		}
 		this.kieSessionHolder.add(kieSession);
 		return kieSession;
