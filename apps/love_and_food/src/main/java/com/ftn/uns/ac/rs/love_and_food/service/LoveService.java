@@ -170,8 +170,7 @@ public class LoveService {
 			MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 
 			helper.setTo(dto.getSoulmateEmail());
-			helper.setSubject("Love&Food : Verification Mail");
-
+			helper.setSubject("Love&Food :  Good news!");
 			helper.setText(createMailBody(dto.getMessage(), initiatorEmail), true);
 			this.javaMailSender.send(msg);
 

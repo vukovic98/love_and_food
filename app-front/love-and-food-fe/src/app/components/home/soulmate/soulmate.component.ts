@@ -116,6 +116,7 @@ export class SoulmateComponent implements OnInit {
     const dialogRef = this.dialog.open(ContactSoulmateComponent, {
       width: '70%',
       height: '81.95%',
+      data: this.soulmate,
       panelClass: 'custom-dialog-container'
     });
   }
