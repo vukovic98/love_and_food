@@ -3,6 +3,11 @@ package com.ftn.uns.ac.rs.love_and_food.dto;
 import java.time.LocalTime;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Ambient;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
@@ -14,21 +19,53 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.PriceRange;
 public class AddRestaurantDTO {
 
 	private Long restaurant_id;
+	
+	@NotBlank(message = "Name cannot be empty.")
+	@Pattern(regexp = "[A-Z][a-z]+", message = "Name must start with capital letter and can contain only letters.")
 	private String name;
+	
+	@NotNull(message = "Location cannot be empty.")
 	private Location location;
+	
+	@NotNull(message = "Starting hours cannot be empty.")
 	private LocalTime startingHours;
+	
+	@NotNull(message = "Ending hours cannot be empty.")
 	private LocalTime endingHours;
+	
 	private List<Grade> grades;
+	
+	@NotNull(message = "Ambient cannot be empty.")
 	private Ambient ambient;
+	
+	@NotNull(message = "Music cannot be empty.")
 	private Music music;
+	
+	@NotEmpty(message = "Cuisine cannot be empty.")
 	private List<Cuisine> cuisine;
+	
+	@NotNull(message = "Price Range cannot be empty.")
 	private PriceRange priceRange;
+	
+	@NotNull(message = "Garden cannot be empty.")
 	private boolean garden;
+	
+	@NotNull(message = "Wifi cannot be empty.")
 	private boolean wifi;
+	
+	@NotNull(message = "TV cannot be empty.")
 	private boolean tv;
+	
+	@NotNull(message = "Live music cannot be empty.")
 	private boolean liveMusic;
+	
+	@NotNull(message = "Alcohol cannot be empty.")
 	private boolean alcohol;
+	
+	@NotNull(message = "Parking cannot be empty.")
 	private boolean parking;
+	
+	@NotNull(message = "Smokin area cannot be empty.")
 	private boolean smokingArea;
 
 	public AddRestaurantDTO() {

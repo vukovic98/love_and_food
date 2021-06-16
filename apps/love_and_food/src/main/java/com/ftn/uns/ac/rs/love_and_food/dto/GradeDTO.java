@@ -1,13 +1,28 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class GradeDTO {
 
+	@NotNull(message = "Restaurant ID cannot be empty!")
 	private long restaurantID;
+	
+	@NotNull(message = "Ambient cannot be empty!")
 	private int ambient;
+	
+	@NotNull(message = "Atmosphere cannot be empty!")
 	private int atmosphere;
+	
+	@NotNull(message = "Service cannot be empty!")
 	private int service;
+	
+	@NotNull(message = "Location cannot be empty!")
 	private int location;
+	
+	@NotNull(message = "Overall cannot be empty!")
 	private int overall;
+	
+	@NotNull(message = "Hospitability cannot be empty!")
 	private int hospitability;
 
 	public GradeDTO() {

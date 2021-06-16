@@ -10,10 +10,12 @@ import {SharedModule} from "./components/shared/shared.module";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { ContactSoulmateComponent } from './components/contact/contact-soulmate/contact-soulmate.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ContactSoulmateComponent,
   ],
   imports: [
     BrowserModule,

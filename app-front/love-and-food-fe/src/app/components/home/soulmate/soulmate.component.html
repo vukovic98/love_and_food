@@ -16,7 +16,7 @@
             With {{pronounPos}} combination of {{getPersonalityFirstHalf()}} personality and {{pronounPos}} {{getPersonalitySecondHalf()}} view of the world, {{pronoun}} perfectly fits with what you're searching for.
             Your soulmate was born on {{soulmate.dateOfBirth | date}}, and since then {{pronoun}} has {{soulmate.education}}. <br/>
             Just like you, {{pronoun}} is also looking for {{soulmate.desiredRelationship}}! <br/>
-            Don't forget to send {{pronounKs}} a message, at <i class="text-love">{{soulmate.email}}</i> !
+            Don't forget to send {{pronounKs}} a message, at <i class="text-love" style="cursor:pointer;" (click)="openContactForm()">{{soulmate.email}}</i> !
           </p>
         </mat-card-content>
       </mat-card>

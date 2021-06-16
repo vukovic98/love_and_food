@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SoulmateDTO } from 'src/app/dto/soulmate.dto';
 import { LoveService } from 'src/app/services/love.service';
+import {ChosenRestaurantComponent} from "../../restaurant/choosen-restaurant/chosen-restaurant.component";
+import {ContactSoulmateComponent} from "../../contact/contact-soulmate/contact-soulmate.component";
 
 @Component({
   selector: 'app-soulmate',
@@ -21,7 +23,8 @@ export class SoulmateComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SoulmateComponent>,
     private loveService: LoveService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -71,7 +74,7 @@ export class SoulmateComponent implements OnInit {
         break;
     }
   }
-  
+
   mapDesiredRelationship(inputDesired: string) {
     let desired = inputDesired.toLowerCase().split('_').join(' ');
     if (desired.includes('term')) {
@@ -107,5 +110,14 @@ export class SoulmateComponent implements OnInit {
       secondHalf += 'perceivers'
     }
     return secondHalf;
+  }
+
+  openContactForm() {
+    const dialogRef = this.dialog.open(ContactSoulmateComponent, {
+      width: '70%',
+      height: '81.95%',
+      data: this.soulmate,
+      panelClass: 'custom-dialog-container'
+    });
   }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.repository.RegisteredUserRepository;
 import com.google.gson.Gson;
 
@@ -57,13 +58,24 @@ public class TokenUtils {
 	// Funkcija za generisanje JWT token
 
 	public String generateToken(String username) {
+		User user = null;
 		RegisteredUser u;
+		String name;
 		u = this.registeredUserRepository.findByEmail(username);
+		
+		if(u instanceof User) {
+			user = (User) u;
+			name = user.getName() + " " + user.getSurname();
+		} else {
+			name = u.getEmail();
+		}
 
 		return Jwts.builder().setIssuer(APP_NAME).setSubject(username).setAudience(generateAudience())
 				.setIssuedAt(new Date()).setExpiration(generateExpirationDate())
 				// tokena
-				.claim("user_id", u.getId().toString()).claim("authority", u.getAuthorities())
+				.claim("user_id", u.getId().toString())
+				.claim("authority", u.getAuthorities())
+				.claim("name", name)
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 	}
 

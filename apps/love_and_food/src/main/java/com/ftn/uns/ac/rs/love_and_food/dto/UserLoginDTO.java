@@ -1,9 +1,15 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
-// DTO za login
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class UserLoginDTO {
 
+	@NotBlank(message = "Email can not be empty.")
+	@Email(message = "Email format is not valid.")
     private String email;
+	
+	@NotBlank(message = "Password can not be empty.")
     private String password;
 
     public UserLoginDTO() {}
