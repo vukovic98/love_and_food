@@ -4,6 +4,7 @@ import { BehaviorSubject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { CoupleDTO } from "../dto/couples.dto";
 import { MatchDTO } from "../dto/match.dto";
+import { SoulmateConfigDTO } from "../dto/soulmate-config.dto";
 import { UserMVPDTO } from "../dto/user-mvp.dto";
 import { UserDTO } from "../dto/user.dto";
 
@@ -17,6 +18,8 @@ export class LoveService {
 
   private readonly ENDPOINT_LOVE: string = "love"
   private readonly ENDPOINT_RATE: string = "love/rate-date/"
+  private readonly ENDPOINT_GET_CONFIG: string = "love/get-configuration"
+  private readonly ENDPOINT_UPDATE_CONFIG: string = "love/update-configuration"
   private readonly ENDPOINT_LIARS: string = "love/report/liars"
   private readonly ENDPOINT_MVPS: string = "love/report/mvps"
   private readonly ENDPOINT_COUPLES: string = "love/report/couples/"
@@ -33,6 +36,14 @@ export class LoveService {
 
   rateDate(matchId: number, rating: number) {
     return this.http.get<void>(environment.SERVER_APP + this.ENDPOINT_RATE + matchId + '/' + rating);
+  }
+
+  getConfiguration() {
+    return this.http.get<SoulmateConfigDTO>(environment.SERVER_APP + this.ENDPOINT_GET_CONFIG)
+  }
+
+  updateConfiguration(soulmateConfigDTO: SoulmateConfigDTO) {
+    return this.http.put<void>(environment.SERVER_APP + this.ENDPOINT_UPDATE_CONFIG, soulmateConfigDTO)
   }
 
   reportLiars() {

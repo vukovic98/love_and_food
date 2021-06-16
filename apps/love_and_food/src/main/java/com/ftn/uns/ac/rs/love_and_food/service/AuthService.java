@@ -12,7 +12,9 @@ import com.ftn.uns.ac.rs.love_and_food.exceptions.ExistingFieldValueException;
 import com.ftn.uns.ac.rs.love_and_food.model.PersonalityAnswer;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.SoulmateConfig;
 import com.ftn.uns.ac.rs.love_and_food.repository.RegisteredUserRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.SoulmateConfigRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
 @Service
@@ -26,6 +28,9 @@ public class AuthService {
 
 	@Autowired
 	private AuthorityService authorityService;
+	
+	@Autowired
+	private SoulmateConfigRepository soulmateConfigRepository;
 
 	@Autowired
     private KieSession kieSession;
@@ -54,7 +59,12 @@ public class AuthService {
 			this.kieSession.getAgenda().getAgendaGroup("personality-test").setFocus();
 			this.kieSession.fireAllRules();
 
-			return userRepository.save(user);
+			user =  userRepository.save(user);
+			
+			SoulmateConfig soulmateConfig = new SoulmateConfig(user.getId());
+			this.soulmateConfigRepository.save(soulmateConfig);
+			
+			return user;
 		}
 
 		throw new ExistingFieldValueException("User", "email");
