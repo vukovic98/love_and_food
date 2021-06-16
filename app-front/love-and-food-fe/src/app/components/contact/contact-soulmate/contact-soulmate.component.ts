@@ -6,6 +6,7 @@ import {SoulmateDTO} from "../../../dto/soulmate.dto";
 import {ContactSoulmateDtoModel} from "../../../dto/contact-soulmate-dto.model";
 import {LoveService} from "../../../services/love.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-contact-soulmate',
@@ -13,6 +14,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./contact-soulmate.component.css']
 })
 export class ContactSoulmateComponent implements OnInit {
+
+  public initiatorsMail: string = '';
+  public initiatorsName: string = '';
 
   contactForm = new FormGroup({
     message: new FormControl('', Validators.required)
@@ -22,10 +26,13 @@ export class ContactSoulmateComponent implements OnInit {
     public dialogRef: MatDialogRef<ContactSoulmateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SoulmateDTO,
     private loveService: LoveService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.initiatorsMail = this.authService.getUsersEmail();
+    this.initiatorsName = this.authService.getUsersName();
   }
 
   fillMessage(param: string) {

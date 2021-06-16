@@ -82,6 +82,26 @@ export class AuthService {
     }
   }
 
+  getUsersName(): string {
+    let token = this.getToken();
+    if(token) {
+      let model = this.decodeToken(token);
+      return model?.name ? model.name : '';
+    } else {
+      return '';
+    }
+  }
+
+  getUsersEmail(): string {
+    let token = this.getToken();
+    if(token) {
+      let model = this.decodeToken(token);
+      return model?.sub ? model.sub : '';
+    } else {
+      return '';
+    }
+  }
+
   getToken(): string{
     return <string> localStorage.getItem("accessToken");
   }

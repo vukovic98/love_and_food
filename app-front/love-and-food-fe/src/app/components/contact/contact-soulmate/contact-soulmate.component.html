@@ -4,35 +4,29 @@
       <div class="contact100-pic js-tilt" data-tilt>
         <img src="assets/img/img-01.png" alt="IMG">
       </div>
-
       <form class="contact100-form validate-form mb-5" >
 					<span class="contact100-form-title text-muted font-weight-light">
 						Get in touch
 					</span>
-
         <div class="wrap-input100 validate-input" data-validate = "Name is required">
-          <input class="input100" type="text" name="name" placeholder="Name" value="Vladimir Vukovic" disabled>
+          <input class="input100" type="text" name="name" placeholder="Name" [value]="initiatorsName" disabled>
           <span class="focus-input100"></span>
           <span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>
 						</span>
         </div>
-
         <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-          <input class="input100" type="text" name="email" placeholder="Email" value="valdimirvukovic98@hotmail.rs" disabled>
+          <input class="input100" type="text" name="email" placeholder="Email" [value]="initiatorsMail" disabled>
           <span class="focus-input100"></span>
           <span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
         </div>
-
         <form [formGroup]="contactForm" (ngSubmit)="contactSoulmate()">
           <div class="wrap-input100 validate-input" data-validate = "Message is required">
-            <textarea class="input100" name="message" id="message" formControlName="message" placeholder="Message" style="resize: none;"></textarea>
+            <textarea class="input100" name="message" id="message" formControlName="message" placeholder="Be creative :)" style="resize: none;"></textarea>
             <span class="focus-input100"></span>
           </div>
-
-
         <div class="container-contact100-form-btn">
           <button type="submit" class="contact100-form-btn">
             Send
