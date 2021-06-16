@@ -7,12 +7,16 @@ import javax.validation.Valid;
 
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,6 +106,10 @@ public class AuthController {
 					return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 				}
 			}
+			
+			if(!user.isEnabled())
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} 
 
@@ -115,6 +123,27 @@ public class AuthController {
 		try {
 			User createdUser = this.authService.register(user, userDTO.getTestAnswers());
 			return new ResponseEntity<>(userMapper.toDTO(createdUser), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+		
+	}
+	
+	@GetMapping( value = "/enable-account/{email}")
+	public ResponseEntity<String> enableAccount(@PathVariable("email") String email) {
+
+		RegisteredUser u = this.registeredUserService.findByEmail(email);
+		
+		try {
+			u.setEnabled(true);
+			this.registeredUserService.save(u);
+			
+			String content = "You have successfully enabled your account. \nGo to the login page now! \n\n http://localhost:4200/auth/login";
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.setContentType(MediaType.TEXT_HTML);
+			
+			return new ResponseEntity<>(content, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

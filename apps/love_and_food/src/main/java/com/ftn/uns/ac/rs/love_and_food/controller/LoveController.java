@@ -10,9 +10,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.ContactSoulmateDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.CoupleDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserMVPDTO;
@@ -73,5 +76,14 @@ public class LoveController {
 	public ResponseEntity<Set<CoupleDTO>> reportCouples(@PathVariable("matchedTimes") int matchedTimes) {
 		Set<CoupleDTO> couples = loveService.reportCouples(matchedTimes);
 		return new ResponseEntity<Set<CoupleDTO>>(couples, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@PostMapping( path = "/contact-soulmate")
+	public ResponseEntity<HttpStatus> contactSoulmate(@RequestBody ContactSoulmateDTO dto) {
+		System.out.println("UDJE");
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
+		this.loveService.contactSoulmate(dto, email);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

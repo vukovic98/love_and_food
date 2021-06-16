@@ -1,0 +1,51 @@
+<div class="bg-contact100" >
+  <div class="container-contact100">
+    <div class="wrap-contact100 mb-2" >
+      <div class="contact100-pic js-tilt" data-tilt>
+        <img src="assets/img/img-01.png" alt="IMG">
+      </div>
+
+      <form class="contact100-form validate-form mb-5" >
+					<span class="contact100-form-title text-muted font-weight-light">
+						Get in touch
+					</span>
+
+        <div class="wrap-input100 validate-input" data-validate = "Name is required">
+          <input class="input100" type="text" name="name" placeholder="Name" value="Vladimir Vukovic" disabled>
+          <span class="focus-input100"></span>
+          <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+          <input class="input100" type="text" name="email" placeholder="Email" value="valdimirvukovic98@hotmail.rs" disabled>
+          <span class="focus-input100"></span>
+          <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+        </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="contactSoulmate()">
+          <div class="wrap-input100 validate-input" data-validate = "Message is required">
+            <textarea class="input100" name="message" id="message" formControlName="message" placeholder="Message" style="resize: none;"></textarea>
+            <span class="focus-input100"></span>
+          </div>
+        </form>
+
+        <div class="container-contact100-form-btn">
+          <button class="contact100-form-btn">
+            Send
+          </button>
+        </div>
+      </form>
+      <div class="w-100 mt-4 text-center">
+        <div class="col-md-2 float-left mr-2 pt-3 text-muted font-weight-light">Or use one of our templates:</div>
+        <div class="col-md-3 float-left p-2 first-message mb-2 mr-4 text-white" (click)="fillMessage('Hi! :) You are my match on Love&Food dating site! I would like to meet you. :)')">Hi! :) You are my match on Love&Food dating site! I would like to meet you. :)</div>
+        <div class="col-md-3 float-left p-2 second-message mr-4 text-white" (click)="fillMessage('Hi :) Creators of Love&Food site said that I\'m your soulmate. I want to prove them right ;)')">Hi :) Creators of Love&Food site said that I'm your soulmate. I want to prove them right ;)</div>
+        <div class="col-md-3 float-left p-2 third-message text-white" (click)="fillMessage('Hello :) I\'m craving coffee. Would you join me? :)')">Hello :) I'm craving coffee. Would you join me? :)</div>
+      </div>
+    </div>
+
+  </div>
+</div>

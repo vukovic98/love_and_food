@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import { environment } from "src/environments/environment";
 import { CoupleDTO } from "../dto/couples.dto";
 import { MatchDTO } from "../dto/match.dto";
 import { UserMVPDTO } from "../dto/user-mvp.dto";
 import { UserDTO } from "../dto/user.dto";
+import {ContactSoulmateDtoModel} from "../dto/contact-soulmate-dto.model";
 
 @Injectable({
 providedIn: 'root'
@@ -20,6 +21,7 @@ export class LoveService {
   private readonly ENDPOINT_LIARS: string = "love/report/liars"
   private readonly ENDPOINT_MVPS: string = "love/report/mvps"
   private readonly ENDPOINT_COUPLES: string = "love/report/couples/"
+  private readonly CONTACT_SOULMATE_API: string = "love/contact-soulmate";
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -45,5 +47,9 @@ export class LoveService {
 
   reportCouples(matchedTimes: number) {
     return this.http.get<CoupleDTO[]>(environment.SERVER_APP + this.ENDPOINT_COUPLES +  matchedTimes)
+  }
+
+  contactSoulmate(data: ContactSoulmateDtoModel): Observable<any> {
+    return this.http.post(environment.SERVER_APP + this.CONTACT_SOULMATE_API, data, { headers: this.headers })
   }
 }

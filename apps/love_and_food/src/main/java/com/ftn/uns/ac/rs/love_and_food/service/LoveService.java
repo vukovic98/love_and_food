@@ -7,13 +7,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.internet.MimeMessage;
+
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.ftn.uns.ac.rs.love_and_food.dto.ContactSoulmateDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.CoupleDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.MateRatingEvent;
@@ -46,6 +52,9 @@ public class LoveService {
 	
 	@Autowired
 	private AlarmRepository alarmRepository;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 	private UserMapper userMapper = new UserMapper();
 	
@@ -152,6 +161,40 @@ public class LoveService {
 		}
 		
 		return couples;
+	}
+
+	@Async
+	public void contactSoulmate(ContactSoulmateDTO dto, String initiatorEmail) {
+		try {
+			MimeMessage msg = this.javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+
+			helper.setTo(dto.getSoulmateEmail());
+			helper.setSubject("Love&Food : Verification Mail");
+
+			helper.setText(createMailBody(dto.getMessage(), initiatorEmail), true);
+			this.javaMailSender.send(msg);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String createMailBody(String message, String initiatorEmail) {
+
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("<code>Hello, <br><br>");
+		sb.append("We are team from Love&Food, and we are contacting you for a wonderfull reason.");
+		sb.append("Our website found you a soulmate!<br>");
+		sb.append("But wait! It get's even better! Your soulmate decided to contact you, so you can consider us as your middleman!<br>");
+		sb.append("This is what your perfect date said: <br><br>");
+
+		sb.append("<h3> " + message + " </h3><br>");
+		sb.append("If you want to respond, here's his email: " + initiatorEmail + " !<br><br>");
+		sb.append("Sincerely,<br> Love&Food Team</code>");
+		
+		return sb.toString();
 	}
 	
 }
