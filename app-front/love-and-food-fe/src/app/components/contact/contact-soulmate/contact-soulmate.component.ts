@@ -7,6 +7,7 @@ import {ContactSoulmateDtoModel} from "../../../dto/contact-soulmate-dto.model";
 import {LoveService} from "../../../services/love.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "../../../services/auth.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contact-soulmate',
@@ -27,7 +28,7 @@ export class ContactSoulmateComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: SoulmateDTO,
     private loveService: LoveService,
     private _snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {

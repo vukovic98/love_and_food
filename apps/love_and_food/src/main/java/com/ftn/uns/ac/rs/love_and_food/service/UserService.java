@@ -76,7 +76,7 @@ public class UserService {
 		
 		for ( QueryResultsRow row : results ) {
 		    User user = ( User ) row.get( "$user" );
-		    double rating = (double) row.get("$averageRating");
+		    Double rating = (Double) row.get("$averageRating");
 		    users.add(new UserRatingDTO(user, rating));
 		}
 		

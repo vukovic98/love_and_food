@@ -50,7 +50,7 @@ end
 
 rule "Soulmate"
 	agenda-group "soulmate"
-	salience (1 * $smoking + 1 * $alchocol + 1 * $education + 3 *$trait + 1 * $income + 1 * $religion + $rating + 2*$previousExperience)
+	salience (1 * $smoking + 1 * $alchocol + 3 * $education + 1 *$trait + 1 * $income + 1 * $religion + $rating + 2*$previousExperience)
 	when
 		PartnerCompatibility( $mateId : mateId )
 		PartnerTraits( mateId == $mateId, $trait : traitsScore )

@@ -12,13 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.internet.MimeMessage;
+
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.drools.template.ObjectDataCompiler;
-import javax.mail.internet.MimeMessage;
-
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
