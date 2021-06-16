@@ -47,6 +47,10 @@ public class LoveController {
 		
 		User soulmate = loveService.findMatch(email);
 		
+		if(soulmate == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 		return new ResponseEntity<UserDTO>( userMapper.toDTO(soulmate), HttpStatus.OK);
 
 	}

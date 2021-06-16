@@ -1,9 +1,9 @@
 <mat-dialog-content class="dialog-back" style=" border-bottom: 5px solid rgb(105, 76, 160); border-top: 5px solid rgb(105, 76, 160);">
-    <div *ngIf="!found" class="text-center">
+    <div *ngIf="!found && exists" class="text-center">
       <h4 class="mt-2 p-3 text-white dialog-text">We are looking for your soulmate! Please wait. <mat-icon>tag_faces</mat-icon></h4>
       <mat-progress-bar class="mt-5 mb-3" mode="indeterminate"></mat-progress-bar>
     </div>
-    <div *ngIf="found" class="pl-3 pr-3 pt-2 m-3">
+    <div *ngIf="found && exists" class="pl-3 pr-3 pt-2 m-3">
       <mat-card class="example-card" style="background-color: rgba(255, 255, 255, 0.95); border-bottom: 2px solid rgb(105, 76, 160); border-top: 2px solid rgb(105, 76, 160);">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"><mat-icon class="text-love">favorite</mat-icon></div>
@@ -25,4 +25,10 @@
         <button mat-raised-button style="background-color: rgb(143, 116, 194)" class="mr-3 ml-3 mt-2 btn-block text-white" mat-dialog-close>Find later</button>
       </div>
     </div>
+    <div *ngIf="!found && !exists" class="text-center mt-5 p-3">
+      <h4 class="mt-2 mb-5 p-3 text-white dialog-text">We are sorry, but currently we do not have any potential soulmates for you.<mat-icon>sentiment_very_dissatisfied</mat-icon></h4>
+      <div mat-dialog-actions class="mt-5">
+        <button mat-raised-button style="background-color: rgb(143, 116, 194)" class="mr-3 ml-3 mt-2 btn-block text-white" mat-dialog-close>Close</button>
+      </div>
+  </div>
 </mat-dialog-content>
