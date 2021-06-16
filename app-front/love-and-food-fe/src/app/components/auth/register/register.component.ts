@@ -24,11 +24,11 @@ export class RegisterComponent implements OnInit {
   thinkerFeeler: FormGroup
   judgerPerceiver: FormGroup
 
-  constructor(private userService: UserService, private route: Router) { 
+  constructor(private userService: UserService, private route: Router) {
     //personal information form group
     this.personalInformation = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       dateOfBirth: new FormControl('', [Validators.required]),
@@ -197,7 +197,7 @@ export class RegisterComponent implements OnInit {
           return '*This field is mandatory'
         }
       }
-    } 
+    }
     else if(fieldName === 'question1' || fieldName === 'question2' || fieldName === 'question3'||fieldName === 'question4'||fieldName === 'question5') {
       if (this.extrovertIntrovert.controls[fieldName].touched) {
         if(this.extrovertIntrovert.controls[fieldName].hasError('required')) {

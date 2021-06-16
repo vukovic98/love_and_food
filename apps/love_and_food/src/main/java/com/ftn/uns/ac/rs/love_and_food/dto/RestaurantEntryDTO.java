@@ -4,15 +4,26 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Cuisine;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Music;
 
 public class RestaurantEntryDTO {
 
+	@NotNull(message = "Music cannot be empty.")
 	private Music music;
+	
+	@NotNull(message = "Cuisine cannot be empty.")
 	private Cuisine cuisine;
+	
+	@NotNull(message = "OnFoot cannot be empty.")
 	private boolean onFoot;
+	
+	@NotNull(message = "Garden cannot be empty.")
 	private boolean hasGarden;
+	
+	@NotNull(message = "Date time cannot be empty.")
 	private Date dateTime;
 
 	public RestaurantEntryDTO() {

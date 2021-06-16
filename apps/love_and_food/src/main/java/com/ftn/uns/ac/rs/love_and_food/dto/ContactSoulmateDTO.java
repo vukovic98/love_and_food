@@ -1,8 +1,13 @@
 package com.ftn.uns.ac.rs.love_and_food.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class ContactSoulmateDTO {
 
+	@NotBlank(message = "Soulmate email cannot be empty.")
 	private String soulmateEmail;
+	
+	@NotBlank(message = "Message cannot be empty.")
 	private String message;
 
 	public ContactSoulmateDTO() {

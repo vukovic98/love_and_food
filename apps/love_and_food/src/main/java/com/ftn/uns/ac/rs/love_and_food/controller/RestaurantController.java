@@ -3,6 +3,8 @@ package com.ftn.uns.ac.rs.love_and_food.controller;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -136,7 +138,7 @@ public class RestaurantController {
 
 	@PostMapping()
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant r) {
+	public ResponseEntity<Restaurant> addRestaurant(@Valid @RequestBody Restaurant r) {
 		try {
 			Restaurant saved = this.restaurantService.addRestaurant(r);
 
@@ -151,7 +153,7 @@ public class RestaurantController {
 	}
 
 	@PostMapping(path = "/find-restaurant")
-	public ResponseEntity<RestaurantDTO> findRestaurant(@RequestBody RestaurantEntryDTO dto) {
+	public ResponseEntity<RestaurantDTO> findRestaurant(@Valid @RequestBody RestaurantEntryDTO dto) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
@@ -176,7 +178,7 @@ public class RestaurantController {
 	}
 
 	@PostMapping(path = "/grade-restaurant")
-	public ResponseEntity<HttpStatus> gradeRestaurant(@RequestBody GradeDTO dto) {
+	public ResponseEntity<HttpStatus> gradeRestaurant(@Valid @RequestBody GradeDTO dto) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
