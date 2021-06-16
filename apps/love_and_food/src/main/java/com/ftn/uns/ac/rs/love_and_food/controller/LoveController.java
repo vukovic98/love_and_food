@@ -81,7 +81,6 @@ public class LoveController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PostMapping( path = "/contact-soulmate")
 	public ResponseEntity<HttpStatus> contactSoulmate(@RequestBody ContactSoulmateDTO dto) {
-		System.out.println("UDJE");
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 		this.loveService.contactSoulmate(dto, email);
 		return new ResponseEntity<>(HttpStatus.OK);

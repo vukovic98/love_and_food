@@ -184,9 +184,9 @@ public class LoveService {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("<code>Hello, <br><br>");
-		sb.append("We are team from Love&Food, and we are contacting you for a wonderfull reason.");
+		sb.append("We are the team from Love&Food, and we are contacting you for a wonderfull reason.");
 		sb.append("Our website found you a soulmate!<br>");
-		sb.append("But wait! It get's even better! Your soulmate decided to contact you, so you can consider us as your middleman!<br>");
+		sb.append("But wait! It get's even better! Your soulmate decided to contact you, so you can consider us as your middleman! :)<br>");
 		sb.append("This is what your perfect date said: <br><br>");
 
 		sb.append("<h3> " + message + " </h3><br>");
