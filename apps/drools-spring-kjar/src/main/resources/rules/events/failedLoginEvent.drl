@@ -14,7 +14,7 @@ rule "5 failed login attempts in 2 minutes from one user account"
 	agenda-group "failed-login-attempt"
 	when
 		$fle1: FailedLoginEvent($id: user.getId(), $user: user)
-		Number(intValue == 5) from accumulate (
+		Number(intValue >= 5) from accumulate (
 			$fle2: FailedLoginEvent(
 				user.getId() == $id) over window:time(2m),
 			count($fle2)

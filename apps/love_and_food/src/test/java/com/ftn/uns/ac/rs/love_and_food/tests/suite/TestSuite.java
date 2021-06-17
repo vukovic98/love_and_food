@@ -3,6 +3,7 @@ package com.ftn.uns.ac.rs.love_and_food.tests.suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import com.ftn.uns.ac.rs.love_and_food.tests.love.CEPTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.FindPartnersAgeTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveQueryTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveReportLiarsTest;
@@ -16,16 +17,14 @@ import com.ftn.uns.ac.rs.love_and_food.tests.love.SoulmateTest;
 
 //	LOVE TESTS
 
-//	FindPartnersAgeTest.class, 
-//	InactivityTest.class,
-//	LoveQueryTest.class,
-//	LoveReportLiarsTest.class,
-//	LoveReportMVPsTest.class,
-//	MatchesByTimeIntervalTemplateTest.class,
-//	PartnerRequirementsTest.class,
-//	PersonalityTestTest.class,
-//	SoulmateTest.class,
-//	StreamLoveQueryTest.class
+	FindPartnersAgeTest.class, 
+	LoveQueryTest.class,
+	LoveReportLiarsTest.class,
+	LoveReportMVPsTest.class,
+	PartnerRequirementsTest.class,
+	PersonalityTestTest.class,
+	SoulmateTest.class,
+	CEPTest.class
 
 //	FOOD TESTS
 
