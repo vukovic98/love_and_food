@@ -20,6 +20,7 @@ import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.CoupleDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.UserRatingDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
@@ -89,11 +90,12 @@ public class LoveQueryTest {
 	public void GetAllUsersQuery() {
 		QueryResults results = kieSession.getQueryResults( "getAllUsers" );
 		
-		List<User> users = new ArrayList<>();
+		List<UserRatingDTO> users = new ArrayList<>();
 		
 		for ( QueryResultsRow row : results ) {
 		    User user = ( User ) row.get( "$user" );
-		    users.add(user);
+		    double rating = (double) row.get("$averageRating");
+		    users.add(new UserRatingDTO(user, rating));
 		}
 		
 		assertEquals(2, users.size());
@@ -114,16 +116,65 @@ public class LoveQueryTest {
 	}
 	
 	@Test
+	public void getAllMatchesForUser() {
+		QueryResults results = kieSession.getQueryResults( "getAllMatchesForUser" , petar.getEmail());
+		
+		List<Match> matches = new ArrayList<>();
+		
+		for ( QueryResultsRow row : results ) {
+			Match match = ( Match ) row.get( "$match" );
+		    matches.add(match);
+		}
+		
+		assertEquals(petar.getId(), matches.get(0).getInitiator().getId());
+		assertEquals(1, matches.size());
+	}
+	
+	@Test
+	public void GetAllUsersByEmail() {
+		QueryResults results = kieSession.getQueryResults( "getAllUsersByEmail", "petar");
+		
+		List<UserRatingDTO> users = new ArrayList<>();
+		
+		for ( QueryResultsRow row : results ) {
+		    User user = ( User ) row.get( "$user" );
+		    double rating = (double) row.get("$averageRating");
+		    users.add(new UserRatingDTO(user, rating));
+		}
+		
+		assertEquals(petar.getId(), users.get(0).getUser().getId());
+		assertEquals(1, users.size());
+	}
+	
+	@Test
+	public void GetAllUsersByName() {
+		QueryResults results = kieSession.getQueryResults( "getAllUsersByName", "mar");
+		
+		List<UserRatingDTO> users = new ArrayList<>();
+		
+		for ( QueryResultsRow row : results ) {
+		    User user = ( User ) row.get( "$user" );
+		    double rating = (double) row.get("$averageRating");
+		    users.add(new UserRatingDTO(user, rating));
+		}
+		
+		assertEquals(marko.getId(), users.get(0).getUser().getId());
+		assertEquals(1, users.size());
+	}
+	
+	@Test
 	public void GetAllUsersByPersonality() {
 		QueryResults results = kieSession.getQueryResults( "getAllUsersByPersonality", "e");
 		
-		List<User> users = new ArrayList<>();
+		List<UserRatingDTO> users = new ArrayList<>();
 		
 		for ( QueryResultsRow row : results ) {
-		    User user = ( User ) row.get( "$users" );
-		    users.add(user);
+		    User user = ( User ) row.get( "$user" );
+		    double rating = (double) row.get("$averageRating");
+		    users.add(new UserRatingDTO(user, rating));
 		}
 		
+		assertEquals(petar.getId(), users.get(0).getUser().getId());
 		assertEquals(1, users.size());
 	}
 	
@@ -137,16 +188,20 @@ public class LoveQueryTest {
         match.setRating(1);
 		kieSession.insert(match);
         
-		QueryResults results = kieSession.getQueryResults( "getAllUsersWithRatingAbove", 3);
+		QueryResults results = kieSession.getQueryResults( "getAllUsersWithRatingAbove", 3.5);
 		
-		Set<User> users = new HashSet<>();
+		List<UserRatingDTO> users = new ArrayList<UserRatingDTO>();
 		
 		for ( QueryResultsRow row : results ) {
-			users = (Set<User>) row.get( "$users" );
+			List<User> usersQuery = (List<User>) row.get( "$users" );
+			List<Double> userRatings = (List<Double>) row.get( "$userRatings" );
+			for (int i = 0; i < usersQuery.size(); i++) {
+				users.add(new UserRatingDTO(usersQuery.get(i), userRatings.get(i)));
+			}
 		}
 		
 		assertEquals(1, users.size());
-		assertEquals(petar.getId(), users.iterator().next().getId());
+		assertEquals(petar.getId(), users.get(0).getUser().getId());
 	}
 	
 	@Test
@@ -161,36 +216,18 @@ public class LoveQueryTest {
         
 		QueryResults results = kieSession.getQueryResults( "getAllUsersWithRatingBelow", 4);
 		
-		Set<User> users = new HashSet<>();
+		List<UserRatingDTO> users = new ArrayList<UserRatingDTO>();
 		
 		for ( QueryResultsRow row : results ) {
-			users = (Set<User>) row.get( "$users" );
+			List<User> usersQuery = (List<User>) row.get( "$users" );
+			List<Double> userRatings = (List<Double>) row.get( "$userRatings" );
+			for (int i = 0; i < usersQuery.size(); i++) {
+				users.add(new UserRatingDTO(usersQuery.get(i), userRatings.get(i)));
+			}
 		}
 		
 		assertEquals(1, users.size());
-		assertEquals(marko.getId(), users.iterator().next().getId());
-	}
-	
-	@Test
-	public void GetAllUsersWithRatingInRange() {
-        Match match = new Match();
-		match.setId(3L);
-        match.setInitiator(petar);
-        match.setSoulmate(marko);
-        match.setMatchDate(LocalDate.parse("2018-05-18"));
-        match.setRating(1);
-		kieSession.insert(match);
-        
-		QueryResults results = kieSession.getQueryResults( "getAllUsersWithRatingInRange", 2, 4);
-		
-		Set<User> users = new HashSet<>();
-		
-		for ( QueryResultsRow row : results ) {
-			users = (Set<User>) row.get( "$users" );
-		}
-		
-		assertEquals(1, users.size());
-		assertEquals(marko.getId(), users.iterator().next().getId());
+		assertEquals(marko.getId(), users.get(0).getUser().getId());
 	}
 	
 	@Test
@@ -202,12 +239,8 @@ public class LoveQueryTest {
 		
 		Set<CoupleDTO> couples = new HashSet<>();
 		
-		//Set<Match> match1 = new HashSet<>();
-		//Set<Match> match2 = new HashSet<>();
 		
 		for ( QueryResultsRow row : results ) {
-			//match1 = (Set<Match>) row.get( "$match1" );
-			//match2 = (Set<Match>) row.get( "$match2" );
 			users1 = (List<User>) row.get( "$users1" );
 			users2 = (List<User>) row.get( "$users2" );
 		}

@@ -16,12 +16,15 @@ import java.util.List;
 /*LOVE QUERIES*/
 query "getAllUsers"
     $user: User()
-	$averageRating: Double(doubleValue >= 0.0) from accumulate(
-		Match(soulmate == $user, rating > 0,
-		$rating: rating),
-		average($rating)
+	$averageRating: Double() from accumulate (
+		Match( soulmate == $user, rating > 0, $rating: rating ),
+	         init( double total = 0; int size = 1; ),
+	         action( total = total + $rating; ),
+	         reverse( total = total - $rating; ),
+	         result( new Double( total / size ) ) 
 	)
 end
+
 query "getAllMatches"
     $match: Match()
 end
@@ -33,28 +36,34 @@ end
 // dobavi sve po prosledjenom tipu licnosti
 query "getAllUsersByEmail"(String emailInput)
 	$user: User(email.toLowerCase().contains(emailInput.toLowerCase()))
-	$averageRating: Double(doubleValue >= 0.0) from accumulate(
-		Match(soulmate == $user, rating > 0,
-		$rating: rating),
-		average($rating)
+	$averageRating: Double() from accumulate (
+		Match( soulmate == $user, rating > 0, $rating: rating ),
+	         init( double total = 0; int size = 0; ),
+	         action( total = total + $rating; ),
+	         reverse( total = total - $rating; ),
+	         result( new Double( total / size ) ) 
 	)
 end;
 
 query "getAllUsersByName"(String nameInput)
 	$user: User(name.toLowerCase().contains(nameInput.toLowerCase()) || surname.toLowerCase().contains(nameInput.toLowerCase()))
-	$averageRating: Double(doubleValue >= 0.0) from accumulate(
-		Match(soulmate == $user, rating > 0,
-		$rating: rating),
-		average($rating)
+	$averageRating: Double() from accumulate (
+		Match( soulmate == $user, rating > 0, $rating: rating ),
+	         init( double total = 0; int size = 0; ),
+	         action( total = total + $rating; ),
+	         reverse( total = total - $rating; ),
+	         result( new Double( total / size ) ) 
 	)
 end;
 
 query "getAllUsersByPersonality"(String personalityType)
 	$user: User(personalityTraits.contains(personalityType.toUpperCase()))
-	$averageRating: Double(doubleValue >= 0.0) from accumulate(
-		Match(soulmate == $user, rating > 0,
-		$rating: rating),
-		average($rating)
+	$averageRating: Double() from accumulate (
+		Match( soulmate == $user, rating > 0, $rating: rating ),
+	         init( double total = 0; int size = 0; ),
+	         action( total = total + $rating; ),
+	         reverse( total = total - $rating; ),
+	         result( new Double( total / size ) ) 
 	)
 end;
 

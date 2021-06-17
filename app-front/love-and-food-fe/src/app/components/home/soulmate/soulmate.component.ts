@@ -14,6 +14,7 @@ import {ContactSoulmateComponent} from "../../contact/contact-soulmate/contact-s
 export class SoulmateComponent implements OnInit {
 
   public found: boolean = false;
+  public exists: boolean = true;
 
   public soulmate: SoulmateDTO;
   public pronoun: string;
@@ -53,6 +54,10 @@ export class SoulmateComponent implements OnInit {
         this.pronounKs = soulmateDTO.gender === "MALE" ? "him" : "her";
         this.pronoun = soulmateDTO.gender === "MALE" ? "he" : "she";
         this.found = true
+        this.exists = true
+      },
+      error => {
+        this.exists = false
       }
     )
   }

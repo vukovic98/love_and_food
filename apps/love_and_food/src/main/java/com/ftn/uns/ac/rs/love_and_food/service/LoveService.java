@@ -1,7 +1,12 @@
 package com.ftn.uns.ac.rs.love_and_food.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +14,11 @@ import java.util.Set;
 
 import javax.mail.internet.MimeMessage;
 
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.Invoker;
+import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
@@ -28,10 +38,12 @@ import com.ftn.uns.ac.rs.love_and_food.mapper.UserMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
+import com.ftn.uns.ac.rs.love_and_food.model.SoulmateConfig;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
 import com.ftn.uns.ac.rs.love_and_food.repository.AlarmRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.MatchRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.SoulmateConfigRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.UserRepository;
 
 @Service
@@ -54,6 +66,7 @@ public class LoveService {
 	private AlarmRepository alarmRepository;
 	
 	@Autowired
+	private SoulmateConfigRepository soulmateConfigRepository;
 	private JavaMailSender javaMailSender;
 	
 	private UserMapper userMapper = new UserMapper();
@@ -61,6 +74,12 @@ public class LoveService {
 	public User findMatch(String email) {
 		// dobavljanje ulogovanog korisnika
 		User user = userRepository.findByEmail(email);
+		
+		//izmena soulmate config
+		SoulmateConfig soulmateConfig = soulmateConfigRepository.findByUserId(user.getId());
+		
+		this.createSoulmateConfiguration(soulmateConfig);
+		
 		// kreiranje zahteva vezanog za tog korisnika
 		PartnerRequirements partnerReq = new PartnerRequirements(user.getId());
 		
@@ -90,6 +109,39 @@ public class LoveService {
 		}
 		
 		return null;
+	}
+	
+	private boolean createSoulmateConfiguration(SoulmateConfig soulmateConfig) {
+		try {
+			InputStream template = new FileInputStream(
+					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\templates\\soulmateConfiguration.drt");
+
+			// Compile template to generate new rules
+			List<SoulmateConfig> arguments = new ArrayList<>();
+			arguments.add(soulmateConfig);
+			ObjectDataCompiler compiler = new ObjectDataCompiler();
+			String drl = compiler.compile(arguments, template);
+
+			// Save rule to drl file
+			FileOutputStream drlFile = new FileOutputStream(
+					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\soulmate.drl"));
+			drlFile.write(drl.getBytes());
+			drlFile.close();
+
+			// Update Rules project
+			InvocationRequest request = new DefaultInvocationRequest();
+			request.setPomFile(new File("../drools-spring-kjar/pom.xml"));
+			request.setGoals(Arrays.asList("clean", "install"));
+
+			Invoker invoker = new DefaultInvoker();
+			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
+			invoker.execute(request);
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	public Match rateDate(int matchId, int rating) throws NonExistingIdException {
