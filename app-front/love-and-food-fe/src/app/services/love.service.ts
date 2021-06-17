@@ -50,7 +50,6 @@ export class LoveService {
   }
 
   contactSoulmate(data: ContactSoulmateDtoModel): Observable<any> {
-    console.log(data)
     return this.http.post(environment.SERVER_APP + this.CONTACT_SOULMATE_API, data, { headers: this.headers })
   }
 }
