@@ -4,15 +4,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import com.ftn.uns.ac.rs.love_and_food.tests.love.FindPartnersAgeTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.love.InactivityTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveQueryTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveReportLiarsTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.LoveReportMVPsTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.love.MatchesByTimeIntervalTemplateTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.PartnerRequirementsTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.PersonalityTestTest;
 import com.ftn.uns.ac.rs.love_and_food.tests.love.SoulmateTest;
-import com.ftn.uns.ac.rs.love_and_food.tests.love.StreamLoveQueryTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

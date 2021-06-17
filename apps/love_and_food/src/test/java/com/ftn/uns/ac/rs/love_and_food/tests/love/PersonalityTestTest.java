@@ -46,26 +46,26 @@ public class PersonalityTestTest {
 	@Test
 	public void PersonalityTestWithMoreZeroAnswers() throws ParseException {
 		ArrayList<PersonalityAnswer> testAnswers = new ArrayList<PersonalityAnswer>() {{
-			add(new PersonalityAnswer(QuestionGroup.EI, 0));
-			add(new PersonalityAnswer(QuestionGroup.EI, 1));
-			add(new PersonalityAnswer(QuestionGroup.EI, 0));
-			add(new PersonalityAnswer(QuestionGroup.EI, 1));
-			add(new PersonalityAnswer(QuestionGroup.EI, 0));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.SN, 0));
-			add(new PersonalityAnswer(QuestionGroup.SN, 0));
-			add(new PersonalityAnswer(QuestionGroup.SN, 0));
-			add(new PersonalityAnswer(QuestionGroup.TF, 1));
-			add(new PersonalityAnswer(QuestionGroup.TF, 1));
-			add(new PersonalityAnswer(QuestionGroup.TF, 0));
-			add(new PersonalityAnswer(QuestionGroup.TF, 0));
-			add(new PersonalityAnswer(QuestionGroup.TF, 0));
-			add(new PersonalityAnswer(QuestionGroup.JP, 0));
-			add(new PersonalityAnswer(QuestionGroup.JP, 0));
-			add(new PersonalityAnswer(QuestionGroup.JP, 1));
-			add(new PersonalityAnswer(QuestionGroup.JP, 1));
-			add(new PersonalityAnswer(QuestionGroup.JP, 0));
+			add(new PersonalityAnswer(QuestionGroup.EI, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 0, 1L));
 		}};
 		
 		Date dateOfBirth = format.parse("1998/10/10");
@@ -75,6 +75,7 @@ public class PersonalityTestTest {
 				Children.DOESNT_WANT_CHILDREN, DesiredRelationship.SHORT_TERM, Location.GRBAVICA, true, true);
 		
 		User user = userMapper.toEntity(userDTO);
+		user.setId(1L);
 		
 		this.kieSession.insert(user);
 		for (PersonalityAnswer personalityAnswer : testAnswers) {
@@ -89,26 +90,26 @@ public class PersonalityTestTest {
 	@Test
 	public void PersonalityTestWithMoreOneAnswers() throws ParseException {
 		ArrayList<PersonalityAnswer> testAnswers = new ArrayList<PersonalityAnswer>() {{
-			add(new PersonalityAnswer(QuestionGroup.EI, 1));
-			add(new PersonalityAnswer(QuestionGroup.EI, 1));
-			add(new PersonalityAnswer(QuestionGroup.EI, 1));
-			add(new PersonalityAnswer(QuestionGroup.EI, 1));
-			add(new PersonalityAnswer(QuestionGroup.EI, 0));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.SN, 1));
-			add(new PersonalityAnswer(QuestionGroup.TF, 1));
-			add(new PersonalityAnswer(QuestionGroup.TF, 1));
-			add(new PersonalityAnswer(QuestionGroup.TF, 0));
-			add(new PersonalityAnswer(QuestionGroup.TF, 1));
-			add(new PersonalityAnswer(QuestionGroup.TF, 1));
-			add(new PersonalityAnswer(QuestionGroup.JP, 1));
-			add(new PersonalityAnswer(QuestionGroup.JP, 0));
-			add(new PersonalityAnswer(QuestionGroup.JP, 1));
-			add(new PersonalityAnswer(QuestionGroup.JP, 1));
-			add(new PersonalityAnswer(QuestionGroup.JP, 0));
+			add(new PersonalityAnswer(QuestionGroup.EI, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.EI, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.SN, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.TF, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 0, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 1, 1L));
+			add(new PersonalityAnswer(QuestionGroup.JP, 0, 1L));
 		}};
 		
 		Date dateOfBirth = format.parse("1998/10/10");
@@ -118,6 +119,7 @@ public class PersonalityTestTest {
 				Children.DOESNT_WANT_CHILDREN, DesiredRelationship.SHORT_TERM, Location.GRBAVICA, true, true);
 		
 		User user = userMapper.toEntity(userDTO);
+		user.setId(1L);
 		
 		this.kieSession.insert(user);
 		for (PersonalityAnswer personalityAnswer : testAnswers) {
