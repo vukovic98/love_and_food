@@ -28,21 +28,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantConfigDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
-import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
 import com.ftn.uns.ac.rs.love_and_food.model.DatePlace;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.RestaurantRequirements;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
 import com.ftn.uns.ac.rs.love_and_food.model.enums.Location;
+import com.ftn.uns.ac.rs.love_and_food.repository.AlarmRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.DatePlaceRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.GradeRepository;
+import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantConfigRepository;
 import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantRepository;
 
 @Service
@@ -65,6 +69,12 @@ public class RestaurantService {
 
 	@Autowired
 	private RestaurantMapper restaurantMapper;
+	
+	@Autowired
+	private AlarmRepository alarmRepository;
+	
+	@Autowired
+	private RestaurantConfigRepository restaurantConfigRepository;
 
 	public Restaurant findById(long id) {
 		return this.restaurantRepository.findById(id).orElse(null);
@@ -222,28 +232,16 @@ public class RestaurantService {
 
 		// TODO COMMENT FOR TESTING
 
-//		DatePlace d = new DatePlace();
-//
-//		d.setDate(dto.getDateTime());
-//		d.setRestaurant(perfect);
-//		d.setInitiator(match.getInitiator());
-//		d.setSoulmate(match.getSoulmate());
-//
-//		this.dateRepository.save(d);
+		DatePlace d = new DatePlace();
+
+		d.setDate(dto.getDateTime());
+		d.setRestaurant(perfect);
+		d.setInitiator(match.getInitiator());
+		d.setSoulmate(match.getSoulmate());
+
+		this.dateRepository.save(d);
 
 		return perfect;
-	}
-
-	public ArrayList<RestaurantDTO> findRestaurantsByHours() {
-
-		ArrayList<Restaurant> result = new ArrayList<>();
-
-		this.kieSession.setGlobal("resultHours", result);
-
-		this.kieSession.getAgenda().getAgendaGroup("working-hours").setFocus();
-		this.kieSession.fireAllRules();
-
-		return (ArrayList<RestaurantDTO>) this.restaurantMapper.toDTOList(result);
 	}
 
 	public boolean gradeRestaurant(GradeDTO dto, User user) {
@@ -282,6 +280,10 @@ public class RestaurantService {
 				session.getAgenda().getAgendaGroup("restaurant-rating-event").setFocus();
 				session.fireAllRules();
 
+				if(event.isHappened()) {
+					this.alarmRepository.save(new Alarm(0L, AlarmType.RESTAURANT_ALARM, event.getMessage(), new Date()));
+				}
+				
 				if (saved != null)
 					return true;
 				else
@@ -505,21 +507,20 @@ public class RestaurantService {
 			return new ArrayList<>();
 	}
 
-	public boolean createRuleForWorkingHours(WorkingHoursDTO hoursRange) {
-		System.out.println(hoursRange.getStartTime() + ": " + hoursRange.getEndTime());
+	public boolean createRestaurantConfiguration(RestaurantConfigDTO configDTO) {
 		try {
 			InputStream template = new FileInputStream(
-					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\templates\\restaurantsByWorkingHours.drt");
+					"..\\drools-spring-kjar\\src\\main\\resources\\rules\\templates\\restaurantConfiguration.drt");
 
 			// Compile template to generate new rules
-			List<WorkingHoursDTO> arguments = new ArrayList<>();
-			arguments.add(hoursRange);
+			List<RestaurantConfigDTO> arguments = new ArrayList<>();
+			arguments.add(configDTO);
 			ObjectDataCompiler compiler = new ObjectDataCompiler();
 			String drl = compiler.compile(arguments, template);
 
 			// Save rule to drl file
 			FileOutputStream drlFile = new FileOutputStream(
-					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\restaurantsByWorkingHours.drl"));
+					new File("..\\drools-spring-kjar\\src\\main\\resources\\rules\\perfect-restaurant.drl"));
 			drlFile.write(drl.getBytes());
 			drlFile.close();
 
@@ -531,6 +532,8 @@ public class RestaurantService {
 			Invoker invoker = new DefaultInvoker();
 			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
 			invoker.execute(request);
+			
+			this.restaurantConfigRepository.save(configDTO);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

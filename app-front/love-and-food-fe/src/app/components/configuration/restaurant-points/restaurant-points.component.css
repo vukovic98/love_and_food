@@ -1,0 +1,13 @@
+.back {
+  background-image: url("src/assets/img/settings-opacity.png");
+}
+
+.jumbotron-border {
+  border-radius: 2rem;
+  border-top: 2px solid orange;
+  border-bottom: 2px solid orange;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}

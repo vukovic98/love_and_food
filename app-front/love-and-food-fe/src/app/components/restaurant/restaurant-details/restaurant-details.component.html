@@ -2,8 +2,8 @@
   <div style="height: 100vh;">
     <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
   </div>
-  <div class="jumbotron pt-3 col-md-9 ml-auto mr-auto mt-2 shadow row float-left bg-white" style="border-radius: 2rem;">
-    <div class="col-md-7 text-left mt-5 h-50">
+  <div class="jumbotron pt-3 col-md-9 ml-auto mr-auto mt-2 shadow row float-left bg-white jumbotron-border" style="border-radius: 2rem;">
+    <div class="col-md-7 text-left mt-5 h-50 float-left">
         <div class="mat-card-title">
           <h1 class="col-md-5 float-left" style="font-family: -webkit-pictograph,serif;">{{restaurant.name}}</h1>
           <ul class="list-inline rating-list" *ngFor="let star of stars" >
@@ -25,6 +25,24 @@
         <mat-icon><mat-icon> fastfood</mat-icon></mat-icon>
         We offer: {{restaurant.cuisine}}
       </h4>
+      <h5 class="text-muted font-weight-light mt-3">
+        <mat-icon><mat-icon> fastfood</mat-icon></mat-icon>
+        We've been graded:
+        <ul class="mt-3" style="list-style-type: none">
+          <li class="col-md-4 float-left">
+            <mat-icon> local_florist</mat-icon>
+            Ambient: {{getAmbientGrade()}}
+          </li>
+          <li class="col-md-4 float-left">
+            <mat-icon> local_offer</mat-icon>
+            Hospitability: {{getHospitabilityGrade()}}
+          </li>
+          <li class="col-md-4 float-left">
+            <mat-icon> local_bar</mat-icon>
+            Service: {{getServiceGrade()}}
+          </li>
+        </ul>
+      </h5>
     </div>
     <div class="col-md-5 pl-0 float-right h-50">
       <img class="card-img-top pt-3" style="height: 200px;" [alt]="restaurant.name" *ngIf="restaurant.image === null" src="assets/img/predefined-restaurant.png">
@@ -37,7 +55,7 @@
       <h4 class="text-muted m-auto font-weight-light w-75">
         {{restaurant.name}} is a restaurant with {{restaurant.ambient | lowercase}} ambient, intertwined with some good
         {{restaurant.music | lowercase}} music. We consider {{restaurant.name}} very {{restaurant.priceRange.replace("_", " ") | lowercase}}
-        place, and we hope that that's what you are looking for. <br>
+        place, in terms of price, and we hope that that's what you are looking for. <br>
         {{hasSomethingElse()}}
       </h4>
     </div>

@@ -1,0 +1,11 @@
+<div class="w-100" style="height: 97vh;">
+  <div class="w-50 pt-5 pr-1 float-left text-right text-white justify-content-center align-self-center" style="height: 97vh; background-color: rgb(143, 116, 194)">
+    <h1>404 - Page</h1>
+    <button [routerLink]="['/auth/register']" mat-raised-button class="text-white mt-5 mr-3" style="background-color: orange; letter-spacing: 2px">GO TO REGISTER</button>
+  </div>
+  <div class="w-50 pt-5 pl-1 float-right text-left text-white justify-content-center align-self-center" style="height: 97vh; background-color: orange">
+    <h1>Not Found!</h1>
+    <button [routerLink]="['/auth/login']" mat-raised-button class="text-white mt-5 ml-3" style="background-color: rgb(143, 116, 194); letter-spacing: 2px">GO TO LOGIN</button>
+  </div>
+  <div class="w-100 float-left bg-loght text-center text-muted" style="height: 3vh; letter-spacing: 1px;">®Love&Food, All rights reserved by Vladimir&Ksenija, {{getDate() | date}}</div>
+</div>

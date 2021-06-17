@@ -25,6 +25,21 @@ public class UserRatingDTO {
 	public void setAverageRating(double averageRating) {
 		this.averageRating = averageRating;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		return this.user.getId().intValue();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserRatingDTO other = (UserRatingDTO) obj;
+		return this.user.equals(other.user);
+	}
 }

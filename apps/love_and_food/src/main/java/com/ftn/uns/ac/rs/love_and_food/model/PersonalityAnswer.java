@@ -28,6 +28,15 @@ public class PersonalityAnswer {
 		this.group = group;
 		this.answer = answer;
 	}
+	
+	public PersonalityAnswer(
+			@NotBlank(message = "Question group cannot be empty.") @Pattern(regexp = "EI|SN|TF|JP") QuestionGroup group,
+			@NotNull(message = "Answer cannot be emtpy.") @Min(value = 0, message = "Invalid answer value.") @Min(value = 1, message = "Invalid answer value.") int answer,
+			Long userId) {
+		this.group = group;
+		this.answer = answer;
+		this.userId = userId;
+	}
 
 	public QuestionGroup getGroup() {
 		return group;

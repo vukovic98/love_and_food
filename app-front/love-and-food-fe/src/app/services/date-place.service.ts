@@ -14,13 +14,11 @@ export class DatePlaceService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
   ) { }
 
   getAllForUser(id: number): Observable<Array<DatePlaceModel>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.authService.getToken()
     });
 
     return this.http.get<Array<DatePlaceModel>>(environment.SERVER_APP + this.DATE_PLACE_API + id, { headers: headers });

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { MatchPage } from 'src/app/models/match-page.model';
 import { MatchService } from 'src/app/services/match.service';
 
@@ -47,5 +48,4 @@ export class ViewAllMatchesComponent implements OnInit {
         }
       );
   }
-
 }

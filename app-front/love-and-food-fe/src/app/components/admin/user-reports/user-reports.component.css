@@ -1,0 +1,59 @@
+.back {
+    background-image: url('src/assets/img/try-opacity.png');
+  }
+  
+  .jumbotron-border {
+    border-bottom: 3px solid purple;
+    border-top: 3px solid purple;
+  }
+  
+  h-80 {
+    height: 80%;
+  }
+  
+  .report-btn {
+    background-color: rgb(143, 116, 194);
+    letter-spacing: 2px;
+  }
+  
+  .w-33 {
+    width: 33%;
+  }
+  
+  .sorry-message {
+    color: rgb(143, 116, 194);
+    background-color: rgb(143, 116, 194, 0.2);
+    border-radius: 2rem;
+    border-top: 2px solid purple;
+    border-bottom: 2px solid purple;
+  }
+
+table {
+    width: 100%;
+}
+
+.form-field {
+  min-width: 90% !important;
+}
+
+td, th  {
+    width: 15%;
+}
+
+.divide {
+    margin-bottom: 20px !important;
+}
+
+.header-design {
+    background-color:rgb(143, 116, 194);
+    color: white !important;
+}
+
+.mat-row:nth-child(even){
+    background-color: rgb(143, 116, 194, 0.1);
+}
+        
+.mat-row:nth-child(odd){
+    background-color: white;
+}
+  

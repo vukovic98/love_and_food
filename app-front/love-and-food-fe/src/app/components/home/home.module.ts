@@ -11,23 +11,39 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { SoulmateComponent } from './soulmate/soulmate.component';
 import { MatCardModule } from '@angular/material/card';
+import { RateMatchComponent } from './rate-match/rate-match.component';
+import { RateMatchItemComponent } from './rate-match-item/rate-match-item.component';
+import { RateMatchFormComponent } from './rate-match-form/rate-match-form.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { UserPreferencesComponent } from './user-preferences/user-preferences.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
     HomeComponent,
     UserPanelComponent,
-    SoulmateComponent
+    SoulmateComponent,
+    RateMatchComponent,
+    RateMatchItemComponent,
+    RateMatchFormComponent,
+    UserPreferencesComponent
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     RouterModule,
     SharedModule,
+    ReactiveFormsModule,
+    MatInputModule,
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
     MatProgressBarModule,
     MatCardModule,
+    MatSnackBarModule,
+    MatFormFieldModule,
   ]
 })
 export class HomeModule { }

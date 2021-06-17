@@ -8,8 +8,11 @@
         <mat-icon class="float-left mt-2">favorite</mat-icon>
         <a routerLink="/home"><span class="fa fa-heart mr-3"></span> Soulmate</a>
       </li>
+      <li *ngIf="role === 'ROLE_USER'">
+        <a routerLink="/home/rate-date"><span class="fa fa-heart mr-5"></span> Rate The Date</a>
+      </li>
       <li *ngIf="role === 'ROLE_ADMIN'">
-        <mat-icon class="float-left mt-2">table_chart</mat-icon>
+        <mat-icon class="float-left mt-2">supervisor_account</mat-icon>
         <a routerLink="/admin/view-users"><span class="fa fa-heart mr-3"></span> Users</a>
       </li>
       <li *ngIf="role === 'ROLE_ADMIN'">
@@ -25,6 +28,34 @@
       </li>
       <li *ngIf="role === 'ROLE_USER' && hasMatch">
         <a routerLink="/restaurant/rate-restaurant"><span class="fa fa-briefcase mr-5"></span> Rate Restaurant</a>
+      </li>
+      <li *ngIf="role === 'ROLE_USER'">
+        <mat-icon class="float-left mt-2">settings</mat-icon>
+        <a routerLink="/home/partner-preferences"><span class="fa fa-briefcase mr-3"></span> Partner Preferences</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">trending_up</mat-icon>
+        <a><span class="fa fa-user mr-3"></span> Reports</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <a routerLink="/restaurant/reports"><span class="fa fa-briefcase mr-5"></span> Restaurant Reports</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <a routerLink="/admin/user-reports"><span class="fa fa-briefcase mr-5"></span> User Reports</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">alarm</mat-icon>
+        <a><span class="fa fa-user mr-3"></span> Alarms</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <a routerLink="/admin/alarms"><span class="fa fa-briefcase mr-5"></span> All Alarms</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <mat-icon class="float-left mt-2">settings</mat-icon>
+        <a><span class="fa fa-user mr-3"></span> Configuration</a>
+      </li>
+      <li *ngIf="role === 'ROLE_ADMIN'">
+        <a routerLink="/configuration/restaurant-points"><span class="fa fa-briefcase mr-5"></span> Restaurant Points</a>
       </li>
       <li class="mt-5" (click)="logout()" style="cursor:pointer;">
         <mat-icon class="float-left mt-2">close</mat-icon>

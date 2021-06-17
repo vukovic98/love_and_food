@@ -19,6 +19,7 @@ import com.ftn.uns.ac.rs.love_and_food.dto.MatchDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.MatchMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.RegisteredUser;
+import com.ftn.uns.ac.rs.love_and_food.model.User;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
 import com.ftn.uns.ac.rs.love_and_food.service.RegisteredUserService;
 
@@ -33,6 +34,28 @@ public class MatchController {
 	private RegisteredUserService userService;
 
 	private final MatchMapper matchMapper = new MatchMapper();
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@GetMapping(value = "/{matchId}")
+	public ResponseEntity<MatchDTO> findMatch(@PathVariable("matchId") Long matchId) {
+
+		Match match = matchService.findById(matchId);
+
+		return new ResponseEntity<MatchDTO>(matchMapper.toDTO(match), HttpStatus.OK);
+
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@GetMapping()
+	public ResponseEntity<List<MatchDTO>> findAllForUser() {
+		
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		List<Match> matches = matchService.findAllForUser(user.getEmail());
+
+		return new ResponseEntity<List<MatchDTO>>(matchMapper.toDTOList(matches), HttpStatus.OK);
+
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/by-page/{pageNum}")

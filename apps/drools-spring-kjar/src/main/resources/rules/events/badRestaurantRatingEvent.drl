@@ -3,6 +3,10 @@ package rules;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.event.RestaurantRatingEvent;
+import com.ftn.uns.ac.rs.love_and_food.model.Alarm;
+
+import com.ftn.uns.ac.rs.love_and_food.model.enums.AlarmType;
+import java.util.Date;
 
 rule "The restaurant rating is below 2.5 a minimum of 3 users rated it"
 	agenda-group "restaurant-rating-event"
@@ -28,6 +32,7 @@ rule "The restaurant rating is below 2.5 a minimum of 3 users rated it"
         );
     then
     	modify($ratingEvent){setMessage("WARNING: The rating of the restaurant: " + $grade.getRestaurant().getName()+  " is very bad => " + $total + " [ " + $gradeCount + " grades ] ");};
+    	modify($ratingEvent){setHappened(true);};
     	System.out.println("WARNING: The rating of the restaurant: " + $grade.getRestaurant().getName()+  " is very bad => " + $total + " [ " + $gradeCount + " grades ] ");
 end;
 
@@ -40,6 +45,7 @@ rule "The restaurant has received minimum grade (all 1s)"
 			&& $grade.getOverall_grade() == 1);
 	then
 		modify($ratingEvent){setMessage("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got minimal grade!");};
+		modify($ratingEvent){setHappened(true);};
 	    System.out.println("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got minimal grade!");
 end;
 
@@ -52,5 +58,6 @@ rule "The restaurant has received maximum grade (all 5s)"
 			&& $grade.getOverall_grade() == 5);
 	then
 		modify($ratingEvent){setMessage("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got maximum grade!");};
-	    System.out.println("WARNING: The restaurant: " + $grade.getRestaurant().getName()+  " got maximum grade!");
+		modify($ratingEvent){setHappened(true);};
+	    System.out.println("SUCCESS: The restaurant: " + $grade.getRestaurant().getName()+  " got maximum grade!");
 end;

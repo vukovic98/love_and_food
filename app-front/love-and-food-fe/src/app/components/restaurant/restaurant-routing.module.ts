@@ -6,6 +6,7 @@ import {FindRestaurantComponent} from "./find-restaurant/find-restaurant.compone
 import {AddRestaurantComponent} from "./add-restaurant/add-restaurant.component";
 import {RateRestaurantComponent} from "./rate-restaurant/rate-restaurant.component";
 import {RestaurantDetailsComponent} from './restaurant-details/restaurant-details.component';
+import {FoodReportsComponent} from "../admin/food-reports/food-reports.component";
 
 const routes: Routes = [
   {
@@ -38,6 +39,12 @@ const routes: Routes = [
     component: RateRestaurantComponent,
     canActivate:[RoleGuard],
     data: {acceptRoles: 'ROLE_USER'}
+  },
+  {
+    path: 'reports',
+    component: FoodReportsComponent,
+    canActivate:[RoleGuard],
+    data: {acceptRoles: 'ROLE_ADMIN'}
   },
 ]
 

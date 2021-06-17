@@ -18,7 +18,7 @@ public class MatchMapper implements MapperInterface<Match, MatchDTO>{
 	@Override
 	public MatchDTO toDTO(Match entity) {
 		MatchDTO matchDTO =  new MatchDTO(entity.getId(), entity.getInitiator().getEmail(),
-				entity.getSoulmate().getEmail(), entity.getMatchDate());
+				entity.getSoulmate().getEmail(), entity.getMatchDate(), entity.getRating());
 		if(entity.getInitiator().getGender() == Gender.FEMALE && entity.getSoulmate().getGender() == Gender.FEMALE) {
 			matchDTO.setCoupleImage("LESBIAN");
 		} else if (entity.getInitiator().getGender() == Gender.MALE && entity.getSoulmate().getGender() == Gender.MALE) {
@@ -26,6 +26,9 @@ public class MatchMapper implements MapperInterface<Match, MatchDTO>{
 		} else {
 			matchDTO.setCoupleImage("STRAIGHT");
 		}
+		
+		matchDTO.setInitiatorName(entity.getInitiator().getName() + " " + entity.getInitiator().getSurname());
+		matchDTO.setSoulmateName(entity.getSoulmate().getName() + " " + entity.getSoulmate().getSurname());
 		
 		return matchDTO;
 	}

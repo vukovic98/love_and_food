@@ -1,0 +1,121 @@
+<div class="wrapper d-flex align-items-stretch back">
+    <div style="height: 100vh;">
+      <app-navigation-bar [mode]="'LOVE'"></app-navigation-bar>
+    </div>
+    <div class="jumbotron pt-3 col-md-9 ml-auto mr-auto mt-3 bg-white float-left shadow jumbotron-border" style="border-radius: 2rem;">
+        <!--Report form-->
+      <form [formGroup]="reportForm" (ngSubmit)="getReport()" class="w-100 text-right">
+        <mat-form-field appearance="outline" class="col-md-5" *ngIf='reportForm.value.report === "COUPLES"'>
+          <mat-label>Times users matched</mat-label>
+          <input formControlName="matchedTimes" type="number" min="1" matInput (keydown) = "eventHandler($event)">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-md-5">
+          <mat-label>Select Report</mat-label>
+          <mat-select formControlName="report">
+            <mat-option value="LIARS">Potential liar accounts</mat-option>
+            <mat-option value="MVPS">Best rated users</mat-option>
+            <mat-option value="COUPLES">Perfect matches</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <button [disabled]="reportForm.invalid" mat-raised-button class="report-btn text-white">GET REPORT</button>
+      </form>
+
+        <div class="col-md-11 mt-0 ml-auto mr-auto row panel">
+            <div class="col-md-11 mt-5">
+                <!--Liars table-->
+                <table *ngIf="showLiars && liars.length !== 0" mat-table [dataSource]="liars"  class="shadow">
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsLiars" class="header-design"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsLiars;"></tr>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef class="text-white"> Email </th>
+                        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef   class="text-white"> Name </th>
+                        <td mat-cell *matCellDef="let row"> {{row.name}} {{row.surname}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="gender">
+                        <th mat-header-cell *matHeaderCellDef   class="text-white"> Gender </th>
+                        <td mat-cell *matCellDef="let row">
+                            <img *ngIf="row.gender==='MALE'" class="png-icon" src="assets/img/top-hat.png" style="width: 30px; height: 30px;"> 
+                            <img *ngIf="row.gender==='FEMALE'" class="png-icon" src="assets/img/high-heels.png" style="width: 30px; height: 30px;"> 
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="dateOfBirth">
+                        <th mat-header-cell *matHeaderCellDef  class="text-white"> Date of Birth </th>
+                        <td mat-cell *matCellDef="let row"> {{row.dateOfBirth | date}} </td>
+                    </ng-container>
+                </table>
+
+                <!--MVPs table-->
+                <table *ngIf="showMVPs && mvps.length!=0" mat-table [dataSource]="mvps"  class="shadow">
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsMvps" class="header-design"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsMvps;"></tr>
+
+                  <ng-container matColumnDef="medal">
+                    <th mat-header-cell *matHeaderCellDef class="text-white"> &nbsp; </th>
+                    <td mat-cell *matCellDef="let row">
+                      <img alt="Bronze medal" *ngIf="mvps.indexOf(row) === 2" class="" src="assets/img/bronze-medal.png" style="height: 40px; width: 40px;">
+                      <img alt="Silver medal" *ngIf="mvps.indexOf(row) === 1" class="" src="assets/img/silver-medal.png" style="height: 40px; width: 40px;">
+                      <img alt="Gold medal" *ngIf="mvps.indexOf(row) === 0" class="" src="assets/img/gold-medal.png" style="height: 40px; width: 40px;">
+                    </td>
+                  </ng-container>
+
+                <ng-container matColumnDef="rating">
+                    <th mat-header-cell *matHeaderCellDef class="text-white"> Rating </th>
+                    <td mat-cell *matCellDef="let row"> {{row.rating | number : '1.2'}} </td>
+                </ng-container>
+
+                  <ng-container matColumnDef="email">
+                      <th mat-header-cell *matHeaderCellDef class="text-white"> Email </th>
+                      <td mat-cell *matCellDef="let row"> {{row.userDTO.email}} </td>
+                  </ng-container>
+      
+                  <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef   class="text-white"> Name </th>
+                      <td mat-cell *matCellDef="let row"> {{row.userDTO.name}} {{row.userDTO.surname}} </td>
+                  </ng-container>
+      
+                  <ng-container matColumnDef="gender">
+                      <th mat-header-cell *matHeaderCellDef   class="text-white"> Gender </th>
+                      <td mat-cell *matCellDef="let row">
+                          <img *ngIf="row.userDTO.gender==='MALE'" class="png-icon" src="assets/img/top-hat.png" style="width: 30px; height: 30px;"> 
+                          <img *ngIf="row.userDTO.gender==='FEMALE'" class="png-icon" src="assets/img/high-heels.png" style="width: 30px; height: 30px;"> 
+                      </td>
+                  </ng-container>
+              </table>
+
+              <!--Couples table-->
+              <table *ngIf="showCouples && couples.length!=0" mat-table [dataSource]="couples"  class="shadow">
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsCouples" class="header-design"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsCouples;"></tr>
+    
+                <ng-container matColumnDef="user1">
+                  <th mat-header-cell *matHeaderCellDef class="text-white"> User 1 </th>
+                  <td mat-cell *matCellDef="let row"> {{row.user1.name}} {{row.user1.surname}}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="heart">
+                  <th mat-header-cell *matHeaderCellDef class="text-white">&nbsp; </th>
+                  <td mat-cell *matCellDef="let row"><img class="png-icon" src="assets/img/hearts.png" style="width: 30px; height: 30px;">  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="user2">
+                  <th mat-header-cell *matHeaderCellDef class="text-white"> User 2 </th>
+                  <td mat-cell *matCellDef="let row"> {{row.user2.name}} {{row.user2.surname}}</td>
+                </ng-container>
+            </table>
+            </div>
+        </div>
+
+        <div class="text-center mt-5 pt-5" *ngIf="(liars.length == 0 && showLiars ) || (mvps.length == 0  && showMVPs) || (couples.length == 0 && showCouples)">
+          <h3 class="w-25 m-auto p-3 sorry-message">Sorry, there are no users that fill the criteria of this report.</h3>
+        </div>
+    </div>
+</div>

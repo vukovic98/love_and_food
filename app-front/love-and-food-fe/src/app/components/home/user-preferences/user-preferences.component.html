@@ -1,0 +1,58 @@
+<div class="wrapper d-flex align-items-stretch back">
+    <div style="height: 100vh;">
+      <app-navigation-bar [mode]="'LOVE'"></app-navigation-bar>
+    </div>
+    <div class="jumbotron pt-3 pb-4 col-md-7 justify-content-center align-self-center ml-auto bg-white mr-auto jumbotron-border float-left">
+      <h4 class="text-muted font-weight-light">
+        <mat-icon>keyboard</mat-icon>
+        Please enter importance of these traits in your partner
+      </h4>
+      <form [formGroup]="configForm" (ngSubmit)="submitConfiguration()">
+        <div class="col-md-12 row m-0 p-0">
+          <div class="col-md-6 float-left pt-0 mt-0">
+            <mat-form-field appearance="standard" class="w-100 pt-0">
+              <mat-label>Does your partner smoke</mat-label>
+              <input type="number" min="1" max="5" matInput (keydown) = "eventHandler($event)" formControlName="smokingPoints">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 float-right pt-0 mt-0">
+            <mat-form-field appearance="standard" class="w-100 pt-0">
+              <mat-label>Does your partner drink alcohol</mat-label>
+              <input type="number"  min="1" max="5" matInput (keydown) = "eventHandler($event)" formControlName="alcoholPoints">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-12 row m-0 p-0">
+            <div class="col-md-6 float-left pt-0 mt-0">
+              <mat-form-field appearance="standard" class="w-100 pt-0">
+                <mat-label>Partners education</mat-label>
+                <input type="number" min="1" max="5" matInput (keydown) = "eventHandler($event)" formControlName="educationPoints">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 float-right pt-0 mt-0">
+              <mat-form-field appearance="standard" class="w-100 pt-0">
+                <mat-label>Partners personality</mat-label>
+                <input type="number"  min="1" max="5" matInput (keydown) = "eventHandler($event)" formControlName="traitPoints">
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 row m-0 p-0">
+            <div class="col-md-6 float-left pt-0 mt-0">
+              <mat-form-field appearance="standard" class="w-100 pt-0">
+                <mat-label>Partners income</mat-label>
+                <input type="number" min="1" max="5" matInput (keydown) = "eventHandler($event)" formControlName="incomePoints">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 float-right pt-0 mt-0">
+              <mat-form-field appearance="standard" class="w-100 pt-0">
+                <mat-label>Importance of religion in partners life</mat-label>
+                <input type="number"  min="1" max="5" matInput (keydown) = "eventHandler($event)" formControlName="religionPoints">
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-12 text-right mt-3">
+          <button type="submit" mat-raised-button class="text-white" style="background-color: rgb(143, 116, 194);">Submit your preferences</button>
+        </div>
+      </form>
+    </div>
+</div>

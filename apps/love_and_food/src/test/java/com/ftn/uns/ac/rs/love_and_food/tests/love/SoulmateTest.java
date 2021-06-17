@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.FactHandle;
 
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.PartnerRequirements;
@@ -61,7 +60,7 @@ public class SoulmateTest {
         kieSession.setGlobal("loggedInUserId", klara.getId());
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmatePositive() throws ParseException {
 		Date dateOfBirth = format.parse("1998/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,
@@ -121,7 +120,7 @@ public class SoulmateTest {
 		assertEquals(petar.getId(), soulmate.getId());
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmatePositiveMoreOptions() throws ParseException {
 		Date dateOfBirth = format.parse("1998/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,
@@ -151,7 +150,7 @@ public class SoulmateTest {
 		assertEquals(user3.getId(), soulmate.getId());
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmatePositiveMoreOptionsMultipleTimes() throws ParseException {
 		Date dateOfBirth = format.parse("1998/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,
@@ -181,7 +180,7 @@ public class SoulmateTest {
 		assertEquals(user3.getId(), soulmate.getId());
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmateIncompatibleAge() throws ParseException {
 		Date dateOfBirth = format.parse("1965/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,
@@ -201,7 +200,7 @@ public class SoulmateTest {
 		assertEquals(null, soulmate);
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmateIncompatibleGender() throws ParseException {
 		Date dateOfBirth = format.parse("1998/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,
@@ -221,7 +220,7 @@ public class SoulmateTest {
 		assertEquals(null, soulmate);
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmateIncompatibleChildren() throws ParseException {
 		Date dateOfBirth = format.parse("1998/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,
@@ -241,7 +240,7 @@ public class SoulmateTest {
 		assertEquals(null, soulmate);
 	}
 	
-	//@Test
+	@Test
 	public void GetSoulmateIncompatibleDesiredRelationship() throws ParseException {
 		Date dateOfBirth = format.parse("1998/04/05");
 		User user2 = new User("petar@gmail.com", "pass", "Petar", "Petrovic", dateOfBirth, Income.INCOME_500_1000,

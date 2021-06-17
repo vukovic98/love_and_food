@@ -9,10 +9,14 @@
 ### Starting the apps
     
 #### SpringBoot App
-    
+    Open SpringBoot application in one of the environments (Spring Tool Suite ..), as well as 
+    drools-spring-kjar application. Run 'maven clean compile install' on kjar application,
+    and then run love_and_food application as Spring Boot Application. 
+    The application will be running on port 8080.
 
 #### Angular App
-    
+    Run 'npm install' in folder containing the application and then 'ng serve'. 
+    The application will be running on port 4200.
 
 ### Licence
     MIT License

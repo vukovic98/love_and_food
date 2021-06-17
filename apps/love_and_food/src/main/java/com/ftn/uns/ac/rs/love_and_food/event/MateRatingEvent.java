@@ -16,10 +16,12 @@ public class MateRatingEvent {
 	private Date timestamp;
 	private Match match;
 	private String message;
-	
+	private boolean happened;
+
 	public MateRatingEvent(Date timestamp, Match match) {
 		this.timestamp = timestamp;
 		this.match = match;
+		this.happened = false;
 	}
 	public Date getTimestamp() {
 		return timestamp;
@@ -39,5 +41,10 @@ public class MateRatingEvent {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+	public boolean isHappened() {
+		return happened;
+	}
+	public void setHappened(boolean happened) {
+		this.happened = happened;
+	}
 }

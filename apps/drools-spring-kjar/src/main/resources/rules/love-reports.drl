@@ -40,7 +40,7 @@ rule "MVPs of the year"
 	when
 		$user: User()
 		$averageRating: Double(doubleValue > 3.0) from accumulate(
-			Match(soulmate == $user,
+			Match(soulmate == $user, rating > 0,
 			$rating: rating, $matchDate: matchDate,
 			$matchDate.isAfter(LocalDate.now().minusMonths(12))),
 			average($rating)

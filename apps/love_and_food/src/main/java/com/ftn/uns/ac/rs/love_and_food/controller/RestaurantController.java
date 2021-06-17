@@ -1,6 +1,9 @@
 package com.ftn.uns.ac.rs.love_and_food.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,16 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.uns.ac.rs.love_and_food.dto.GradeDTO;
+import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantConfigDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantEntryDTO;
 import com.ftn.uns.ac.rs.love_and_food.dto.RestaurantFilterDTO;
-import com.ftn.uns.ac.rs.love_and_food.dto.WorkingHoursDTO;
 import com.ftn.uns.ac.rs.love_and_food.mapper.GradeMapper;
 import com.ftn.uns.ac.rs.love_and_food.mapper.RestaurantMapper;
 import com.ftn.uns.ac.rs.love_and_food.model.Grade;
 import com.ftn.uns.ac.rs.love_and_food.model.Match;
 import com.ftn.uns.ac.rs.love_and_food.model.Restaurant;
 import com.ftn.uns.ac.rs.love_and_food.model.User;
+import com.ftn.uns.ac.rs.love_and_food.repository.RestaurantConfigRepository;
 import com.ftn.uns.ac.rs.love_and_food.service.MatchService;
 import com.ftn.uns.ac.rs.love_and_food.service.RestaurantService;
 import com.ftn.uns.ac.rs.love_and_food.service.UserService;
@@ -53,6 +57,9 @@ public class RestaurantController {
 
 	@Autowired
 	private GradeMapper gradeMapper;
+	
+	@Autowired
+	private RestaurantConfigRepository restaurantConfigRepository;
 
 	@GetMapping("/by-page/{pageNum}")
 	public ResponseEntity<PageImplementation<RestaurantDTO>> findAll(@PathVariable("pageNum") int pageNum) {
@@ -83,23 +90,27 @@ public class RestaurantController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping(path = "/filter-by-hours")
-	public ResponseEntity<ArrayList<RestaurantDTO>> test(WorkingHoursDTO dto) {
-		ArrayList<RestaurantDTO> result = this.restaurantService.findRestaurantsByHours();
+	@PostMapping(path = "/configure-restaurant-points")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<ArrayList<RestaurantDTO>> filterByHours(@RequestBody RestaurantConfigDTO dto) {
 
-		if (!result.isEmpty())
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		else
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
-
-	@GetMapping(path = "/create-filter-by-hours")
-	public ResponseEntity<ArrayList<RestaurantDTO>> filterByHours(@RequestBody WorkingHoursDTO dto) {
-
-		boolean ok = this.restaurantService.createRuleForWorkingHours(dto);
+		dto.setDate(new Date());
+		boolean ok = this.restaurantService.createRestaurantConfiguration(dto);
 
 		if (ok) {
 			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping(path = "/restaurant-config")
+	public ResponseEntity<RestaurantConfigDTO> getLastConfig() {
+
+		RestaurantConfigDTO dto = this.restaurantConfigRepository.findLastOne();
+
+		if (dto != null) {
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -127,7 +138,7 @@ public class RestaurantController {
 
 	@PostMapping()
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant r) {
+	public ResponseEntity<Restaurant> addRestaurant(@Valid @RequestBody Restaurant r) {
 		try {
 			Restaurant saved = this.restaurantService.addRestaurant(r);
 
@@ -142,7 +153,7 @@ public class RestaurantController {
 	}
 
 	@PostMapping(path = "/find-restaurant")
-	public ResponseEntity<RestaurantDTO> findRestaurant(@RequestBody RestaurantEntryDTO dto) {
+	public ResponseEntity<RestaurantDTO> findRestaurant(@Valid @RequestBody RestaurantEntryDTO dto) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
@@ -167,7 +178,7 @@ public class RestaurantController {
 	}
 
 	@PostMapping(path = "/grade-restaurant")
-	public ResponseEntity<HttpStatus> gradeRestaurant(@RequestBody GradeDTO dto) {
+	public ResponseEntity<HttpStatus> gradeRestaurant(@Valid @RequestBody GradeDTO dto) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();
@@ -188,33 +199,40 @@ public class RestaurantController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/best-graded")
 	public ResponseEntity<ArrayList<RestaurantDTO>> bestGradedReport() {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.bestGradedReport();
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService.bestGradedReport();
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
+
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/declining-restaurant")
 	public ResponseEntity<ArrayList<RestaurantDTO>> decliningRestaurantsReport() {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.decliningRestaurantsReport();
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService.decliningRestaurantsReport();
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/report/rising-restaurant")
 	public ResponseEntity<ArrayList<RestaurantDTO>> risingRestaurantsReport() {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.risingRestaurantsReport();
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService.risingRestaurantsReport();
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
@@ -222,11 +240,14 @@ public class RestaurantController {
 	@GetMapping(path = "/report/most-visited/{season}")
 	public ResponseEntity<ArrayList<RestaurantDTO>> mostVisitedRestaurantsReport(
 			@PathVariable("season") String season) {
-		ArrayList<RestaurantDTO> dtos = this.restaurantService.mostVisitedRestaurantsReport(season);
+		ArrayList<RestaurantDTO> dtos = (ArrayList<RestaurantDTO>) this.restaurantService
+				.mostVisitedRestaurantsReport(season);
 
-		if (!dtos.isEmpty())
+		if (!dtos.isEmpty()) {
+			if (dtos.size() > 10)
+				dtos = (ArrayList<RestaurantDTO>) dtos.subList(0, 10);
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		else
+		} else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
@@ -246,7 +267,7 @@ public class RestaurantController {
 			if (grade != null)
 				return new ResponseEntity<>(this.gradeMapper.toDTO(grade), HttpStatus.OK);
 			else
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

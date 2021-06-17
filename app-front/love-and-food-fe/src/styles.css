@@ -13,12 +13,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: orangered;
 }
 
+.purple-snackbar {
+  background-color: purple;
+  color: white;
+}
+
+.purple-snackbar button {
+  background-color: white;
+  color: purple;
+}
+
 .custom-dialog-container .mat-dialog-container{
   padding: 0px;
   overflow-x: hidden;
 }
 
-.mat-table{    
-  border-radius: 2rem !important;
+.mat-table{
+  border-radius: 1rem !important;
   overflow:hidden !important;
 }

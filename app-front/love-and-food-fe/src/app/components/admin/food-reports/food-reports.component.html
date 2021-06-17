@@ -1,0 +1,88 @@
+<div class="wrapper d-flex align-items-stretch back">
+  <div style="height: 100vh;">
+    <app-navigation-bar [mode]="'FOOD'"></app-navigation-bar>
+  </div>
+  <div class="jumbotron pt-3 col-md-9 ml-auto mr-auto mt-3 bg-white float-left shadow jumbotron-border" style="border-radius: 2rem;">
+    <form [formGroup]="reportForm" (ngSubmit)="getReport()" class="w-100 text-right">
+      <mat-form-field appearance="outline" class="col-md-5">
+        <mat-label>Select Report</mat-label>
+        <mat-select id="report" formControlName="report" (selectionChange)="selectChanged()">
+          <mat-option value="BEST_GRADED">Best graded restaurants</mat-option>
+          <mat-option value="DECLINING">Declining restaurants</mat-option>
+          <mat-option value="RISING">Rising stars restaurants</mat-option>
+          <mat-option value="MOST_VISITED">Most visited restaurants by season</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-5" *ngIf="seasonReport">
+        <mat-label>Select Season</mat-label>
+        <mat-select id="season" formControlName="season">
+          <mat-option value="FALL">Fall</mat-option>
+          <mat-option value="SUMMER">Summer</mat-option>
+          <mat-option value="SPRING">Spring</mat-option>
+          <mat-option value="WINTER">Winter</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button [disabled]="reportForm.invalid || !validSeason()" mat-raised-button class="report-btn text-white">GET REPORT</button>
+    </form>
+
+    <div class="w-100 h-80 mt-5 float-left pt-3 pb-3 border-top border-bottom" *ngIf="restaurants && restaurants.length > 0">
+      <div class="w-75 h-100 float-left">
+        <div class="w-33 h-100 float-left border-right text-center pt-5 shadow-sm">
+          <div *ngIf="restaurants.length >= 3">
+            <img alt="Bronze medal" class="mt-5" src="assets/img/bronze-medal.png" style="height: 100px; width: 100px;">
+            <img alt="Restaurant" *ngIf="getThird().image === null" class="mt-5" src="assets/img/predefined-restaurant.png" style="height: 250px; width: 90%;">
+            <img alt="Restaurant" *ngIf="getThird().image !== null" class="mt-5" [src]="getThird().image" style="height: 250px; width: 90%;">
+            <h3 class="mt-5 pt-3" style="color: orange; border-top: 5px solid orange">{{getThird().name}}</h3>
+          </div>
+        </div>
+        <div class="w-33 h-100 float-left border-right text-center shadow-lg">
+          <div *ngIf="restaurants.length >= 1">
+            <img alt="Gold medal" class="mt-3" src="assets/img/gold-medal.png" style="height: 100px; width: 100px;">
+            <img alt="Restaurant" *ngIf="getFirst().image === null" class="mt-5" src="assets/img/predefined-restaurant.png" style="height: 250px; width: 90%;">
+            <img alt="Restaurant" *ngIf="getFirst().image !== null" class="mt-5" [src]="getFirst().image" style="height: 250px; width: 90%;">
+            <h3 class="mt-5 pt-3" style="color: orange; border-top: 5px solid orange">{{getFirst().name}}</h3>
+          </div>
+        </div>
+        <div class="w-33 h-100 float-left text-center pt-2 shadow">
+          <div *ngIf="restaurants.length >= 2">
+            <img alt="Silver medal" class="mt-5" src="assets/img/silver-medal.png" style="height: 100px; width: 100px;">
+            <img alt="Restaurant" *ngIf="getSecond().image === null" class="mt-5" src="assets/img/predefined-restaurant.png" style="height: 250px; width: 90%;">
+            <img alt="Restaurant" *ngIf="getSecond().image !== null" class="mt-5" [src]="getSecond().image" style="height: 250px; width: 90%;">
+            <h3 class="mt-5 pt-3" style="color: orange; border-top: 5px solid orange">{{getSecond().name}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="float-right w-25">
+        <table class="table table-bordered table-hover text-center float-left">
+          <thead>
+            <tr>
+              <td class="font-weight-bold text-white" colspan="2" style="background-color: orange;">TOP 10</td>
+            </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let r of restaurants">
+              <td *ngIf="[0,1,2].includes(restaurants.indexOf(r))">
+                <img alt="Bronze medal" *ngIf="restaurants.indexOf(r) === 2" class="" src="assets/img/bronze-medal.png" style="height: 50px; width: 50px;">
+                <img alt="Silver medal" *ngIf="restaurants.indexOf(r) === 1" class="" src="assets/img/silver-medal.png" style="height: 50px; width: 50px;">
+                <img alt="Gold medal" *ngIf="restaurants.indexOf(r) === 0" class="" src="assets/img/gold-medal.png" style="height: 50px; width: 50px;">
+              </td>
+            <td *ngIf="![0,1,2].includes(restaurants.indexOf(r))">
+              {{restaurants.indexOf(r) + 1}}.
+            </td>
+            <td>
+              {{r.name}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="text-center mt-5 pt-5" *ngIf="!restaurants">
+      <h3 class="w-25 m-auto p-3 font-weight-light sorry-message">Sorry, there are no restaurants that fill the criteria of this report.</h3>
+    </div>
+  </div>
+
+</div>

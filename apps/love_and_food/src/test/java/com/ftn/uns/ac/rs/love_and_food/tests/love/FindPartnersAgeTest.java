@@ -18,6 +18,7 @@ import com.ftn.uns.ac.rs.love_and_food.model.enums.Age;
 public class FindPartnersAgeTest {
 	
 	private KieSession kieSession;
+	
 	private final SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 	
 	@Before
@@ -36,6 +37,7 @@ public class FindPartnersAgeTest {
 		
 		User user = new User();
 		user.setDateOfBirth(dateOfBirth);
+		user.setId(1L);
 		
 		kieSession.insert(user);
 		
@@ -51,6 +53,7 @@ public class FindPartnersAgeTest {
 		
 		User user = new User();
 		user.setDateOfBirth(dateOfBirth);
+		user.setId(1L);
 		
 		kieSession.insert(user);
 		
@@ -66,6 +69,7 @@ public class FindPartnersAgeTest {
 		
 		User user = new User();
 		user.setDateOfBirth(dateOfBirth);
+		user.setId(1L);
 		
 		kieSession.insert(user);
 		

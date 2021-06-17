@@ -1,9 +1,9 @@
-import { UserDTO } from "../dto/user.dto";
+import { UserMVPDTO } from "../dto/user-mvp.dto";
 
 export class UserPage {
 
     constructor(
-        public content: UserDTO[],
+        public content: UserMVPDTO[],
         public totalPages: number,
         public totalElements: number,
         public size: number,

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import { LoveService } from 'src/app/services/love.service';
 import {AuthService} from '../../../services/auth.service';
 import {MatchService} from "../../../services/match.service";
 
@@ -13,7 +14,8 @@ export class NavigationBarComponent implements OnInit {
   constructor(
     private route: Router,
     private authService: AuthService,
-    private matchService: MatchService
+    private matchService: MatchService,
+    private loveService: LoveService
   ) { }
 
   public role: string = '';
@@ -32,5 +34,7 @@ export class NavigationBarComponent implements OnInit {
   logout() {
     localStorage.removeItem('accessToken');
     this.route.navigate(['/']);
+    this.loveService.ratingInProgress.next(false)
+    this.loveService.matchInRating.next(null)
   }
 }
