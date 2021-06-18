@@ -199,7 +199,10 @@ public class RestaurantService {
 		ArrayList<Restaurant> found = this.restaurantRepository.findByName(r.getName());
 
 		if (found.isEmpty()) {
-			return this.restaurantRepository.save(r);
+			Restaurant saved = this.restaurantRepository.save(r);
+			this.kieSession.insert(saved);
+			
+			return saved;
 		} else {
 			return null;
 		}
